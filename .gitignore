@@ -1,2 +1,3 @@
-node_modules
-[Bb]uil*
+/node_modules
+/package-lock.json
+/[Bb]uil*
