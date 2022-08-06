@@ -15,7 +15,7 @@ getopt(['--help', '-h'], 0, () => {
 
 // Get version
 getopt(['--version', '-v'], 0, () => {
-	console.log(`MCCinJS version: ${require('./package.json').version}\nNode version: ${process.version}`);
+	console.log(`MC-Term version: ${require('./package.json').version}\nNode version: ${process.version}`);
 	process.exit();
 });
 
@@ -144,7 +144,7 @@ if (!cred.auth && cred.auth != null) {
 } else chat.emit('line');
 
 chat.once('pause', () => {
-	if (!cred.username) cred.username = 'MCCinJS';
+	if (!cred.username) cred.username = 'Player123';
 	if (!cred.server) cred.server = 'localhost';
 	if (!cred.version) cred.version = '1.8.9';
 	if (cred.accept) {
@@ -716,7 +716,7 @@ function createBot (host, port, username, password, auth, ver) {
 	return mineflayer.createBot({
 		host: host || 'localhost',
 		port: port || '25565',
-		username: username || 'MCCinJS',
+		username: username || 'Player123',
 		password: password || '',
 		auth: auth || 'mojang',
 		version: ver || '1.12.2'

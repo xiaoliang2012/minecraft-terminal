@@ -1,5 +1,5 @@
 {
-  "name": "mcc",
+  "name": "mc-term",
   "version": "0.2.0",
   "author": {
     "name": "Joe.C"
@@ -8,7 +8,7 @@
     "main": "node index"
   },
   "bin": {
-    "mcc": "./index.js"
+    "mc-term": "./index.js"
   },
   "dependencies": {
     "merge": "^2.1.1",
