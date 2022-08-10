@@ -1,0 +1,5 @@
+send /register susmangus susmangus
+wait 1
+send /login susmangus
+wait 1
+send /party join r40jrarew

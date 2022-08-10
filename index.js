@@ -3,19 +3,19 @@ const getopt = require('./lib/getopts');
 
 // Get help
 getopt(['--help', '-h'], 0, () => {
-	console.log(`Usage:
+	process.stdout.write(`Usage:
   --no-conf, -nc      Do not use the configuration file.
   --no-cred, -ns      Do not use the credentials file.
   --cred, -c          <Auth> <Username> <Password> <Version> <Server>
                       Override credentials from CLI arguments.
   --help, -h          Show this help message.
-  --version, -v       Show version information.`);
+  --version, -v       Show version information.\n`);
 	process.exit();
 });
 
 // Get version
 getopt(['--version', '-v'], 0, () => {
-	console.log(`MC-Term version: ${require('./package.json').version}\nNode version: ${process.version}`);
+	process.stdout.write(`MC-Term version: ${require('./package.json').version}\nNode version: ${process.version}\n`);
 	process.exit();
 });
 
@@ -46,14 +46,15 @@ getopt(['--no-conf', '-ns'], 0, () => {
 getopt(['--cred', '-c'], 6, (params) => {
 	for (let i = 1; i < params.length; i++) {
 		if (params[i] !== '!') {
-			cred[i] = params[i];
-		}
+			cred[i - 1] = params[i];
+		} else cred[i - 1] = null;
 	}
 });
 
 const progress = require('./lib/progress');
 process.stdout.write('Loading: ' + progress(0, 15));
 
+const override = require('./lib/override');
 const { commands, safeWrite, setSafeWriteInterface, setBot, setbotMain } = require('./lib/commands');
 const readline = require('readline');
 const chat = readline.createInterface({
@@ -68,12 +69,12 @@ require('events').EventEmitter.defaultMaxListeners = 0;
 const ini = require('./lib/ini');
 const fs = require('fs');
 
+// fix this
 if (!cred[6] && fs.existsSync('./config/cred.ini')) {
-	cred = Object.values({ ...ini.parse(fs.readFileSync('./config/cred.ini', 'utf-8')), ...cred });
+	cred = override(cred, Object.values(ini.parse(fs.readFileSync('./config/cred.ini', 'utf-8'))));
 } else {
 	if (cred[6]) process.stdout.write('\rNot using "cred.ini" because of --no-cred\nLoading: ' + progress(0, 15));
 	else process.stdout.write('\rFile "cred.ini" not found\nLoading: ' + progress(0, 15));
-	cred = Object.values({ ...{ auth: '', username: '', password: '', server: '', version: '' }, ...cred });
 }
 
 if (!cred[7] && fs.existsSync('./config/config.ini')) {
@@ -149,12 +150,12 @@ chat.once('pause', () => {
 	if (!cred[1]) cred[1] = 'Player123';
 	if (!cred[2]) cred[2] = '';
 	if (!cred[3]) cred[3] = 'localhost';
-	if (!cred[4]) cred[4] = '1.8.9';
+	if (!cred[4]) cred[4] = '1.12.2';
 	if (!cred[5]) cred[5] = '25565';
 	if (cred[8]) {
 		ansi.other.setTermTitle(`${cred[1]} @ ${cred[3]}`);
 		botMain();
-	} else console.log('\nExiting');
+	} else process.stdout.write('\nExiting\n');
 });
 
 async function botMain () {
@@ -198,7 +199,7 @@ async function botMain () {
 			chat.prompt(true);
 		});
 		chat.on('close', () => {
-			console.log('\nExiting');
+			process.stdout.write('\nExiting\n');
 			ansi.other.setTermTitle('Terminal');
 			ansi.clear.clearLine(true);
 			bot.quit();
