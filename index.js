@@ -32,16 +32,17 @@ getopt(['--version', '-v'], 0, () => {
 */
 let cred = [];
 
-// Do not use the ./config/cred.ini file for credentials
+// Do not use the ./config/cred.json file for credentials
 getopt(['--no-cred', '-nc'], 0, () => {
 	cred[6] = true
 });
 
-// Do not use the ./config/conf.ini file for configuration
+// Do not use the ./config/conf.json file for configuration
 getopt(['--no-conf', '-ns'], 0, () => {
 	cred[7] = true
 });
 
+const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
 const progress = require('./lib/progress');
 process.stdout.write('Loading: ' + progress(0, 15));
 
@@ -55,10 +56,16 @@ if (!cred[6]) {
 			server: undefined,
 			version: undefined
 		}, require('./config/cred.json')));
-	} catch (error) {
-		process.stdout.write('\rFile "cred.ini" not found\nLoading: ' + progress(0, 15));
+	} catch (e) {
+		process.stoudt.write('\r');
+		error('File "cred.json" not found', 2);
+		process.stdout.write('Loading: ' + progress(0, 15));
 	}
-} else process.stdout.write('\rNot using "cred.ini" because of --no-cred\nLoading: ' + progress(0, 15));
+} else {
+	process.stdout.write('\r');
+	warn('\rNot using "cred.json" because of --no-cred', 2);
+	process.stoudtw.rite('Loading: ' + progress(0, 15));
+}
 
 // Get credentials from CLI arguments
 getopt(['--cred', '-c'], 6, (params) => {
@@ -69,14 +76,15 @@ getopt(['--cred', '-c'], 6, (params) => {
 	}
 });
 
-const { commands, safeWrite, setSafeWriteInterface, setBot, setbotMain } = require('./lib/commands');
+const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
 const readline = require('readline');
 const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
 
-setSafeWriteInterface(chat);
+setSWInterface(chat);
+setChat(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
 
@@ -84,9 +92,30 @@ if (!cred[7]) {
 	try {
 		// eslint-disable-next-line no-var
 		if (require.resolve('./config/config.json')) var YESCONF = true;
-	} catch (error) {
-		process.stdout.write('\rFile "config.ini" not found. Using default settings\nLoading: ' + progress(0, 15));
+	} catch (e) {
+		process.stdout.write('\r');
+		error('File "config.json" not found. Using default settings', 2);
+		process.stdout.write('Loading: ' + progress(0, 15));
 	}
+}
+
+let YESPS;
+let physics;
+try {
+	if (require.resolve('./config/physics.json')) {
+		physics = require('./config/physics.json');
+		if (physics.usePhysicsJSON === true) {
+			process.stdout.write('\r');
+			warn('Using physics.json. this will result in a ban in most servers!', 1);
+			info('You can disable it by editing usePhysicsJSON in physics.json', 2)
+			process.stdout.write('\nLoading: ' + progress(0, 15));
+			YESPS = true;
+		};
+	}
+} catch (e) {
+	process.stdout.write('\r');
+	error('File "physics.json" not found. Using default settings', 2);
+	process.stdout.write('\nLoading: ' + progress(0, 15));
 }
 
 let bot;
@@ -210,6 +239,7 @@ async function botMain () {
 			ansi.other.setTermTitle('Terminal');
 			ansi.clear.clearLine(true);
 			bot.quit();
+			process.exit();
 		});
 	});
 
@@ -228,7 +258,7 @@ async function botMain () {
 
 	// send a message upon death
 	bot.on('death', () => {
-		safeWrite(`${ansi.color.dim}[MCC] You died. Respawning${ansi.color.reset}`);
+		info('You died. Respawning');
 	});
 
 	// exit program when disconnected
@@ -242,14 +272,14 @@ async function botMain () {
 
 	// send disconnect reason
 	bot.on('kicked', (reason) => {
-		safeWrite(`${ansi.color.dim}[MCC] Kicked from ${cred[3]}:${ansi.color.reset}`);
+		info(`Kicked from ${cred[3]}:`);
 		safeWrite(`${ansi.MCColor.c2c(JSON.parse(reason).text) + ansi.color.reset}`);
 		process.stdout.write('\r');
 	});
 
 	// send a message when a window opens
 	bot.on('windowOpen', () => {
-		safeWrite(`${ansi.color.dim}[MCC] Container #1 opened\n[MCC] Use ".inventory 1" to interact with it${ansi.color.reset}`);
+		info('Container #1 opened\n[MCC] Use ".inventory 1" to interact with it');
 	});
 	// stop bot from moving when hurt
 	bot.on('entityHurt', async (entity) => {
@@ -276,7 +306,8 @@ async function botMain () {
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
-			const conf = require('./config/config.json')
+			const conf = require('./config/config.json');
+			if (YESPS === true) merge.recursive(movement, { bot: { physics } })
 			merge.recursive(movement, conf);
 		}
 		bot.pathfinder.setMovements(movement);
