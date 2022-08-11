@@ -2,4 +2,13 @@ send /register susmangus susmangus
 wait 1
 send /login susmangus
 wait 1
-send /party join r40jrarew
+useitem
+wait 1
+inventory 1 click 21
+wait 1
+foremove up 1
+forcemove forward 13
+wait 8
+forcemove up 2
+wait 5
+script scripts/fun
