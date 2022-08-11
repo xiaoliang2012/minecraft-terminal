@@ -6,4 +6,9 @@
 * [X] Use RGB colors for Mincraft color codes
 * [ ] Reduce launch time
   * [X] Add a progress bar
+  * [ ] Reduce dependecies
 * [X] Add a config file
+  * [X] Use a JSON config file
+* [ ] Reduce resource usage
+  * [X] ~100 MB of RAM
+  * [ ] <1% CPU at idle

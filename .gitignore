@@ -1,3 +1,4 @@
 /node_modules
 /[Bb]uil*
 /.*
+/package-lock.json
