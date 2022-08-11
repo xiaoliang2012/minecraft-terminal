@@ -42,6 +42,24 @@ getopt(['--no-conf', '-ns'], 0, () => {
 	cred[7] = true
 });
 
+const progress = require('./lib/progress');
+process.stdout.write('Loading: ' + progress(0, 15));
+
+// move this up!
+if (!cred[6]) {
+	try {
+		cred = Object.values(Object.assign({
+			auth: undefined,
+			username: undefined,
+			password: undefined,
+			server: undefined,
+			version: undefined
+		}, require('./config/cred.json')));
+	} catch (error) {
+		process.stdout.write('\rFile "cred.ini" not found\nLoading: ' + progress(0, 15));
+	}
+} else process.stdout.write('\rNot using "cred.ini" because of --no-cred\nLoading: ' + progress(0, 15));
+
 // Get credentials from CLI arguments
 getopt(['--cred', '-c'], 6, (params) => {
 	for (let i = 1; i < params.length; i++) {
@@ -51,10 +69,6 @@ getopt(['--cred', '-c'], 6, (params) => {
 	}
 });
 
-const progress = require('./lib/progress');
-process.stdout.write('Loading: ' + progress(0, 15));
-
-const override = require('./lib/override');
 const { commands, safeWrite, setSafeWriteInterface, setBot, setbotMain } = require('./lib/commands');
 const readline = require('readline');
 const chat = readline.createInterface({
@@ -66,21 +80,14 @@ setSafeWriteInterface(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
 
-const ini = require('./lib/ini');
-const fs = require('fs');
-
-// fix this
-if (!cred[6] && fs.existsSync('./config/cred.ini')) {
-	cred = override(cred, Object.values(ini.parse(fs.readFileSync('./config/cred.ini', 'utf-8'))));
-} else {
-	if (cred[6]) process.stdout.write('\rNot using "cred.ini" because of --no-cred\nLoading: ' + progress(0, 15));
-	else process.stdout.write('\rFile "cred.ini" not found\nLoading: ' + progress(0, 15));
+if (!cred[7]) {
+	try {
+		// eslint-disable-next-line no-var
+		if (require.resolve('./config/config.json')) var YESCONF = true;
+	} catch (error) {
+		process.stdout.write('\rFile "config.ini" not found. Using default settings\nLoading: ' + progress(0, 15));
+	}
 }
-
-if (!cred[7] && fs.existsSync('./config/config.ini')) {
-	// eslint-disable-next-line no-var
-	var YESCONF = true;
-} else if (!cred[7]) process.stdout.write('\rFile "config.ini" not found. Using default settings\nLoading: ' + progress(0, 15));
 
 let bot;
 let hurtInt;
@@ -269,7 +276,7 @@ async function botMain () {
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
-			const conf = ini.parse(fs.readFileSync('./config/config.ini', 'utf-8'));
+			const conf = require('./config/config.json')
 			merge.recursive(movement, conf);
 		}
 		bot.pathfinder.setMovements(movement);
