@@ -13,17 +13,19 @@ env:
   MY_BRANCH: testing
 
   # replace it with the path to master repo
-  MASTER_REPO: https://MC-Terminal:${{secrets.PUSH_TO_PROTECTED_BRANCH}}@github.com/MC-Terminal/Minecraft-Terminal.git
+  MASTER_REPO: https://MC-Terminal:${{secrets.GITHUB_TOKEN}}@github.com/MC-Terminal/Minecraft-Terminal.git
 
   # replace "master" with your master branch name
   MASTER_BRANCH: master
-
+ 
 jobs:
   merge:
     runs-on: ubuntu-latest
 
     steps:
     - name: Update master
+      uses: colmose/push-bot@v1.0.0
+
       run: |
         git clone ${{env.MASTER_REPO}} -b ${{env.MASTER_BRANCH}} tmp
         cd tmp
