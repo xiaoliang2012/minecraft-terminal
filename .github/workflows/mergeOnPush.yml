@@ -32,5 +32,6 @@ jobs:
         git config user.name "Automerge Bot"
         git config user.email "bot@example.com"
         git config pull.rebase false
-        git pull ${{env.MASTER_REPO}} ${{env.MASTER_BRANCH}}
+        git remote add upstream ${{env.MASTER_REPO}} 
+        git pull upstream ${{env.MASTER_BRANCH}}
         git push
