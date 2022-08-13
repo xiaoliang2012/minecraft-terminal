@@ -13,7 +13,7 @@ env:
   MY_BRANCH: testing
 
   # replace it with the path to master repo
-  MASTER_REPO: https://github.com/MC-Terminal/Minecraft-Terminal.git
+  MASTER_REPO: https://MC-Terminal:${{secrets.PUSH_TO_PROTECTED_BRANCH}}@github.com/MC-Terminal/Minecraft-Terminal.git
 
   # replace "master" with your master branch name
   MASTER_BRANCH: master
@@ -25,7 +25,7 @@ jobs:
     steps:
     - name: Update master
       run: |
-        git clone ${{env.MY_REPO}} -b ${{env.MASTER_BRANCH}} tmp
+        git clone ${{env.MASTER_REPO}} -b ${{env.MASTER_BRANCH}} tmp
         cd tmp
         git config user.name "Auto update"
         git config user.email "bot@example.com"
