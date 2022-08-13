@@ -25,7 +25,7 @@ jobs:
     steps:
     - name: Update master
       run: |
-        git clone ${{env.MASTER_REPO}} -b ${{env.MASTER_BRANCH}} tmp
+        git clone ${{env.MY_REPO}} -b ${{env.MASTER_BRANCH}} tmp
         cd tmp
         git config user.name "Auto update"
         git config user.email "bot@example.com"
