@@ -24,11 +24,6 @@ jobs:
 
     steps:
     - name: Update master
-      uses: colmose/push-bot@v1.0.0
-      with:
-        token: ${{secrets.GITHUB_TOKEN}}
-        bot_name: test
-
       run: |
         git clone ${{env.MASTER_REPO}} -b ${{env.MASTER_BRANCH}} tmp
         cd tmp
