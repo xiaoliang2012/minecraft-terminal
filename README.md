@@ -1,26 +1,33 @@
 # Minecraft Terminal
+
+Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal. 
 ### Note:
 > This README is a work in progress:
 >- [x] Downloads
 >- [ ] Usage
 >    - [x] Command-line usage
 >    - [ ] Internal commands
+>    - [ ] Remote control (RCON)
 >    - [ ] Configuration
 >        - [ ] Credentials
 >        - [ ] Configuration
 >        - [ ] Physics
 
-Minecraft Terminal is a lightweight app that allows you to play minecraft in the terminal.
-
 ## Downloads
 
-### Clone git repo:
+### Clone git repo
 
 ```
 git clone https://github.com/678435021/Minecraft-Terminal.git
 cd Minecraft-Terminal
 npm install
 node .
+```
+### Install with npm
+
+```
+npm i https://github.com/678435021/Minecraft-Terminal.git
+mc-term
 ```
 ## Usage
 
@@ -51,3 +58,6 @@ node .  --no-cred
 node . --no-conf
 ```
 - This will not use the configuration file config.json
+### Internal commands
+
+For now you can get basic help by typing `.help` in chat.
