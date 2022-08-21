@@ -29,8 +29,9 @@ getopt(['--gen-conf', '-gc'], 2, (params) => {
 
 getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const { editJSON } = require('./lib/editfile');
+	const path = require('path');
 	if (params[1]) {
-		editJSON('configpath.json', 'configpath.json', (data) => {
+		editJSON(path.join(__dirname, 'configpath.json'), path.join(__dirname, 'configpath.json'), (data) => {
 			data.configpath = `${process.cwd()}/${params[1]}`;
 			return data;
 		});
