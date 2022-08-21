@@ -52,7 +52,7 @@ Usage:
 
 You can use '!' in --cred to leave it empty.
 
-**Examples and further explanations:**
+#### Examples and further explanations:
 
 Use the the default settings overriding the username:
 
@@ -60,7 +60,7 @@ Use the the default settings overriding the username:
 $ node . --c ! Player456 ! ! !
 ```
 
-*! will use the login options specified in cred.json if no options are set it will use defaults*
+\- '!' will use the login options specified in cred.json if no options are set it will use defaults
 
 Do not use the credentials file cred.json:
 
