@@ -4,9 +4,9 @@ Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in
 
 This README is a work in progress:
 
-- [X] Downloads
-- [ ] Usage
-  - [X] Command-line usage
+- [X] [Downloads](#downloads)
+- [ ] [Usage](#usage)
+  - [X] [Command-line usage](#command-line-usage)
   - [ ] Internal commands
   - [ ] Hotkeys
   - [ ] Remote control (RCON)
