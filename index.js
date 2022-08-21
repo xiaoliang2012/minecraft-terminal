@@ -19,6 +19,11 @@ getopt(['--version', '-v'], 0, () => {
 	process.exit();
 });
 
+getopt(['--gen-conf', '-gc'], 0, () => {
+	const fs = require('fs');
+	fs.copyFile()
+});
+
 /**
  * 0.auth
  * 1.username
@@ -32,7 +37,7 @@ getopt(['--version', '-v'], 0, () => {
 */
 let cred = [];
 
-// Do not use the ./config/cred.json file for credentials
+// Do not use the ./config/credentials.json file for credentials
 getopt(['--no-cred', '-nc'], 0, () => {
 	cred[6] = true
 });
@@ -42,28 +47,37 @@ getopt(['--no-conf', '-ns'], 0, () => {
 	cred[7] = true
 });
 
+const configpath = require('./configpath.json').configpath;
 const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
 const progress = require('./lib/progress');
 process.stdout.write('Loading: ' + progress(0, 15));
+const readline = require('readline');
+const chat = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
 
-// move this up!
+setSWInterface(chat);
+
 if (!cred[6]) {
 	try {
-		cred = Object.values(Object.assign({
-			auth: undefined,
-			username: undefined,
-			password: undefined,
-			server: undefined,
-			version: undefined
-		}, require('./config/cred.json')));
+		if (require.resolve(`${configpath}/credentials.json`)) {
+			cred = Object.values(Object.assign({
+				auth: undefined,
+				username: undefined,
+				password: undefined,
+				server: undefined,
+				version: undefined
+			}, require(`${configpath}/credentials.json`)));
+		}
 	} catch (e) {
-		process.stoudt.write('\r');
-		error('File "cred.json" not found', 2);
+		process.stdout.write('\r');
+		error('File "credentials.json" not found', 1);
 		process.stdout.write('Loading: ' + progress(0, 15));
 	}
 } else {
 	process.stdout.write('\r');
-	warn('\rNot using "cred.json" because of --no-cred', 2);
+	warn('\rNot using "credentials.json" because of --no-cred', 2);
 	process.stoudtw.rite('Loading: ' + progress(0, 15));
 }
 
@@ -77,13 +91,7 @@ getopt(['--cred', '-c'], 6, (params) => {
 });
 
 const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
-const readline = require('readline');
-const chat = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-});
 
-setSWInterface(chat);
 setChat(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
@@ -91,10 +99,10 @@ require('events').EventEmitter.defaultMaxListeners = 0;
 if (!cred[7]) {
 	try {
 		// eslint-disable-next-line no-var
-		if (require.resolve('./config/config.json')) var YESCONF = true;
+		if (require.resolve(`${configpath}/config.json`)) var YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "config.json" not found. Using default settings', 2);
+		error('File "config.json" not found. Using default settings', 1);
 		process.stdout.write('Loading: ' + progress(0, 15));
 	}
 }
@@ -102,11 +110,11 @@ if (!cred[7]) {
 let YESPS;
 let physics;
 try {
-	if (require.resolve('./config/physics.json')) {
-		physics = require('./config/physics.json');
+	if (require.resolve(`${configpath}/physics.json`)) {
+		physics = require(`${configpath}/physics.json`);
 		if (physics.usePhysicsJSON === true) {
 			process.stdout.write('\r');
-			warn('Using physics.json. this will result in a ban in most servers!', 1);
+			warn('Using custom physics. this will result in a ban in most servers!', 1);
 			info('You can disable it by editing usePhysicsJSON in physics.json', 2)
 			process.stdout.write('\nLoading: ' + progress(0, 15));
 			YESPS = true;
@@ -306,7 +314,7 @@ async function botMain () {
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
-			const conf = require('./config/config.json');
+			const conf = require(`${configpath}/config.json`);
 			if (YESPS === true) merge.recursive(movement, { bot: { physics } })
 			merge.recursive(movement, conf);
 		}
