@@ -19,11 +19,29 @@ getopt(['--version', '-v'], 0, () => {
 	process.exit();
 });
 
-getopt(['--gen-conf', '-gc'], 0, () => {
+getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const fs = require('fs');
-	fs.copyFile();
+	const dir = params[1] || '';
+	// eslint-disable-next-line n/no-path-concat
+	fs.cpSync(__dirname + '/config', `${process.cwd()}/${dir}`, { recursive: true });
+	process.exit();
 });
 
+getopt(['--set-conf-path', '-scp'], 2, (params) => {
+	const { editJSON } = require('./lib/editfile');
+	if (params[1]) {
+		editJSON('configpath.json', 'configpath.json', (data) => {
+			data.configpath = `${process.cwd()}/${params[1]}`;
+			return data;
+		});
+	}
+	process.exit();
+});
+
+getopt(['--get-conf-path', '-gcp'], 0, (params) => {
+	process.stdout.write(`Path to config: '${require('./configpath.json').configpath}'\n`);
+	process.exit();
+});
 /**
  * 0.auth
  * 1.username
