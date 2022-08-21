@@ -22,7 +22,7 @@ This README is a work in progress:
 ### Install with npm
 
 ```
-$ npm i https://github.com/678435021/Minecraft-Terminal.git
+$ npm i --location=global npm i --location=global git@github.com:MC-Terminal/Minecraft-Terminal.git
 $ mc-term
 ```
 
@@ -81,14 +81,14 @@ $ node . --no-conf
 Set the configuration files path and exit:
 
 ```
-$ node . --set-conf-path /home/.config/mc-term
+$ node . --set-conf-path /home/user/.config/mc-term
 ```
 
 Print the configuration files location and exit:
 
 ```
 $ node . --get-conf-path
-[INFO] Configuration files are located in: /home/.config/mc-term
+[INFO] Configuration files are located in: /home/user/.config/mc-term
 ```
 
 Generate default configuration files in the specified location:
@@ -100,3 +100,7 @@ $ node . --gen-conf /path/to/folder
 ### Internal commands
 
 For now you can get basic, incomplete help by typing `.help` in chat.
+
+### Hotkeys
+
+Most emacs hotkeys
