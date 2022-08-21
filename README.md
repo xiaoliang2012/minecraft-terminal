@@ -2,8 +2,6 @@
 
 Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal.
 
-### Note:
-
 > This README is a work in progress:
 >
 > - [X] Downloads
@@ -40,15 +38,15 @@ $ mc-term
 ### Command-line usage
 
 ```
-Usage: 
-   --no-conf, -nc           Do not use the configuration file. 
+Usage:
+   --no-conf, -nc           Do not use the configuration file.
    --no-cred, -ns           Do not use the credentials file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc         Generate configuration files
-   --cred, -c               <Auth> <Username> <Password> <Version> <Server> 
-                            Override credentials from CLI arguments. 
-   --help, -h               Show this help message. 
+   --cred, -c               <Auth> <Username> <Password> <Version> <Server>
+                            Override credentials from CLI arguments.
+   --help, -h               Show this help message.
    --version, -v            Show version information.
 ```
 
