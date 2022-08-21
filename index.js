@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 const getopt = require('./lib/getopts');
 
 // Get help
@@ -38,7 +38,7 @@ getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	process.exit();
 });
 
-getopt(['--get-conf-path', '-gcp'], 0, (params) => {
+getopt(['--get-conf-path', '-gcp'], 0, () => {
 	process.stdout.write(`Path to config: '${require('./configpath.json').configpath}'\n`);
 	process.exit();
 });
@@ -114,10 +114,11 @@ setChat(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
 
+let YESCONF = false;
 if (!cred[7]) {
 	try {
 		// eslint-disable-next-line no-var
-		if (require.resolve(`${configpath}/config.json`)) var YESCONF = true;
+		if (require.resolve(`${configpath}/config.json`)) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
 		error('File "config.json" not found. Using default settings', 1);
