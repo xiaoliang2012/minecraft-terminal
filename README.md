@@ -19,6 +19,15 @@ This README is a work in progress:
 
 ## Downloads
 
+### Install with npm
+
+```
+$ npm i https://github.com/678435021/Minecraft-Terminal.git
+$ mc-term
+```
+
+Alternatively you can clone the gir repo.
+
 ### Clone git repo
 
 ```
@@ -26,13 +35,6 @@ $ git clone https://github.com/678435021/Minecraft-Terminal.git
 $ cd Minecraft-Terminal
 $ npm install
 $ node .
-```
-
-### Install with npm
-
-```
-$ npm i https://github.com/678435021/Minecraft-Terminal.git
-$ mc-term
 ```
 
 ## Usage
@@ -97,4 +99,4 @@ $ node . --gen-conf /path/to/folder
 
 ### Internal commands
 
-For now you can get basic help by typing `.help` in chat.
+For now you can get basic, incomplete help by typing `.help` in chat.
