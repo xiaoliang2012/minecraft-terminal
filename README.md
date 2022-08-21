@@ -2,18 +2,18 @@
 
 Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal.
 
-> This README is a work in progress:
->
-> - [X] Downloads
-> - [ ] Usage
->   - [X] Command-line usage
->   - [ ] Internal commands
->   - [ ] Hotkeys
->   - [ ] Remote control (RCON)
->   - [ ] Configuration
->     - [ ] Credentials
->     - [ ] Configuration
->     - [ ] Physics
+This README is a work in progress:
+
+- [X] Downloads
+- [ ] Usage
+  - [X] Command-line usage
+  - [ ] Internal commands
+  - [ ] Hotkeys
+  - [ ] Remote control (RCON)
+  - [ ] Configuration
+    - [ ] Credentials
+    - [ ] Configuration
+    - [ ] Physics
 
 ## Downloads
 
@@ -60,7 +60,7 @@ Use the the default settings overriding the username:
 $ node . --c ! Player456 ! ! !
 ```
 
-- ! will use the login options specified in cred.json if no options are set it will use defaults
+*! will use the login options specified in cred.json if no options are set it will use defaults*
 
 Do not use the credentials file cred.json:
 
@@ -79,12 +79,16 @@ Set the configuration files path and exit:
 ```
 $ node . --set-conf-path /home/.config/mc-term
 ```
+
 Print the configuration files location and exit:
+
 ```
 $ node . --get-conf-path
 [INFO] Configuration files are located in: /home/.config/mc-term
 ```
+
 Generate default configuration files in the specified location:
+
 ```
 $ node . --gen-conf /path/to/folder
 ```
