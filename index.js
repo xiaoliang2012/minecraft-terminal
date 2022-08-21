@@ -21,7 +21,7 @@ getopt(['--version', '-v'], 0, () => {
 
 getopt(['--gen-conf', '-gc'], 0, () => {
 	const fs = require('fs');
-	fs.copyFile()
+	fs.copyFile();
 });
 
 /**
@@ -39,12 +39,12 @@ let cred = [];
 
 // Do not use the ./config/credentials.json file for credentials
 getopt(['--no-cred', '-nc'], 0, () => {
-	cred[6] = true
+	cred[6] = true;
 });
 
 // Do not use the ./config/conf.json file for configuration
 getopt(['--no-conf', '-ns'], 0, () => {
-	cred[7] = true
+	cred[7] = true;
 });
 
 const configpath = require('./configpath.json').configpath;
@@ -115,7 +115,7 @@ try {
 		if (physics.usePhysicsJSON === true) {
 			process.stdout.write('\r');
 			warn('Using custom physics. this will result in a ban in most servers!', 1);
-			info('You can disable it by editing usePhysicsJSON in physics.json', 2)
+			info('You can disable it by editing usePhysicsJSON in physics.json', 2);
 			process.stdout.write('\nLoading: ' + progress(0, 15));
 			YESPS = true;
 		};
@@ -204,7 +204,7 @@ chat.once('pause', () => {
 
 async function botMain () {
 	ansi.clear.clearLine(true);
-	process.stdout.write('Connecting...')
+	process.stdout.write('Connecting...');
 	commands.tmp.botMoving = false;
 	commands.tmp.botAttacking = false;
 	commands.tmp.botLooking = false;
@@ -235,8 +235,8 @@ async function botMain () {
 		chat.setPrompt('>');
 		chat.prompt();
 		chat.on('line', (msg) => {
-			commands.cmd(msg)
-			process.stdout.write('\r>')
+			commands.cmd(msg);
+			process.stdout.write('\r>');
 		});
 
 		chat.on('pause', () => {
@@ -293,12 +293,12 @@ async function botMain () {
 	bot.on('entityHurt', async (entity) => {
 		if (commands.tmp.botMoving) {
 			await sleep(10);
-			let absvelo
+			let absvelo;
 			// if (entity.username === attackTarget) bot.pathfinder.stop();
 			if (entity.username !== bot.username) return;
 			if (!hurtInt) {
 				hurtInt = setInterval(() => {
-					absvelo = bot.entity.velocity.y + 0.0784000015258789
+					absvelo = bot.entity.velocity.y + 0.0784000015258789;
 					if (absvelo < 0.12) {
 						bot.pathfinder.stop();
 						clearInterval(hurtInt);
@@ -315,7 +315,7 @@ async function botMain () {
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
 			const conf = require(`${configpath}/config.json`);
-			if (YESPS === true) merge.recursive(movement, { bot: { physics } })
+			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
 			merge.recursive(movement, conf);
 		}
 		bot.pathfinder.setMovements(movement);
