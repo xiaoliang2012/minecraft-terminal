@@ -23,7 +23,7 @@ getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const fs = require('fs');
 	const path = require('path');
 	const dir = params[1] || '';
-	fs.cpSync(path.join(__dirname, 'config'), `${process.cwd()}/${dir}`, { recursive: true });
+	fs.cpSync(path.join(__dirname, 'config'), path.join(process.cwd(), dir), { recursive: true });
 	process.exit();
 });
 
