@@ -63,5 +63,4 @@ jobs:
       - name: Update Coverage
         run: |
           export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
-          git clone
           bash <(curl -Ls https://coverage.codacy.com/get.sh)
