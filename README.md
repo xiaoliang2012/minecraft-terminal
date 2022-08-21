@@ -1,18 +1,21 @@
 # Minecraft Terminal
 
-Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal. 
+Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal.
+
 ### Note:
+
 > This README is a work in progress:
->- [X] Downloads
->- [ ] Usage
->    - [X] Command-line usage
->    - [ ] Internal commands
->    - [ ] Hotkeys
->    - [ ] Remote control (RCON)
->    - [ ] Configuration
->        - [ ] Credentials
->        - [ ] Configuration
->        - [ ] Physics
+>
+> - [X] Downloads
+> - [ ] Usage
+>   - [X] Command-line usage
+>   - [ ] Internal commands
+>   - [ ] Hotkeys
+>   - [ ] Remote control (RCON)
+>   - [ ] Configuration
+>     - [ ] Credentials
+>     - [ ] Configuration
+>     - [ ] Physics
 
 ## Downloads
 
@@ -24,12 +27,14 @@ $ cd Minecraft-Terminal
 $ npm install
 $ node .
 ```
-### ~~Install with npm~~
+
+### Install with npm
 
 ```
 $ npm i https://github.com/678435021/Minecraft-Terminal.git
 $ mc-term
 ```
+
 ## Usage
 
 ### Command-line usage
@@ -46,35 +51,46 @@ Usage:
    --help, -h               Show this help message. 
    --version, -v            Show version information.
 ```
+
 You can use '!' in --cred to leave it empty.
 
 **Examples and further explanations:**
+
+Use the the default settings overriding the username:
+
 ```
-$ node . --c ! Player456 ! ! ! 
+$ node . --c ! Player456 ! ! !
 ```
+
 - ! will use the login options specified in cred.json if no options are set it will use defaults
-- This will use the the default settings overriding the username
+
+Do not use the credentials file cred.json:
+
 ```
 $ node .  --no-cred
 ```
-- This will not use the credentials file cred.json
+
+Do not use the configuration file config.json:
+
 ```
 $ node . --no-conf
 ```
-- This will not use the configuration file config.json
+
+Set the configuration files path and exit:
+
 ```
 $ node . --set-conf-path /home/.config/mc-term
 ```
-- This will set the configuration files location and exit
+Print the configuration files location and exit:
 ```
 $ node . --get-conf-path
+[INFO] Configuration files are located in: /home/.config/mc-term
 ```
-> [INFO] Configuration files are located in: /home/.config/mc-term
-- This will show the configuration files location and exit
+Generate default configuration files in the specified location:
 ```
-$ node . --gen-conf
+$ node . --gen-conf /path/to/folder
 ```
-- This will generate default configuration files at the specified configuration folder
+
 ### Internal commands
 
 For now you can get basic help by typing `.help` in chat.
