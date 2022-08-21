@@ -21,9 +21,9 @@ getopt(['--version', '-v'], 0, () => {
 
 getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const fs = require('fs');
+	const path = require('path');
 	const dir = params[1] || '';
-	// eslint-disable-next-line n/no-path-concat
-	fs.cpSync(__dirname + '/config', `${process.cwd()}/${dir}`, { recursive: true });
+	fs.cpSync(path.join(__dirname, 'config'), `${process.cwd()}/${dir}`, { recursive: true });
 	process.exit();
 });
 
