@@ -16,9 +16,9 @@
 		"minecraft-protocol": "^1.35.1",
 		"mineflayer": "^4.3.0",
 		"mineflayer-pathfinder": "^2.3.0",
-		"vec3": "^0.1.7",
-		"engines": {
-			"node": ">=14.0.0"
-	}
+		"vec3": "^0.1.7"
+	},
+	"engines": {
+		"node": ">=14.0.0"
 	}
 }
