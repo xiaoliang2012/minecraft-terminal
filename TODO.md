@@ -4,9 +4,9 @@
 * [ ] Show coordinates, health and distance from target at the bottom right corner of the screen
 * [X] Add a scripting interface
 * [X] Use RGB colors for Mincraft color codes
-* [ ] Reduce launch time
+* [X] Reduce launch time
   * [X] Add a progress bar
-  * [ ] Reduce dependecies
+  * [X] Reduce dependecies
 * [X] Add a config file
   * [X] Use a JSON config file
 * [ ] Reduce resource usage
