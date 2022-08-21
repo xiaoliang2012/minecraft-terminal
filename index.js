@@ -22,10 +22,10 @@ getopt(['--version', '-v'], 0, () => {
 getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const fs = require('fs');
 	const path = require('path');
-	let dir = params[1] || '';
+	let dir;
 	if (!dir.match(/^\//m)) {
 		dir = path.join(process.cwd(), dir);
-	}
+	} else dir = params[1] || '';
 	fs.cpSync(path.join(__dirname, 'config'), dir, { recursive: true });
 	process.exit();
 });

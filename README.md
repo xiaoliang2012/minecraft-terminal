@@ -22,7 +22,7 @@ This README is a work in progress:
 ### Install with npm
 
 ```
-$ npm i --location=global npm i --location=global git@github.com:MC-Terminal/Minecraft-Terminal.git
+$ npm i --location=global git@github.com:MC-Terminal/Minecraft-Terminal.git
 $ mc-term
 ```
 
