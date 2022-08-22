@@ -1,5 +1,5 @@
 {
-	"name": "mc-term",
+	"name": "@MC-Terminal/Minecraft-Terminal",
 	"description": "Play Minecraft and configure bots from the terminal",
 	"version": "0.2.6",
 	"engines": {
