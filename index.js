@@ -35,7 +35,7 @@ getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const path = require('path');
 	if (params[1]) {
 		editJSON(path.join(__dirname, 'configpath.json'), path.join(__dirname, 'configpath.json'), (data) => {
-			data.configpath = `${process.cwd()}/${params[1]}`;
+			data.configpath = path.join(process.cwd, params[1]);
 			return data;
 		});
 	}
