@@ -9,9 +9,10 @@ This README is a work in progress:
 - [X] [Downloads](#downloads)
 - [ ] [Usage](#usage)
   - [X] [Command-line usage](#command-line-usage)
-  - [ ] Internal commands
-  - [ ] Hotkeys
-  - [ ] Remote control (RCON)
+  - [ ] Internal commands (10%)
+  - [X] Scripts
+  - [X] Hotkeys
+  - [X] Remote control (RCON)
   - [ ] Configuration
     - [ ] Credentials
     - [ ] Configuration
@@ -22,11 +23,11 @@ This README is a work in progress:
 ### Install with npm
 
 ```
-$ npm i --location=global git@github.com:MC-Terminal/Minecraft-Terminal.git
+$ npm i -g mc-term
 $ mc-term
 ```
 
-Alternatively you can clone the gir repo.
+Alternatively you can clone the git repo.
 
 ### Clone git repo
 
@@ -39,6 +40,29 @@ $ node .
 
 ## Usage
 
+### First launch
+
+You need to setup the configuration files before actually using the program.
+
+To do this you must specify the configuration directory path:
+
+```
+$ mc-term -scp /path/to/folder
+```
+
+Then you must generate the default configuration files at that same directory:
+
+```
+$ mc-term -gc /path/to/folder
+```
+
+Finally check if you've set everything correctly:
+
+```
+$ ls /path/to/folder
+config.json  credentials.json  physics.json
+```
+
 ### Command-line usage
 
 ```
@@ -47,7 +71,7 @@ Usage:
    --no-cred, -ns           Do not use the credentials file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
-   --gen-conf, -gc         Generate configuration files
+   --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
                             Override credentials from CLI arguments.
    --help, -h               Show this help message.
@@ -61,21 +85,35 @@ You can use '!' in --cred to leave it empty.
 Use the the default settings overriding the username:
 
 ```
-$ node . --c ! Player456 ! ! !
+$ node . --c ! Player456 '' ! !
+Password :
 ```
 
-\- '!' will use the login options specified in cred.json if no options are set it will use defaults
+* '!' will use the login options specified in cred.json if no options are set it will use defaults
+* '' will prompt
 
 Do not use the credentials file cred.json:
 
 ```
 $ node .  --no-cred
+[WARN] Not using "credentials.json" because of --no-cred
+Auth :
+Login :
+Password :
+Server :
+Version :
 ```
 
 Do not use the configuration file config.json:
 
 ```
 $ node . --no-conf
+[WARN] Not using "config.json" because of --no-conf
+Auth :
+Login :
+Password :
+Server :
+Version :
 ```
 
 Set the configuration files path and exit:
@@ -88,19 +126,200 @@ Print the configuration files location and exit:
 
 ```
 $ node . --get-conf-path
-[INFO] Configuration files are located in: /home/user/.config/mc-term
+Path to config: /home/user/.config/mc-term
 ```
 
 Generate default configuration files in the specified location:
 
 ```
-$ node . --gen-conf /path/to/folder
+$ node . --gen-conf /home/user/.config/mc-term
 ```
 
 ### Internal commands
 
-For now you can get basic, incomplete help by typing `.help` in chat.
+Disconnect from the server:
+
+```
+[INFO] Connected.
+>.exit
+$
+```
+
+Reconnect to server:
+
+```
+[INFO] Connected.
+>.reco
+[INFO] Connected.
+```
+
+Move the player in blocks:
+
+```
+
+```
+
+Move the player in seconds:
+
+```
+
+```
+
+Follow a player:
+
+```
+
+```
+
+Stop following a player:
+
+```
+
+```
+
+Attack a player:
+
+```
+
+```
+
+Stop attacking a player:
+
+```
+
+```
+
+Send a message in chat:
+
+```
+
+```
+
+Inventory management:
+
+```
+
+```
+
+Use an item:
+
+```
+
+```
+
+Change the selected hotbar slot:
+
+```
+
+```
+
+Run a script:
+
+```
+
+```
+
+Look at a player:
+
+```
+
+```
+
+Stop looking at a player:
+
+```
+
+```
+
+Look in a specific direction:
+
+```
+
+```
+
+Set the control state of the player:
+
+```
+
+```
+
+Show a list of all connected players on the server (and their ping):
+
+```
+
+```
+
+Show a list of all commands:
+
+### Scripts
+
+A script is a plain text file which contains a series of commands. These commands are the same commands we would normally type in chat (such as **move** or **attack**).
+
+Note:
+
+* You don't need to type '.' before a command in a script and you cannot send a message by typing the message directly.
+* You can comment out a line by typing '#' at the start of the line.
+
+Example:
+
+```bash
+# Works
+send I just sent a message in chat!
+
+# Doesn't work
+.send I just send a message in chat!
+
+# Doesn't work
+I just send a message in chat!
+```
+
+#### Script only commands
+
+Waits for a specific amount of seconds before running the next command:
+
+### Running a script
+
+```
+[INFO] Connected.
+>.script /path/to the/script
+[INFO] Connected.
+```
 
 ### Hotkeys
 
-Most emacs hotkeys
+
+| Hotkey        | What it does                                |
+| :-------------- | :-------------------------------------------- |
+| CTRL-B        | Move back one character without deleting    |
+| CTRL-F        | Move forward one character without deleting |
+| BACKSPACE     | Delete one character backwards              |
+| DEL           | Delete one character forwards               |
+| ESC-B         | Move back one word without deleting         |
+| ESC-F         | Move forward one word without deleting      |
+| ALT-BACKSPACE | Delete or “kill” one word backwards       |
+| ESC-D         | Delete or “kill” one word forwards        |
+| CTRL-A        | Move cursor to the beginning of the line    |
+| CTRL-E        | Move cursor to the end of the line          |
+| CTRL-U        | Kill forward to the beginning of a line     |
+| CTRL-K        | Kill forward to the end of a line           |
+| CTRL-L        | Clears the screen                           |
+
+### Remote control
+
+For now you can send a message that starts with '!#' and the bot will repeat everything that comes after '!#'.
+
+```
+[INFO] Connected.
+<AnotherPlayer> !#Hello
+[RCON] Hello
+<Player456> Hello
+<AnotherPlayer> !#/gamemode creative
+[RCON] /gamemode creative
+Set own gamemode to creative.
+<AnotherPlayer> !#.exit
+[RCON] .exit
+```
+
+### Configuration
+
+WIP
