@@ -200,12 +200,13 @@ chat.once('line', async (AUTH) => {
 		});
 		// 3
 		if (!cred[1]) cred[1] = name;
-		if (cred[2] === '' || cred[2] === undefined) {
+		if ((cred[2] === '' || cred[2] === undefined) && cred[0] !== 'cracked') {
 			chat.setPrompt('Password :');
 			chat.prompt();
 		} else chat.emit('line');
 	});
 	// 2
+	if (!AUTH) AUTH = 'cracked';
 	if (!cred[0]) cred[0] = AUTH;
 	if (cred[1] === '' || cred[1] === undefined) {
 		chat.setPrompt('Login :');
@@ -220,7 +221,6 @@ if (cred[0] === '' || cred[0] === undefined) {
 } else chat.emit('line');
 
 chat.once('pause', () => {
-	if (!cred[0]) cred[0] = 'mojang';
 	if (!cred[1]) cred[1] = 'Player123';
 	if (!cred[2]) cred[2] = '';
 	if (!cred[3]) cred[3] = 'localhost';
@@ -228,6 +228,10 @@ chat.once('pause', () => {
 	if (!cred[5]) cred[5] = '25565';
 	if (cred[8]) {
 		ansi.other.setTermTitle(`${cred[1]} @ ${cred[3]}`);
+		process.on('exit', () => {
+			ansi.other.setTermTitle('Terminal');
+			ansi.clear.clearLine(true);
+		});
 		botMain();
 	} else process.stdout.write('\nExiting\n');
 });
@@ -275,10 +279,7 @@ async function botMain () {
 		});
 		chat.on('close', () => {
 			process.stdout.write('\nExiting\n');
-			ansi.other.setTermTitle('Terminal');
-			ansi.clear.clearLine(true);
 			bot.quit();
-			process.exit();
 		});
 	});
 
@@ -303,8 +304,6 @@ async function botMain () {
 	// exit program when disconnected
 	bot.on('end', async (reason) => {
 		if (reason !== 'reconnect') {
-			ansi.other.setTermTitle('Terminal');
-			ansi.clear.clearLine(true);
 			process.exit();
 		}
 	});
