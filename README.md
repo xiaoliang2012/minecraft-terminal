@@ -9,11 +9,11 @@ This README is a work in progress:
 - [X] [Downloads](#downloads)
 - [ ] [Usage](#usage)
   - [X] [Command-line usage](#command-line-usage)
-  - [ ] Internal commands (10%)
-  - [X] Scripts
-  - [X] Hotkeys
-  - [X] Remote control (RCON)
-  - [ ] Configuration
+  - [ ] [Internal commands (10%)](#internal-commands)
+  - [X] [Scripts](#scripts)
+  - [X] [Hotkeys](#hotkeys)
+  - [X] [Remote control (RCON)](#remote-control)
+  - [ ] [Configuration](#configuration)
     - [ ] Credentials
     - [ ] Configuration
     - [ ] Physics
@@ -32,8 +32,8 @@ Alternatively you can clone the git repo.
 ### Clone git repo
 
 ```
-$ git clone https://github.com/678435021/Minecraft-Terminal.git
-$ cd Minecraft-Terminal
+$ git clone https://github.com/MC-Terminal/minecraft-terminal.git
+$ cd minecraft-terminal
 $ npm install
 $ node .
 ```
@@ -47,19 +47,19 @@ You need to setup the configuration files before actually using the program.
 To do this you must specify the configuration directory path:
 
 ```
-$ mc-term -scp /path/to/folder
+$ mc-term -scp /path/to/config/dir
 ```
 
-Then you must generate the default configuration files at that same directory:
+Then you must generate the default configuration files in that same directory:
 
 ```
-$ mc-term -gc /path/to/folder
+$ mc-term -gc /path/to/config/dir
 ```
 
 Finally check if you've set everything correctly:
 
 ```
-$ ls /path/to/folder
+$ ls /path/to/config/dir
 config.json  credentials.json  physics.json
 ```
 
