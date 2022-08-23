@@ -20,13 +20,13 @@ getopt(['--version', '-v'], 0, () => {
 });
 
 getopt(['--gen-conf', '-gc'], 2, (params) => {
-	const fs = require('fs');
+	const cpSync = require('fs').cpSync;
 	const path = require('path');
 	let dir = params[1] || '';
 	if (!dir.match(/^\//m)) {
 		dir = path.join(process.cwd(), dir);
 	}
-	fs.cpSync(path.join(__dirname, 'config'), dir, { recursive: true });
+	cpSync(path.join(__dirname, 'config'), dir, { recursive: true });
 	process.exit();
 });
 
@@ -60,13 +60,17 @@ getopt(['--get-conf-path', '-gcp'], 0, () => {
 let cred = [];
 
 // Do not use the ./config/credentials.json file for credentials
-getopt(['--no-cred', '-nc'], 0, () => {
+let bcofnc;
+getopt(['--no-cred', '-nc'], 1, (params) => {
 	cred[6] = true;
+	bcofnc = params[0];
 });
 
 // Do not use the ./config/conf.json file for configuration
-getopt(['--no-conf', '-ns'], 0, () => {
+let bcofns;
+getopt(['--no-conf', '-ns'], 1, (params) => {
 	cred[7] = true;
+	bcofns = params[0];
 });
 
 const configpath = require('./configpath.json').configpath;
@@ -80,6 +84,22 @@ const chat = readline.createInterface({
 });
 
 setSWInterface(chat);
+
+let YESCONF = false;
+if (!cred[7]) {
+	try {
+		const path = require('path');
+		if (require.resolve(path.join(configpath, 'config.json'))) YESCONF = true;
+	} catch (e) {
+		process.stdout.write('\r');
+		error('File "config.json" not found. Using default settings', 1);
+		process.stdout.write('Loading: ' + progress(0, 15));
+	}
+} else {
+	process.stdout.write('\r');
+	warn('Not using "config.json" because of ' + bcofns, 1);
+	process.stdout.write('Loading: ' + progress(0, 15));
+}
 
 if (!cred[6]) {
 	try {
@@ -99,36 +119,23 @@ if (!cred[6]) {
 	}
 } else {
 	process.stdout.write('\r');
-	warn('\rNot using "credentials.json" because of --no-cred', 2);
-	process.stoudtw.rite('Loading: ' + progress(0, 15));
+	warn('Not using "credentials.json" because of ' + bcofnc, 1);
+	process.stdout.write('Loading: ' + progress(0, 15));
 }
 
 // Get credentials from CLI arguments
 getopt(['--cred', '-c'], 6, (params) => {
 	for (let i = 1; i < params.length; i++) {
-		if (params[i] !== '!') {
+		if (params[i] !== '!' && params[i] !== undefined) {
 			cred[i - 1] = params[i];
 		} else cred[i - 1] = null;
 	}
 });
-
 const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
 
 setChat(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
-
-let YESCONF = false;
-if (!cred[7]) {
-	try {
-		// eslint-disable-next-line no-var
-		if (require.resolve(`${configpath}/config.json`)) YESCONF = true;
-	} catch (e) {
-		process.stdout.write('\r');
-		error('File "config.json" not found. Using default settings', 1);
-		process.stdout.write('Loading: ' + progress(0, 15));
-	}
-}
 
 let YESPS;
 let physics;
@@ -138,15 +145,15 @@ try {
 		if (physics.usePhysicsJSON === true) {
 			process.stdout.write('\r');
 			warn('Using custom physics. this will result in a ban in most servers!', 1);
-			info('You can disable it by editing usePhysicsJSON in physics.json', 2);
-			process.stdout.write('\nLoading: ' + progress(0, 15));
+			info('You can disable it by editing usePhysicsJSON in physics.json', 1);
+			process.stdout.write('Loading: ' + progress(0, 15));
 			YESPS = true;
 		};
 	}
 } catch (e) {
 	process.stdout.write('\r');
-	error('File "physics.json" not found. Using default settings', 2);
-	process.stdout.write('\nLoading: ' + progress(0, 15));
+	error('File "physics.json" not found. Using default settings', 1);
+	process.stdout.write('Loading: ' + progress(0, 15));
 }
 
 let bot;
@@ -168,46 +175,46 @@ chat.once('line', async (AUTH) => {
 		// 3
 		chat.once('line', (pass) => {
 			// 4
-			chat.once('line', (ver) => {
+			chat.once('line', (ip) => {
 				// 5
-				chat.once('line', async (ip) => {
-					if (!cred[3]) cred[3] = ip;
+				chat.once('line', async (ver) => {
+					if (!cred[4]) cred[4] = ver;
 					process.stdout.write(ansi.color.reset);
 					await sleep(0.01);
 					cred[8] = true;
 					chat.pause();
 				});
 				// 5
-				if (!cred[4]) cred[4] = ver;
-				if (!cred[3] && cred[3] != null) {
-					chat.setPrompt('Server :');
+				if (!cred[3]) cred[3] = ip;
+				if (cred[4] === '') {
+					chat.setPrompt('Version :');
 					chat.prompt();
 				} else chat.emit('line');
 			});
 			// 4
 			if (!cred[2]) cred[2] = pass;
-			if (!cred[4] && cred[4] != null) {
-				chat.setPrompt('Version :');
+			if (cred[3] === '') {
+				chat.setPrompt('Server :');
 				chat.prompt();
 			} else chat.emit('line');
 		});
 		// 3
 		if (!cred[1]) cred[1] = name;
-		if (!cred[2] && cred[2] != null) {
+		if (cred[2] === '') {
 			chat.setPrompt('Password :');
 			chat.prompt();
 		} else chat.emit('line');
 	});
 	// 2
 	if (!cred[0]) cred[0] = AUTH;
-	if (!cred[1] && cred[1] != null) {
+	if (cred[1] === '') {
 		chat.setPrompt('Login :');
 		chat.prompt();
 	} else chat.emit('line');
 });
 process.stdout.write('\rLoading: ' + progress(100, 15));
 // 1
-if (!cred[0] && cred[0] != null) {
+if (cred[0] === '') {
 	chat.setPrompt('Auth :');
 	chat.prompt('line');
 } else chat.emit('line');
@@ -227,7 +234,7 @@ chat.once('pause', () => {
 
 async function botMain () {
 	ansi.clear.clearLine(true);
-	process.stdout.write('Connecting...');
+	info('Connecting...', 2);
 	commands.tmp.botMoving = false;
 	commands.tmp.botAttacking = false;
 	commands.tmp.botLooking = false;
@@ -247,7 +254,8 @@ async function botMain () {
 		auth: cred[0],
 		version: cred[4]
 	});
-
+	ansi.clear.clearLine();
+	info('Connected.');
 	// Initialize commands
 	setBot(bot);
 	setbotMain(botMain);
