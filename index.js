@@ -231,9 +231,10 @@ chat.once('pause', () => {
 		process.on('exit', () => {
 			ansi.other.setTermTitle('Terminal');
 			ansi.clear.clearLine(true);
+			info('Exiting', 1);
 		});
 		botMain();
-	} else process.stdout.write('\nExiting\n');
+	} else info('Exiting', 1);
 });
 
 async function botMain () {
@@ -278,7 +279,6 @@ async function botMain () {
 			chat.prompt(true);
 		});
 		chat.on('close', () => {
-			process.stdout.write('\nExiting\n');
 			bot.quit();
 		});
 	});
