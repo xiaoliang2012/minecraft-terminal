@@ -139,6 +139,12 @@ $ mc-term --gen-conf /home/user/.config/mc-term
 
 ### Internal commands
 
+You can use a command by typing `.` before the command.
+
+Commands are case insensitive, so `.exit` and `.EXIT` are the same.
+
+#### Exit
+
 Disconnect from the server:
 
 ```
@@ -146,6 +152,8 @@ Disconnect from the server:
 [INFO] Exiting
 $
 ```
+
+#### Reco
 
 Reconnect to server:
 
@@ -155,12 +163,16 @@ Reconnect to server:
 >
 ```
 
+#### Move
+
 Move the player in blocks:
 
 ```
 >.move
 [INFO] Usage: .move <Direction> <distance?>. Direction = <north|south|east|west> distance > 0
 ```
+
+#### Forcemove
 
 Move the player in seconds:
 
@@ -169,12 +181,16 @@ Move the player in seconds:
 [INFO] Usage: .forcemove <Dircetion:up|forward|back|left|right> <Time:Seconds>
 ```
 
+#### Follow
+
 Follow a player:
 
 ```
 >.follow
 [INFO] Usage: .follow <Player> <Range>. Range > 1
 ```
+
+#### Unfollow
 
 Stop following a player:
 
@@ -183,12 +199,16 @@ Stop following a player:
 [INFO] Not following anyone
 ```
 
+#### Attack
+
 Attack a player:
 
 ```
 >.attack
 [INFO] Usage: .attack <Player> <CPS> <MaxReach> <MinReach>. MaxReach > MinReach (Duh), CPS > 0
 ```
+
+#### Stopattack
 
 Stop attacking a player:
 
@@ -197,6 +217,8 @@ Stop attacking a player:
 [INFO] Not attacking anyone
 ```
 
+#### Send
+
 Send a message in chat:
 
 ```
@@ -204,88 +226,98 @@ Send a message in chat:
 [INFO] Usage: .send <Message>
 ```
 
-* You can also send a message by directly typing it chat `.send` is really only meant for scripts
+* You can also send a message by directly typing it chat. `.send` is really only meant for scripts
+
+#### Inventory
 
 Inventory management:
 
 ```
-[INFO] Connected.
 >.inventory
 [INFO] Usage: .inventory <ID: inventory|container|0|1> <Action?: click|move|drop|dropall> <Arg1?> <Arg2?>
 ```
 
+#### Useitem
+
 Use an item:
 
 ```
-[INFO] Connected.
 >.useitem
 [INFO] Used an item for 0.1 seconds
 ```
 
 * You can specify for how long you should use an item. By default it's 0.1 seconds
 
+#### Changeslot
+
 Change the selected hotbar slot:
 
 ```
-[INFO] Connected.
 >.changeslot
 [INFO] Usage: .changeslot <Slot>. -1 < Slot < 9
 ```
 
+#### Script
+
 Run a script:
 
 ```
-[INFO] Connected.
 >.script
 [INFO] Usage: .script <Path> <Condition>
 ```
 
 * 'Condition' is not used yet. i.e. It's useless
 
+#### Lookat
+
 Look at a player:
 
 ```
-[INFO] Connected.
 >.lookat
 [INFO] Usage: .lookat <Player> <MaxReach> <MinReach> <Force?:yes|y|no|n>. MaxReach > MinReach (duh)
 ```
 
+#### Stoplook
+
 Stop looking at a player:
 
 ```
-[INFO] Connected.
 >.stoplook
 [INFO] Not looking at anyone
 ```
 
+#### Look
+
 Look in a specific direction:
 
 ```
-[INFO] Connected.
 >.look
 [INFO] Usage: .look <Direction?:north|south|east|west> <Yaw?> <Pitch?>
 ```
 
+#### Control
+
 Set the control state of the player:
 
 ```
-[INFO] Connected.
 >.control
 [INFO] Usage: .control <Control: forward|back|left|right|jump|sneak> <State: Boolean>
 ```
 
+#### List
+
 Show a list of all connected players on the server (and their ping):
 
 ```
-[INFO] Connected.
 >.list
 [INFO] Player list: Player123 [50] AnotherPlayer [121]
 ```
 
+#### Help
+
 Show a list of all commands:
 
 ```
-[INFO] Connected.
 >.help
 [INFO] .exit           Exits the program
        .reco           Reconnects to server
@@ -335,12 +367,24 @@ I just send a message in chat!
 
 Waits for a specific amount of seconds before running the next command:
 
+```bash
+#
+forcemove forward 1
+```
+
 ### Running a script
 
 ```
-[INFO] Connected.
 >.script /path/to the/script
-[INFO] Connected.
+```
+
+Example:
+
+```
+>.script scripts/HelloWorld
+[INFO] Reading script
+<Player123> Hello world!
+[INFO] Reached end of script
 ```
 
 ### Hotkeys
