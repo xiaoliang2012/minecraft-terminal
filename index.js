@@ -186,35 +186,35 @@ chat.once('line', async (AUTH) => {
 				});
 				// 5
 				if (!cred[3]) cred[3] = ip;
-				if (cred[4] === '') {
+				if (cred[4] === '' || cred[4] === undefined) {
 					chat.setPrompt('Version :');
 					chat.prompt();
 				} else chat.emit('line');
 			});
 			// 4
 			if (!cred[2]) cred[2] = pass;
-			if (cred[3] === '') {
+			if (cred[3] === '' || cred[3] === undefined) {
 				chat.setPrompt('Server :');
 				chat.prompt();
 			} else chat.emit('line');
 		});
 		// 3
 		if (!cred[1]) cred[1] = name;
-		if (cred[2] === '') {
+		if (cred[2] === '' || cred[2] === undefined) {
 			chat.setPrompt('Password :');
 			chat.prompt();
 		} else chat.emit('line');
 	});
 	// 2
 	if (!cred[0]) cred[0] = AUTH;
-	if (cred[1] === '') {
+	if (cred[1] === '' || cred[1] === undefined) {
 		chat.setPrompt('Login :');
 		chat.prompt();
 	} else chat.emit('line');
 });
 process.stdout.write('\rLoading: ' + progress(100, 15));
 // 1
-if (cred[0] === '') {
+if (cred[0] === '' || cred[0] === undefined) {
 	chat.setPrompt('Auth :');
 	chat.prompt('line');
 } else chat.emit('line');
