@@ -7,20 +7,22 @@ Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in
 This README is a work in progress:
 
 - [X] [Downloads](#downloads)
+  - [X] [Install with NPM (Recommended)](#install-with-npm-recommended)
+  - [ ] [Clone git repo](#clone-git-repo)
 - [ ] [Usage](#usage)
   - [X] [Command-line usage](#command-line-usage)
-  - [ ] [Internal commands (10%)](#internal-commands)
+  - [X] [Internal commands](#internal-commands)
   - [X] [Scripts](#scripts)
   - [X] [Hotkeys](#hotkeys)
   - [X] [Remote control (RCON)](#remote-control)
   - [ ] [Configuration](#configuration)
     - [X] [Credentials](#credentials)
-    - [ ] [Configuration](#configuration-1)
+    - [X] [Configuration](#configuration-1)
     - [ ] Physics
 
 ## Downloads
 
-### Install with npm (Recommended)
+### Install with NPM (Recommended)
 
 ```bash
 $ npm i -g mc-term
@@ -141,6 +143,7 @@ Disconnect from the server:
 
 ```
 >.exit
+[INFO] Exiting
 $
 ```
 
@@ -343,21 +346,21 @@ Waits for a specific amount of seconds before running the next command:
 ### Hotkeys
 
 
-| Hotkey        | What it does                                |
-| :-------------- | :-------------------------------------------- |
-| CTRL-B        | Move back one character without deleting    |
-| CTRL-F        | Move forward one character without deleting |
-| BACKSPACE     | Delete one character backwards              |
-| DEL           | Delete one character forwards               |
-| ESC-B         | Move back one word without deleting         |
-| ESC-F         | Move forward one word without deleting      |
-| ALT-BACKSPACE | Delete or “kill” one word backwards       |
-| ESC-D         | Delete or “kill” one word forwards        |
-| CTRL-A        | Move cursor to the beginning of the line    |
-| CTRL-E        | Move cursor to the end of the line          |
-| CTRL-U        | Kill forward to the beginning of a line     |
-| CTRL-K        | Kill forward to the end of a line           |
-| CTRL-L        | Clears the screen                           |
+| Hotkey            | What it does                                |
+| :------------------ | :-------------------------------------------- |
+| CTRL-B            | Move back one character without deleting    |
+| CTRL-F            | Move forward one character without deleting |
+| BACKSPACE         | Delete one character backwards              |
+| DEL               | Delete one character forwards               |
+| ESC-B, CTRL-LEFT  | Move back one word without deleting         |
+| ESC-F, CTRL-RIGHT | Move forward one word without deleting      |
+| ALT-BACKSPACE     | Delete or “kill” one word backwards       |
+| ESC-D, ALT-DEL    | Delete or “kill” one word forwards        |
+| CTRL-A, HOME      | Move cursor to the beginning of the line    |
+| CTRL-E, END       | Move cursor to the end of the line          |
+| CTRL-U            | Kill forward to the beginning of a line     |
+| CTRL-K            | Kill forward to the end of a line           |
+| CTRL-L            | Clears the screen                           |
 
 ### Remote control
 
@@ -373,6 +376,7 @@ For now you can send a message that starts with '!#' and the bot will repeat eve
 Set own gamemode to creative.
 <AnotherPlayer> !#.exit
 [RCON] .exit
+$
 ```
 
 ### Configuration
