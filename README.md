@@ -91,8 +91,8 @@ $ mc-term --c ! Player456 '' ! !
 Password :
 ```
 
-* '!' will use the login options specified in cred.json if no options are set it will use defaults
-* '' will prompt
+* `!` will use the login options specified in cred.json if no options are set it will use defaults
+* `''` will prompt
 
 Do not use the credentials file cred.json:
 
