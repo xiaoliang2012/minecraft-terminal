@@ -200,6 +200,7 @@ Send a message in chat:
 >.send
 [INFO] Usage: .send <Message>
 ```
+
 * You can also send a message by directly typing it chat `.send` is really only meant for scripts
 
 Inventory management:
@@ -238,7 +239,6 @@ Run a script:
 
 * 'Condition' is not used yet. i.e. It's useless
 
-
 Look at a player:
 
 ```
@@ -268,7 +268,7 @@ Set the control state of the player:
 ```
 [INFO] Connected.
 >.control
-[INFO] Usage: .control <Control: forward|back|left|right|jump|sneak> <State: true, false>
+[INFO] Usage: .control <Control: forward|back|left|right|jump|sneak> <State: Boolean>
 ```
 
 Show a list of all connected players on the server (and their ping):
@@ -305,6 +305,7 @@ Show a list of all commands:
        .help           Shows this help message
 
 ```
+
 ### Scripts
 
 A script is a plain text file which contains a series of commands. These commands are the same commands we would normally type in chat (such as **move** or **attack**).
@@ -393,6 +394,10 @@ The 'credentials.json' file.
 
 #### Auth
 
+* microsoft
+* mojang (deprecated)
+* cracked
+
 The auth to use when logging in (microsoft/mojang).
 
 #### Login
@@ -419,7 +424,7 @@ The 'config.json' file.
 
 ##### canDig
 
-* true, false
+* boolean
 
 Should the player be able to dig or not.
 
@@ -449,7 +454,7 @@ How much you should discourage the follow bot to go through entities
 
 ##### bot.physicsEnabled
 
-* true, false
+* Boolean
 
 Should the bot use physics (e.g. knockback, gravity).
 
@@ -459,11 +464,13 @@ Disabling this will get you banned on most servers.
 
 ###### bot.settings.chat
 
-* Enabled, Disabled, CommandOnly
+* Enabled
+* Disabled
+* CommandOnly
 
 ###### bot.settings.colorsEnabled
 
-* true, false
+* Boolean
 
 If set to false the bot tells the server to not send colored messages.
 
@@ -471,23 +478,27 @@ It's up to the server to decide if they should respect this option or not.
 
 ###### bot.settings.viewDistance
 
-* tiny, short, normal, far
+* tiny
+* short
+* normal
+* far
 
 The render distance.
 
 ###### bot.settings.mainHand
 
-* left, right
+* left
+* right
 
 Specify which hand is the main hand.
 
 ###### bot.settings.enableTextFiltering
 
-* true, false
+* Boolean
 
 ###### bot.settings.enableServerListing
 
-* true, false
+* Boolean
 
 Whether or not the player would show up in server listings.
 
@@ -495,31 +506,31 @@ Whether or not the player would show up in server listings.
 
 ###### bot.settings.skinParts.showCape
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showJacket
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showLeftSleeve
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showRightSleeve
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showLeftPants
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showRightPants
 
-* true, false
+* Boolean
 
 ###### bot.settings.skinParts.showHat
 
-* true, false
+* Boolean
 
 ##### bot.settings.pathfinder
 
@@ -537,8 +548,8 @@ Whether or not the player would show up in server listings.
 
 ###### bot.settings.pathfinder.enablePathShortcut
 
-* true, false
+* Boolean
 
 ###### bot.settings.pathfinder.LOSWhenPlacingBlocks
 
-* true, false
+* Boolean
