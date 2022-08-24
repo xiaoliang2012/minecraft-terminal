@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 const getopt = require('./lib/getopts');
 
-const { join } = require('path');
-let dir;
-if (process.platform === 'win32') dir = __dirname;
-else dir = join(require('os').homedir(), '.config', 'mc-term');
-const configpath = require(join(dir, '.configpath.json')).configpath;
-
 // Get help
 getopt(['--help', '-h'], 0, () => {
 	process.stdout.write(`Usage:
@@ -27,7 +21,6 @@ getopt(['--version', '-v'], 0, () => {
 
 getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const { cpSync } = require('fs');
-	const { join } = require('path');
 	let dir = params[1] || '';
 	if (!dir.match(/^\//m)) {
 		dir = join(process.cwd(), dir);
@@ -36,35 +29,34 @@ getopt(['--gen-conf', '-gc'], 2, (params) => {
 	process.exit();
 });
 
+const { join } = require('path');
+
+let dir;
+if (process.platform === 'win32') dir = __dirname;
+else dir = join(require('os').homedir(), '.config', 'mc-term');
+const configPathPath = join(dir, '.configpath.json');
+try {
+	require.resolve(configPathPath);
+} catch (error) {
+	const { writeFileSync } = require('fs');
+	if (!require('fs').existsSync(dir)) {
+		const { mkdir } = require('fs');
+		mkdir(dir, { recursive: true }, (err) => {
+			if (err) throw err;
+		});
+	}
+	writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }));
+}
+
+const configpath = require(configPathPath).configpath;
+
 getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const { editJSON } = require('./lib/editfile');
-	const { join } = require('path');
 	if (params[1]) {
-		try {
-			let dir;
-			if (process.platform === 'win32') dir = __dirname;
-			else dir = join(require('os').homedir(), '.config', 'mc-term');
-			const configPathPath = join(dir, '.configpath.json');
-			try {
-				require.resolve(configPathPath);
-			} catch (error) {
-				const { writeFileSync } = require('fs');
-				if (!require('fs').existsSync(dir)) {
-					const { mkdir } = require('fs');
-					mkdir(dir, { recursive: true }, (err) => {
-						if (err) throw err;
-					});
-				}
-				writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }));
-			}
-			editJSON(configPathPath, configPathPath, (data) => {
-				data.configpath = join(process.cwd(), params[1]);
-				return data;
-			});
-		} catch (e) {
-			const { error } = require('./lib/mccinfo');
-			error('Could not set the configuration path\nTry running the command again as root', 1);
-		}
+		editJSON(configPathPath, configPathPath, (data) => {
+			data.configpath = join(process.cwd(), params[1]);
+			return data;
+		});
 	}
 	process.exit();
 });
@@ -114,7 +106,6 @@ setSWInterface(chat);
 let YESCONF = false;
 if (!cred[7]) {
 	try {
-		const { join } = require('path');
 		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
