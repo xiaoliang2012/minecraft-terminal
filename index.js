@@ -63,7 +63,7 @@ getopt(['--set-conf-path', '-scp'], 2, (params) => {
 			});
 		} catch (e) {
 			const { error } = require('./lib/mccinfo');
-			error('Could not set the configuration path\nTry running the command again as administrator', 1);
+			error('Could not set the configuration path\nTry running the command again as root', 1);
 		}
 	}
 	process.exit();
