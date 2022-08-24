@@ -71,12 +71,6 @@ getopt(['--get-conf-path', '-gcp'], 0, () => {
 
 const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
 
-// Check for updates
-const getVer = require('./lib/getVer');
-if (await getVer(`${pkg.name}`).catch((err) => error(err)) !== pkg.version) {
-	warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}'`);
-}
-
 /**
  * 0.auth
  * 1.username
@@ -293,8 +287,17 @@ async function botMain () {
 	setBot(bot);
 	setbotMain(botMain);
 
-	// Chat input
+	// Chat input and check for updates
 	bot.once('login', () => {
+		// Check for updates
+		const getVer = require('./lib/getVer');
+		(
+			async () => {
+				if (await getVer(`${pkg.name}`).catch((err) => error(err)) !== pkg.version) {
+					warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}'`);
+				}
+			}
+		)();
 		chat.resume();
 		chat.setPrompt('>');
 		chat.prompt();
