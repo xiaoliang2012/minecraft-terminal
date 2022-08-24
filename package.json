@@ -2,6 +2,7 @@
 	"name": "mc-term",
 	"description": "Play Minecraft and configure bots from the terminal",
 	"version": "0.2.92",
+	"license": "MIT",
 	"engines": {
 		"node": ">=14.0.0"
 	},
