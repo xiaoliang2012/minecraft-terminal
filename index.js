@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 const getopt = require('./lib/getopts');
 
+const { join } = require('path');
+let dir;
+if (process.platform === 'win32') dir = __dirname;
+else dir = join(require('os').homedir(), '.config', 'mc-term');
+const configpath = require(join(dir, '.configpath.json')).configpath;
+
 // Get help
 getopt(['--help', '-h'], 0, () => {
 	process.stdout.write(`Usage:
@@ -20,30 +26,51 @@ getopt(['--version', '-v'], 0, () => {
 });
 
 getopt(['--gen-conf', '-gc'], 2, (params) => {
-	const cpSync = require('fs').cpSync;
-	const path = require('path');
+	const { cpSync } = require('fs');
+	const { join } = require('path');
 	let dir = params[1] || '';
 	if (!dir.match(/^\//m)) {
-		dir = path.join(process.cwd(), dir);
+		dir = join(process.cwd(), dir);
 	}
-	cpSync(path.join(__dirname, 'config'), dir, { recursive: true });
+	cpSync(join(__dirname, 'config'), dir, { recursive: true });
 	process.exit();
 });
 
 getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const { editJSON } = require('./lib/editfile');
-	const path = require('path');
+	const { join } = require('path');
 	if (params[1]) {
-		editJSON(path.join(__dirname, 'configpath.json'), path.join(__dirname, 'configpath.json'), (data) => {
-			data.configpath = path.join(process.cwd(), params[1]);
-			return data;
-		});
+		try {
+			let dir;
+			if (process.platform === 'win32') dir = __dirname;
+			else dir = join(require('os').homedir(), '.config', 'mc-term');
+			const configPathPath = join(dir, '.configpath.json');
+			try {
+				require.resolve(configPathPath);
+			} catch (error) {
+				const { writeFileSync } = require('fs');
+				if (!require('fs').existsSync(dir)) {
+					const { mkdir } = require('fs');
+					mkdir(dir, { recursive: true }, (err) => {
+						if (err) throw err;
+					});
+				}
+				writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }));
+			}
+			editJSON(configPathPath, configPathPath, (data) => {
+				data.configpath = join(process.cwd(), params[1]);
+				return data;
+			});
+		} catch (e) {
+			const { error } = require('./lib/mccinfo');
+			error('Could not set the configuration path\nTry running the command again as administrator', 1);
+		}
 	}
 	process.exit();
 });
 
 getopt(['--get-conf-path', '-gcp'], 0, () => {
-	process.stdout.write(`Path to config: '${require('./configpath.json').configpath}'\n`);
+	process.stdout.write(`Path to config: '${configpath}'\n`);
 	process.exit();
 });
 /**
@@ -73,7 +100,6 @@ getopt(['--no-conf', '-ns'], 1, (params) => {
 	bcofns = params[0];
 });
 
-const configpath = require('./configpath.json').configpath;
 const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
 const progress = require('./lib/progress');
 process.stdout.write('Loading: ' + progress(0, 15));
@@ -88,8 +114,8 @@ setSWInterface(chat);
 let YESCONF = false;
 if (!cred[7]) {
 	try {
-		const path = require('path');
-		if (require.resolve(path.join(configpath, 'config.json'))) YESCONF = true;
+		const { join } = require('path');
+		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
 		error('File "config.json" not found. Using default settings', 1);
