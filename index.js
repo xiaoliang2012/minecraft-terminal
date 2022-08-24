@@ -148,7 +148,7 @@ try {
 			info('You can disable it by editing usePhysicsJSON in physics.json', 1);
 			process.stdout.write('Loading: ' + progress(0, 15));
 			YESPS = true;
-		};
+		}
 	}
 } catch (e) {
 	process.stdout.write('\r');
