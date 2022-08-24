@@ -6,19 +6,19 @@ Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in
 
 This README is a work in progress:
 
-- [X] [Downloads](#downloads)
-  - [X] [Install with NPM (Recommended)](#install-with-npm-recommended)
-  - [ ] [Clone git repo](#clone-git-repo)
-- [ ] [Usage](#usage)
-  - [X] [Command-line usage](#command-line-usage)
-  - [X] [Internal commands](#internal-commands)
-  - [X] [Scripts](#scripts)
-  - [X] [Hotkeys](#hotkeys)
-  - [X] [Remote control (RCON)](#remote-control)
-  - [ ] [Configuration](#configuration)
-    - [X] [Credentials](#credentials)
-    - [X] [Configuration](#configuration-1)
-    - [ ] Physics
+* [Downloads](#downloads)
+  * [Install with NPM (Recommended)](#install-with-npm-recommended)
+  * [Clone git repo](#clone-git-repo)
+* [Usage](#usage)
+  * [Command-line usage](#command-line-usage)
+  * [Internal commands](#internal-commands)
+  * [Scripts](#scripts)
+  * [Hotkeys](#hotkeys)
+  * [Remote control (RCON)](#remote-control)
+  * [Configuration](#configuration)
+    * [Credentials](#credentials)
+    * [Configuration](#configuration-1)
+    * [Physics](#physics)
 
 ## Downloads
 
@@ -601,3 +601,7 @@ Whether or not the player would show up in server listings.
 ###### bot.settings.pathfinder.LOSWhenPlacingBlocks
 
 * Boolean
+
+### Physics
+
+WIP
