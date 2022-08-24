@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const getopt = require('./lib/getopts');
 
 // Get help
@@ -13,11 +14,15 @@ getopt(['--help', '-h'], 0, () => {
 	process.exit();
 });
 
+const pkg = require('./package.json');
+
 // Get version
 getopt(['--version', '-v'], 0, () => {
-	process.stdout.write(`MC-Term version: ${require('./package.json').version}\nNode version: ${process.version}\n`);
+	process.stdout.write(`MC-Term version: ${pkg.version}\nNode version: ${process.version}\n`);
 	process.exit();
 });
+
+const { join } = require('path');
 
 getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const { cpSync } = require('fs');
@@ -28,8 +33,6 @@ getopt(['--gen-conf', '-gc'], 2, (params) => {
 	cpSync(join(__dirname, 'config'), dir, { recursive: true });
 	process.exit();
 });
-
-const { join } = require('path');
 
 let dir;
 if (process.platform === 'win32') dir = __dirname;
@@ -65,6 +68,15 @@ getopt(['--get-conf-path', '-gcp'], 0, () => {
 	process.stdout.write(`Path to config: '${configpath}'\n`);
 	process.exit();
 });
+
+const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
+
+// Check for updates
+const getVer = require('./lib/getVer');
+if (await getVer(`${pkg.name}`).catch((err) => error(err)) !== pkg.version) {
+	warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}'`);
+}
+
 /**
  * 0.auth
  * 1.username
@@ -92,7 +104,6 @@ getopt(['--no-conf', '-ns'], 1, (params) => {
 	bcofns = params[0];
 });
 
-const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
 const progress = require('./lib/progress');
 process.stdout.write('Loading: ' + progress(0, 15));
 const readline = require('readline');
