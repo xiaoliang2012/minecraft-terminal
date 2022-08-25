@@ -121,20 +121,20 @@ Version :
 Set the configuration files path and exit:
 
 ```
-$ mc-term --set-conf-path /home/user/.config/mc-term
+$ mc-term --set-conf-path $HOME/.config/mc-term
 ```
 
 Print the configuration files location and exit:
 
 ```
 $ mc-term --get-conf-path
-Path to config: /home/user/.config/mc-term
+Path to config: $HOME/.config/mc-term
 ```
 
 Generate default configuration files in the specified location:
 
 ```
-$ mc-term --gen-conf /home/user/.config/mc-term
+$ mc-term --gen-conf $HOME/.config/mc-term
 ```
 
 ### Internal commands
