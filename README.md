@@ -357,19 +357,23 @@ Example:
 send I just sent a message in chat!
 
 # Doesn't work
-.send I just send a message in chat!
+.send I just sent a message in chat!
 
 # Doesn't work
-I just send a message in chat!
+I just sent a message in chat!
 ```
 
 #### Script only commands
 
+### Wait
+
 Waits for a specific amount of seconds before running the next command:
 
 ```bash
-#
-forcemove forward 1
+send First message
+# Waits 1 second before running the second command
+wait 1
+send Second message
 ```
 
 ### Running a script
