@@ -87,7 +87,7 @@ You can use '!' in --cred to leave it empty.
 Use the the default settings overriding the username:
 
 ```
-$ mc-term --c ! Player456 '' ! !
+$ mc-term -c ! Player456 '' ! !
 Password :
 ```
 
