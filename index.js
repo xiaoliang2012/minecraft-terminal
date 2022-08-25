@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+const { error } = require('./lib/mccinfo');
+
+process.on('uncaughtException', (err) => {
+	error(`An unexpected error occured:\n${err}\n${err.stack.split('\n')[1]}`, 1);
+});
+
 const getopt = require('./lib/getopts');
 
 // Get help
@@ -72,7 +78,7 @@ getopt(['--get-conf-path', '-gcp'], 0, () => {
 	process.exit();
 });
 
-const { safeWrite, setSWInterface, info, warn, error } = require('./lib/mccinfo');
+const { safeWrite, setSWInterface, info, warn, success } = require('./lib/mccinfo');
 
 /**
  * 0.auth
@@ -139,7 +145,7 @@ if (!cred[6]) {
 		}
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "credentials.json" not found', 1);
+		error('File "credentials.json" not found. Using default settings', 1);
 		process.stdout.write('Loading: ' + progress(0, 15));
 	}
 } else {
@@ -265,14 +271,6 @@ chat.once('pause', () => {
 async function botMain () {
 	ansi.clear.clearLine(true);
 	info('Connecting...', 2);
-	commands.tmp.botMoving = false;
-	commands.tmp.botAttacking = false;
-	commands.tmp.botLooking = false;
-	commands.tmp.lookInt = undefined;
-	// script = { length: 0, msg: [] };
-
-	// DO NOT REMOVE
-	hurtInt = undefined;
 
 	// get port then create bot
 	if (cred[3]?.match(/:/)) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
@@ -284,23 +282,29 @@ async function botMain () {
 		auth: cred[0],
 		version: cred[4]
 	});
+
+	bot.on('error', () => {
+		error('Could not connect to server.\nRead the error above for more information');
+	});
+
 	ansi.clear.clearLine();
-	info('Connected.');
+	success('Connected.');
+
 	// Initialize commands
 	setBot(bot);
 	setbotMain(botMain);
 
+	commands.tmp.botMoving = false;
+	commands.tmp.botAttacking = false;
+	commands.tmp.botLooking = false;
+	commands.tmp.lookInt = undefined;
+	// script = { length: 0, msg: [] };
+
+	// DO NOT REMOVE
+	hurtInt = undefined;
+
 	// Chat input and check for updates
-	bot.once('login', () => {
-		// Check for updates
-		const getVer = require('./lib/getVer');
-		(
-			async () => {
-				if (await getVer(`${pkg.name}`).catch((err) => error(err)) !== pkg.version) {
-					warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}'`);
-				}
-			}
-		)();
+	bot.once('login', async () => {
 		chat.resume();
 		chat.setPrompt('>');
 		chat.prompt();
@@ -315,6 +319,13 @@ async function botMain () {
 		chat.on('close', () => {
 			bot.quit();
 		});
+		// Check for updates
+		const getVer = require('./lib/getVer');
+		getVer(`${require('./package.json').name}`)
+			.then((ver) => {
+				if (ver !== pkg.version) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}'`);
+			})
+			.catch((err) => error(err));
 	});
 
 	// Detect chat messages and print them to console and RCON
