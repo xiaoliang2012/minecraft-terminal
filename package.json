@@ -3,6 +3,21 @@
 	"description": "Play Minecraft and configure bots from the terminal",
 	"version": "0.2.98",
 	"license": "MIT",
+	"keywords": [
+		"nodejs",
+		"javascript",
+		"bot",
+		"minecraft",
+		"console",
+		"client",
+		"terminal",
+		"mod",
+		"game",
+		"rcon",
+		"terminal-based",
+		"terminal-game",
+		"mineflayer"
+	],
 	"engines": {
 		"node": ">=14.0.0"
 	},
