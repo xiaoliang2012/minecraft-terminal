@@ -48,10 +48,8 @@ try {
 } catch (error) {
 	const { writeFileSync } = require('fs');
 	if (!require('fs').existsSync(dir)) {
-		const { mkdir } = require('fs');
-		mkdir(dir, { recursive: true }, (err) => {
-			if (err) throw err;
-		});
+		const { mkdirSync } = require('fs');
+		mkdirSync(dir, { recursive: true });
 	}
 	writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }), (err) => {
 		if (err) error(err);
