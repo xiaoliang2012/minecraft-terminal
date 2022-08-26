@@ -2,10 +2,6 @@
 
 const { error } = require('./lib/mccinfo');
 
-process.on('uncaughtException', (err) => {
-	error(`An unexpected error occured:\n${err}\n${err.stack.split('\n')[1]}`, 1);
-});
-
 const getopt = require('./lib/getopts');
 
 // Get help
@@ -57,7 +53,9 @@ try {
 			if (err) throw err;
 		});
 	}
-	writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }));
+	writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }), (err) => {
+		if (err) error(err);
+	});
 }
 
 const configpath = require(configPathPath).configpath;
