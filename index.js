@@ -321,7 +321,7 @@ async function botMain () {
 		const getVer = require('./lib/getVer');
 		getVer(`${require('./package.json').name}`)
 			.then((ver) => {
-				if (ver !== pkg.version) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}`);
+				if (require('./lib/compareVer')(ver, pkg.version)) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}`);
 			})
 			.catch((err) => error(err));
 	});
