@@ -115,7 +115,7 @@ if (!cred[7]) {
 		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "config.json" not found. Using default settings', 1);
+		warn('File "config.json" not found. Using default settings', 1);
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -137,7 +137,7 @@ if (!cred[6]) {
 		}
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "credentials.json" not found. Using default settings', 1);
+		warn('File "credentials.json" not found. Using default settings', 1);
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -172,7 +172,7 @@ try {
 	}
 } catch (e) {
 	process.stdout.write('\r');
-	error('File "physics.json" not found. Using default settings', 1);
+	warn('File "physics.json" not found. Using default settings', 1);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -277,11 +277,12 @@ async function botMain () {
 		username: cred[1],
 		password: cred[2],
 		auth: cred[0],
-		version: cred[4]
+		version: cred[4],
+		logErrors: false
 	});
 
-	bot.on('error', () => {
-		error('Could not connect to server.\nRead the error above for more information', 1);
+	bot.once('error', (err) => {
+		error('Could not connect to server.\n' + err.message, 1);
 	});
 
 	// Initialize commands
