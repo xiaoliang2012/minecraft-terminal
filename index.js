@@ -260,15 +260,9 @@ chat.once('pause', () => {
 	if (!cred[3]) cred[3] = 'localhost';
 	if (!cred[4]) cred[4] = '1.12.2';
 	if (!cred[5]) cred[5] = '25565';
-	if (cred[8]) {
-		ansi.other.setTermTitle(`${cred[1]} @ ${cred[3]}`);
-		process.on('exit', () => {
-			ansi.other.setTermTitle('Terminal');
-			ansi.clear.clearLine(true);
-			info('Exiting', 1);
-		});
-		botMain();
-	} else info('Exiting', 1);
+
+	if (cred[8]) botMain();
+	else info('Exiting', 1);
 });
 
 async function botMain () {
@@ -386,8 +380,15 @@ async function botMain () {
 		}
 	});
 
-	// initialize movement
+	// initialize movement and set terminal title
 	bot.once('spawn', async () => {
+		ansi.other.setTermTitle(`${bot.player.username} @ ${cred[3]}`);
+		process.once('exit', () => {
+			ansi.other.setTermTitle('Terminal');
+			ansi.clear.clearLine(true);
+			info('Exiting', 1);
+		});
+
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
