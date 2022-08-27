@@ -51,7 +51,10 @@ try {
 		const { mkdirSync } = require('fs');
 		mkdirSync(dir, { recursive: true });
 	}
-	writeFileSync(configPathPath, JSON.stringify({ configpath: 'NOT_SET_YET' }), (err) => {
+	let defaultPath;
+	if (process.platform !== 'win32') defaultPath = dir;
+	else defaultPath = 'NOT_SET_YET';
+	writeFileSync(configPathPath, JSON.stringify({ configpath: defaultPath }), (err) => {
 		if (err) error(err);
 	});
 }
@@ -104,14 +107,7 @@ getopt(['--no-conf', '-ns'], 1, (params) => {
 });
 
 const progress = require('./lib/progress');
-process.stdout.write('Loading: ' + progress(0, 15));
-const readline = require('readline');
-const chat = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-});
-
-setSWInterface(chat);
+progress(0, 15, 'Loading: ');
 
 let YESCONF = false;
 if (!cred[7]) {
@@ -120,12 +116,12 @@ if (!cred[7]) {
 	} catch (e) {
 		process.stdout.write('\r');
 		error('File "config.json" not found. Using default settings', 1);
-		process.stdout.write('Loading: ' + progress(0, 15));
+		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
 	warn('Not using "config.json" because of ' + bcofns, 1);
-	process.stdout.write('Loading: ' + progress(0, 15));
+	progress(0, 15, 'Loading: ');
 }
 
 if (!cred[6]) {
@@ -142,12 +138,12 @@ if (!cred[6]) {
 	} catch (e) {
 		process.stdout.write('\r');
 		error('File "credentials.json" not found. Using default settings', 1);
-		process.stdout.write('Loading: ' + progress(0, 15));
+		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
 	warn('Not using "credentials.json" because of ' + bcofnc, 1);
-	process.stdout.write('Loading: ' + progress(0, 15));
+	progress(0, 15, 'Loading: ');
 }
 
 // Get credentials from CLI arguments
@@ -158,9 +154,6 @@ getopt(['--cred', '-c'], 6, (params) => {
 		} else cred[i - 1] = null;
 	}
 });
-const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
-
-setChat(chat);
 
 require('events').EventEmitter.defaultMaxListeners = 0;
 
@@ -173,14 +166,14 @@ try {
 			process.stdout.write('\r');
 			warn('Using custom physics. this will result in a ban in most servers!', 1);
 			info('You can disable it by editing usePhysicsJSON in physics.json', 1);
-			process.stdout.write('Loading: ' + progress(0, 15));
+			progress(0, 15, 'Loading: ');
 			YESPS = true;
 		}
 	}
 } catch (e) {
 	process.stdout.write('\r');
 	error('File "physics.json" not found. Using default settings', 1);
-	process.stdout.write('Loading: ' + progress(0, 15));
+	progress(0, 15, 'Loading: ');
 }
 
 let bot;
@@ -188,13 +181,26 @@ let hurtInt;
 
 const sleep = require('./lib/sleep');
 const ansi = require('./lib/ansi');
-
 const merge = require('merge');
+progress(20, 15, '\rLoading: ');
 
-process.stdout.write('\rLoading: ' + progress(30, 15));
 const { pathfinder, Movements } = require('mineflayer-pathfinder');
-process.stdout.write('\rLoading: ' + progress(80, 15));
+progress(50, 15, '\rLoading: ');
+
 const mineflayer = require('mineflayer');
+progress(90, 15, '\rLoading: ');
+
+const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
+const readline = require('readline');
+const chat = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+progress(95, 15, '\rLoading: ');
+
+setSWInterface(chat);
+setChat(chat);
+
 // 1
 chat.once('line', async (AUTH) => {
 	// 2
@@ -204,12 +210,13 @@ chat.once('line', async (AUTH) => {
 			// 4
 			chat.once('line', (ip) => {
 				// 5
-				chat.once('line', async (ver) => {
+				chat.once('line', (ver) => {
 					if (!cred[4]) cred[4] = ver;
 					process.stdout.write(ansi.color.reset);
-					await sleep(0.01);
-					cred[8] = true;
-					chat.pause();
+					setTimeout(() => {
+						cred[8] = true;
+						chat.pause();
+					}, 1);
 				});
 				// 5
 				if (!cred[3]) cred[3] = ip;
@@ -240,7 +247,7 @@ chat.once('line', async (AUTH) => {
 		chat.prompt();
 	} else chat.emit('line');
 });
-process.stdout.write('\rLoading: ' + progress(100, 15));
+progress(100, 15, '\rLoading: ');
 // 1
 if (cred[0] === '' || cred[0] === undefined) {
 	chat.setPrompt('Auth :');
