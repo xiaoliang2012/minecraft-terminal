@@ -287,11 +287,8 @@ async function botMain () {
 	});
 
 	bot.on('error', () => {
-		error('Could not connect to server.\nRead the error above for more information');
+		error('Could not connect to server.\nRead the error above for more information', 1);
 	});
-
-	ansi.clear.clearLine();
-	success('Connected.');
 
 	// Initialize commands
 	setBot(bot);
@@ -308,6 +305,9 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		ansi.clear.clearLine();
+		success('Connected.');
+
 		chat.resume();
 		chat.setPrompt('>');
 		chat.prompt();
