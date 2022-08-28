@@ -19,8 +19,8 @@
 			"enableServerListing": false
 		},
 		"pathfinder": {
-			"thinkTimeout": 5000,
-			"tickTimeout": 40,
+			"thinkTimeout": 8000,
+			"tickTimeout": 43,
 			"searchRadius": -1,
 			"enablePathShortcut": false,
 			"LOSWhenPlacingBlocks": true
