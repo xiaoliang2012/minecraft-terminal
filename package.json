@@ -16,6 +16,8 @@
 		"rcon",
 		"terminal-based",
 		"terminal-game",
+		"terminal-client",
+		"client",
 		"mineflayer",
 		"cli"
 	],
