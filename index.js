@@ -150,8 +150,9 @@ if (!cred[6]) {
 getopt(['--cred', '-c'], 6, (params) => {
 	for (let i = 1; i < params.length; i++) {
 		if (params[i] !== '!' && params[i] !== undefined) {
+			console.log(cred - 1);
 			cred[i - 1] = params[i];
-		} else cred[i - 1] = null;
+		} else if (cred[i - 1] === '' || cred[i - 1] === undefined) cred[i - 1] = null;
 	}
 });
 
@@ -201,10 +202,17 @@ const chat = readline.createInterface({
 promptLoad(chat);
 setSWInterface(chat);
 setChat(chat);
+
+chat.once('pause', () => {
+	if (cred[8]) botMain();
+	else info('Exiting', 1);
+});
+
 (
 	async () => {
 		// Prompt if not defined or null
 		chat.once('close', process.exit);
+		console.log(cred);
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0]?.toLowerCase() === ('mojang' || 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
@@ -224,11 +232,6 @@ setChat(chat);
 		chat.pause();
 	}
 )();
-
-chat.once('pause', () => {
-	if (cred[8]) botMain();
-	else info('Exiting', 1);
-});
 
 async function botMain () {
 	ansi.clear.clearLine(true);
