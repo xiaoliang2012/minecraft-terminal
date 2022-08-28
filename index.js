@@ -300,6 +300,16 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		bot.loadPlugin(pathfinder);
+		const mcData = require('minecraft-data')(bot.version);
+		const movement = new Movements(bot, mcData);
+		if (YESCONF) {
+			const conf = require(`${configpath}/config.json`);
+			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
+			merge.recursive(movement, conf);
+		}
+		bot.pathfinder.setMovements(movement);
+
 		ansi.clear.clearLine();
 		success('Connected.');
 
@@ -381,7 +391,7 @@ async function botMain () {
 		}
 	});
 
-	// initialize movement and set terminal title
+	// set terminal title
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player.username} @ ${cred[3]}`);
 		process.once('exit', () => {
@@ -389,15 +399,5 @@ async function botMain () {
 			ansi.clear.clearLine(true);
 			info('Exiting', 1);
 		});
-
-		bot.loadPlugin(pathfinder);
-		const mcData = require('minecraft-data')(bot.version);
-		const movement = new Movements(bot, mcData);
-		if (YESCONF) {
-			const conf = require(`${configpath}/config.json`);
-			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
-			merge.recursive(movement, conf);
-		}
-		bot.pathfinder.setMovements(movement);
 	});
 }
