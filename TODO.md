@@ -1,6 +1,8 @@
 * [ ] Make a command for opening chests
 * [ ] Make a command for digging
-* [ ] Make the 'move' command not use pathfinder
+* [X] Make the 'moveto' command move to a specific location
+* [ ] Move usage to the wiki
+* [ ] Use pathfinder.ismoving instead of commands.tmp.botmoving
 * [X] Add a scripting interface
 * [X] Use RGB colors for Mincraft color codes
 * [X] Reduce launch time
