@@ -16,7 +16,8 @@
 		"rcon",
 		"terminal-based",
 		"terminal-game",
-		"mineflayer"
+		"mineflayer",
+		"cli"
 	],
 	"engines": {
 		"node": ">=14.0.0"
