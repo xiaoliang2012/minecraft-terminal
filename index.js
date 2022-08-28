@@ -192,7 +192,7 @@ const mineflayer = require('mineflayer');
 progress(90, 15, '\rLoading: ');
 
 const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
-const { prompt, load: promptLoad } = require('./prompt');
+const { prompt, load: promptLoad } = require('./lib/prompt');
 const readline = require('readline');
 const chat = readline.createInterface({
 	input: process.stdin,
@@ -212,7 +212,6 @@ chat.once('pause', () => {
 	async () => {
 		// Prompt if not defined or null
 		chat.once('close', process.exit);
-		console.log(cred);
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0]?.toLowerCase() === ('mojang' || 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
