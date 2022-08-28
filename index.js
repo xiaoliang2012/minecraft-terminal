@@ -191,76 +191,41 @@ const mineflayer = require('mineflayer');
 progress(90, 15, '\rLoading: ');
 
 const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
+const { prompt, load: promptLoad } = require('./prompt');
 const readline = require('readline');
 const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
-progress(95, 15, '\rLoading: ');
 
+promptLoad(chat);
 setSWInterface(chat);
 setChat(chat);
+(
+	async () => {
+		// Prompt if not defined or null
+		chat.once('close', process.exit);
+		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
+		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
+		if (cred[0]?.toLowerCase() === ('mojang' || 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
+			cred[2] = await prompt('Password :');
+		}
+		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
+		if (cred[4] === '' || cred[4] === undefined) cred[4] = await prompt('Version :');
+		chat.off('close', process.exit);
 
-// 1
-chat.once('line', async (AUTH) => {
-	// 2
-	chat.once('line', (name) => {
-		// 3
-		chat.once('line', (pass) => {
-			// 4
-			chat.once('line', (ip) => {
-				// 5
-				chat.once('line', (ver) => {
-					if (!cred[4]) cred[4] = ver;
-					process.stdout.write(ansi.color.reset);
-					setTimeout(() => {
-						cred[8] = true;
-						chat.pause();
-					}, 1);
-				});
-				// 5
-				if (!cred[3]) cred[3] = ip;
-				if (cred[4] === '' || cred[4] === undefined) {
-					chat.setPrompt('Version :');
-					chat.prompt();
-				} else chat.emit('line');
-			});
-			// 4
-			if (!cred[2]) cred[2] = pass;
-			if (cred[3] === '' || cred[3] === undefined) {
-				chat.setPrompt('Server :');
-				chat.prompt();
-			} else chat.emit('line');
-		});
-		// 3
-		if (!cred[1]) cred[1] = name;
-		if ((cred[2] === '' || cred[2] === undefined) && cred[0] !== 'cracked') {
-			chat.setPrompt('Password :');
-			chat.prompt();
-		} else chat.emit('line');
-	});
-	// 2
-	if (!AUTH) AUTH = 'cracked';
-	if (!cred[0]) cred[0] = AUTH;
-	if (cred[1] === '' || cred[1] === undefined) {
-		chat.setPrompt('Login :');
-		chat.prompt();
-	} else chat.emit('line');
-});
-progress(100, 15, '\rLoading: ');
-// 1
-if (cred[0] === '' || cred[0] === undefined) {
-	chat.setPrompt('Auth :');
-	chat.prompt('line');
-} else chat.emit('line');
+		// Set defaults
+		if (!cred[1]) cred[1] = 'Player123';
+		if (!cred[2]) cred[2] = '';
+		if (!cred[3]) cred[3] = 'localhost';
+		if (!cred[4]) cred[4] = '1.12.2';
+		if (!cred[5]) cred[5] = '25565';
+		cred[8] = true;
+		chat.pause();
+	}
+)();
 
 chat.once('pause', () => {
-	if (!cred[1]) cred[1] = 'Player123';
-	if (!cred[2]) cred[2] = '';
-	if (!cred[3]) cred[3] = 'localhost';
-	if (!cred[4]) cred[4] = '1.12.2';
-	if (!cred[5]) cred[5] = '25565';
-
 	if (cred[8]) botMain();
 	else info('Exiting', 1);
 });
@@ -270,16 +235,21 @@ async function botMain () {
 	info('Connecting...', 2);
 
 	// get port then create bot
-	if (cred[3]?.match(/:/)) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
-	bot = mineflayer.createBot({
-		host: cred[3],
-		port: cred[5],
-		username: cred[1],
-		password: cred[2],
-		auth: cred[0],
-		version: cred[4],
-		logErrors: false
-	});
+	try {
+		if (cred[3]?.match(/:/)) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
+		bot = mineflayer.createBot({
+			host: cred[3],
+			port: cred[5],
+			username: cred[1],
+			password: cred[2],
+			auth: cred[0],
+			version: cred[4],
+			logErrors: false
+		});
+	} catch (err) {
+		error('Could not connect to server.\n' + err.message, 1);
+		process.exit();
+	}
 
 	bot.once('error', (err) => {
 		error('Could not connect to server.\n' + err.message, 1);
