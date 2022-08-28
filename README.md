@@ -172,6 +172,15 @@ Move the player in blocks:
 [INFO] Usage: .move <Direction> <distance?>. Direction = <north|south|east|west> distance > 0
 ```
 
+#### Moveto
+
+Move to specific coordinates
+
+```
+>.moveto
+[INFO] Usage: .moveto <X> <Z>
+```
+
 #### Forcemove
 
 Move the player in seconds:
