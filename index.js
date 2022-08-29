@@ -177,9 +177,7 @@ try {
 }
 
 let bot;
-let hurtInt;
 
-const sleep = require('./lib/sleep');
 const ansi = require('./lib/ansi');
 const merge = require('merge');
 progress(20, 15, '\rLoading: ');
@@ -266,9 +264,6 @@ async function botMain () {
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
 
-	// DO NOT REMOVE
-	hurtInt = undefined;
-
 	// Chat input and check for updates
 	bot.once('login', async () => {
 		bot.loadPlugin(pathfinder);
@@ -342,24 +337,6 @@ async function botMain () {
 	// send a message when a window opens
 	bot.on('windowOpen', () => {
 		info('Container #1 opened\n[MCC] Use ".inventory 1" to interact with it');
-	});
-	// stop bot from moving when hurt
-	bot.on('entityHurt', async (entity) => {
-		if (commands.tmp.botMoving) {
-			await sleep(10);
-			let absvelo;
-			// if (entity.username === attackTarget) bot.pathfinder.stop();
-			if (entity.username !== bot.username) return;
-			if (!hurtInt) {
-				hurtInt = setInterval(() => {
-					absvelo = bot.entity.velocity.y + 0.0784000015258789;
-					if (absvelo < 0.12) {
-						bot.pathfinder.stop();
-						clearInterval(hurtInt);
-					}
-				}, 100);
-			}
-		}
 	});
 
 	// set terminal title
