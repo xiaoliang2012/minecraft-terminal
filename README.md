@@ -10,6 +10,7 @@ This README is a work in progress:
   * [Install with NPM (Recommended)](#install-with-npm-recommended)
   * [Clone git repo](#clone-git-repo)
 * [Usage](#usage)
+  * [First launch](#first-launch)
   * [Command-line usage](#command-line-usage)
   * [Internal commands](#internal-commands)
   * [Scripts](#scripts)
@@ -91,10 +92,10 @@ $ mc-term -c ! Player456 '' ! !
 Password :
 ```
 
-* `!` will use the login options specified in cred.json if no options are set it will use defaults
+* `!` will use the login options specified in credentials.json if no options are set it will use defaults
 * `''` will prompt
 
-Do not use the credentials file cred.json:
+Do not use the credentials file credentials.json:
 
 ```
 $ mc-term  --no-cred
@@ -165,6 +166,13 @@ Reconnect to server:
 
 #### Move
 
+* Direction: `String`: Direction to move to
+  * north
+  * south
+  * east
+  * west
+* Distance? (optional): `Number` Distance > 0
+
 Move the player in blocks:
 
 ```
@@ -174,7 +182,10 @@ Move the player in blocks:
 
 #### Moveto
 
-Move to specific coordinates
+* X: `Number`
+* Z: `Number`
+
+Move to specific coordinates (Y is variable)
 
 ```
 >.moveto
@@ -182,6 +193,14 @@ Move to specific coordinates
 ```
 
 #### Forcemove
+
+* Direction: `String`: Direction to move to
+  * up: Will jump
+  * forward
+  * back
+  * left
+  * right
+* Time: `Number`: Time in seconds
 
 Move the player in seconds:
 
@@ -191,6 +210,9 @@ Move the player in seconds:
 ```
 
 #### Follow
+
+* Player: `String`: Player name
+* Range: `Number`: How close you should stay to the player
 
 Follow a player:
 
@@ -210,6 +232,9 @@ Stop following a player:
 
 #### Attack
 
+* Player: `String`: Player name
+* CPS: `Number`: Clicks per second
+
 Attack a player:
 
 ```
@@ -228,6 +253,8 @@ Stop attacking a player:
 
 #### Send
 
+* Message: `String`: Message to send
+
 Send a message in chat:
 
 ```
@@ -239,6 +266,13 @@ Send a message in chat:
 
 #### Inventory
 
+* ID: `String`/`Integer`: Container to open. 0 = inventory, 1 = container.
+  * 0, inventory: Will open the inventory
+  * 0, inventory: Will open the currently opened container
+* Action? (optional): `String`: click, move, drop, dropall
+* Arg1? (optional): Arguments for `Action`
+* Arg1? (optional): Arguments for `Action`
+
 Inventory management:
 
 ```
@@ -247,6 +281,8 @@ Inventory management:
 ```
 
 #### Useitem
+
+* Time? (optional): `Number`: How long you should keep using that item. Defaults to 0.1
 
 Use an item:
 
@@ -258,6 +294,8 @@ Use an item:
 * You can specify for how long you should use an item. By default it's 0.1 seconds
 
 #### Changeslot
+
+* Slot: `Integer`: 0 <= Slot <=8. Slot to switch to
 
 Change the selected hotbar slot:
 
@@ -277,6 +315,15 @@ Show current position:
 
 #### Distance
 
+* Point1
+  * X: `Numer`
+  * Y: `Numer`
+  * Z: `Numer`
+* Point2
+  * X: `Numer`
+  * Y: `Numer`
+  * Z: `Numer`
+
 Show distance between two points:
 
 ```
@@ -286,6 +333,9 @@ Show distance between two points:
 
 #### Blocks
 
+* Range: `Number`: Radius for the search
+* Count: `Number`: Filter to closest `Count` blocks
+
 Show blocks in a specified radius:
 
 ```
@@ -294,6 +344,10 @@ Show blocks in a specified radius:
 ```
 
 #### Dig
+
+* X: `Numer`
+* Y: `Numer`
+* Z: `Numer`
 
 Dig a breakable block:
 
@@ -313,6 +367,9 @@ Stop digging:
 
 #### Script
 
+* Path: `String`: Path to the script on your PC
+* Condition: `Unknown`: Not used yet
+
 Run a script:
 
 ```
@@ -323,6 +380,13 @@ Run a script:
 * 'Condition' is not used yet. i.e. It's useless
 
 #### Lookat
+
+* Player: `String`: Player name
+* MaxReach: `Number`: Maximum distance between you and the player
+* MinReach: `Number`: Minimum distance between you and the player
+* Force? (optional): `string`
+  * yes, y: Will snap to the player and keep them at the center of its eyes
+  * no, n: Will slowly turn
 
 Look at a player:
 
@@ -342,6 +406,16 @@ Stop looking at a player:
 
 #### Look
 
+**You can only use either Direction or Yaw and Pitch**
+
+* Direction? (optional): `String`
+  * north
+  * south
+  * east
+  * west
+* Yaw? (optional): `Number`
+* Pitch? (optional): `Number`
+
 Look in a specific direction:
 
 ```
@@ -350,6 +424,17 @@ Look in a specific direction:
 ```
 
 #### Control
+
+**You can also use .control clearall which would clear all states**
+
+* Control: `String`: Which control's state to change
+  * forward
+  * back
+  * left
+  * right
+  * jump
+  * sneak
+* State: `Boolean`
 
 Set the control state of the player:
 
@@ -486,13 +571,14 @@ $
 Go to the configuration directory:
 
 ```bash
-$ Path to config: /path/to/config/dir
+$ mc-term -gcp
+Path to config: /path/to/config/dir
 $ cd /path/to/config/dir
 $ ls
 config.json  credentials.json  physics.json
 ```
 
-Edit the files.
+Then you should edit the config files as you want.
 
 ### Credentials
 
