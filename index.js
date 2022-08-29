@@ -293,13 +293,14 @@ async function botMain () {
 		chat.on('close', () => {
 			bot.quit();
 		});
+
 		// Check for updates
 		const getVer = require('./lib/getVer');
 		getVer(`${require('./package.json').name}`)
+			.catch()
 			.then((ver) => {
 				if (require('./lib/compareVer')(ver, pkg.version)) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}`);
-			})
-			.catch();
+			});
 	});
 
 	bot.on('entityHurt', (entity) => {
