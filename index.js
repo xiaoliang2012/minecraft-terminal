@@ -299,11 +299,10 @@ async function botMain () {
 			.then((ver) => {
 				if (require('./lib/compareVer')(ver, pkg.version)) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}`);
 			})
-			.catch((err) => error(err));
+			.catch();
 	});
 
 	// Detect chat messages and print them to console and RCON
-	bot.chatAddPattern = (/(.*) » (.*)/, 'chat');
 	bot.on('message', (rawmsg) => {
 		const message = rawmsg.toMotd();
 		const messageColor = ansi.MCColor.c2c(message);
