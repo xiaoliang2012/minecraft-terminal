@@ -22,14 +22,14 @@
 			"thinkTimeout": 8000,
 			"tickTimeout": 43,
 			"searchRadius": -1,
-			"enablePathShortcut": false,
+			"enablePathShortcut": true,
 			"LOSWhenPlacingBlocks": true
 		}
 	},
 	"canDig": true,
-	"digCost": 1,
-	"placeCost": 1,
-	"liquidCost": 1,
+	"digCost": 3,
+	"placeCost": 3,
+	"liquidCost": 2,
 	"entityCost": 1,
 	"dontCreateFlow": true,
 	"dontMineUnderFallingBlock": true,
