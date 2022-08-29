@@ -1,7 +1,7 @@
 {
 	"name": "mc-term",
 	"description": "Play Minecraft and configure bots from the terminal",
-	"version": "0.4.6",
+	"version": "0.4.7",
 	"license": "MIT",
 	"keywords": [
 		"nodejs",
