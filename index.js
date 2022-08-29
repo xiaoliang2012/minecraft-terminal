@@ -254,6 +254,9 @@ async function botMain () {
 		error('Could not connect to server.\n' + err.message, 1);
 	});
 
+	ansi.clear.clearLine();
+	success('Connected.');
+
 	// Initialize commands
 	setBot(bot);
 	setbotMain(botMain);
@@ -276,9 +279,6 @@ async function botMain () {
 		}
 		bot.pathfinder.setMovements(movement);
 
-		ansi.clear.clearLine();
-		success('Connected.');
-
 		chat.resume();
 		chat.setPrompt('>');
 		chat.prompt();
@@ -299,7 +299,15 @@ async function botMain () {
 		getVer(`${require('./package.json').name}`)
 			.catch()
 			.then((ver) => {
-				if (require('./lib/compareVer')(ver, pkg.version)) warn(`Outdated version of '${pkg.name}'. Update with: npm up -g ${pkg.name}`);
+				const compareVer = require('./lib/compareVer');
+				const diff = compareVer(ver, pkg.version);
+				if (diff > 0) {
+					let importance = 'MINOR';
+					if (diff === 1) importance = 'MAJOR';
+					warn(`A new ${importance} version of '${pkg.name}' is out.\nUpdate with: npm up -g ${pkg.name}`);
+				} else if (diff !== 0) {
+					warn(`You somehow have a newer version of '${pkg.name}' than the latest on available.\nConsider running 'npm up -g ${pkg.name}'`);
+				}
 			});
 	});
 
