@@ -237,12 +237,12 @@ async function botMain () {
 	try {
 		if (cred[3]?.match(/:/)) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
 		bot = mineflayer.createBot({
-			host: cred[3],
-			port: cred[5],
+			auth: cred[0],
 			username: cred[1],
 			password: cred[2],
-			auth: cred[0],
+			host: cred[3],
 			version: cred[4],
+			port: cred[5],
 			logErrors: false
 		});
 	} catch (err) {
