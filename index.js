@@ -150,7 +150,6 @@ if (!cred[6]) {
 getopt(['--cred', '-c'], 6, (params) => {
 	for (let i = 1; i < params.length; i++) {
 		if (params[i] !== '!' && params[i] !== undefined) {
-			console.log(cred - 1);
 			cred[i - 1] = params[i];
 		} else if (cred[i - 1] === '' || cred[i - 1] === undefined) cred[i - 1] = null;
 	}
@@ -198,6 +197,7 @@ const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
+chat.once('close', process.exit);
 
 promptLoad(chat);
 setSWInterface(chat);
@@ -211,7 +211,6 @@ chat.once('pause', () => {
 (
 	async () => {
 		// Prompt if not defined or null
-		chat.once('close', process.exit);
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0]?.toLowerCase() === ('mojang' || 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
@@ -368,8 +367,8 @@ async function botMain () {
 		ansi.other.setTermTitle(`${bot.player.username} @ ${cred[3]}`);
 		process.once('exit', () => {
 			ansi.other.setTermTitle('Terminal');
+			info('Exiting', 3);
 			ansi.clear.clearLine(true);
-			info('Exiting', 1);
 		});
 	});
 }
