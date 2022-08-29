@@ -266,6 +266,51 @@ Change the selected hotbar slot:
 [INFO] Usage: .changeslot <Slot>. -1 < Slot < 9
 ```
 
+#### Position
+
+Show current position:
+
+```
+>.position
+[INFO] Position: -612.09, 4, 1104.99
+```
+
+#### Distance
+
+Show distance between two points:
+
+```
+>.distance
+[INFO] Usage: .distance <X1> <Y1> <Z1> <X2> <Y2> <Z2>
+```
+
+#### Blocks
+
+Show blocks in a specified radius:
+
+```
+>.blocks
+[INFO] Usage: .blocks <Range> <Count?>. Range > 0
+```
+
+#### Dig
+
+Dig a breakable block:
+
+```
+>.dig
+[INFO] Usage: .dig <X> <Y> <Z>
+```
+
+#### Stopdig
+
+Stop digging:
+
+```
+>.stopdig
+[OK] Stopped digging
+```
+
 #### Script
 
 Run a script:

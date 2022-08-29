@@ -302,6 +302,12 @@ async function botMain () {
 			.catch();
 	});
 
+	bot.on('entityHurt', (entity) => {
+		if (entity.username === bot.entity.username) {
+			bot.stopDigging();
+		}
+	});
+
 	// Detect chat messages and print them to console and RCON
 	bot.on('message', (rawmsg) => {
 		const message = rawmsg.toMotd();
