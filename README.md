@@ -585,7 +585,7 @@ This only works with commands:
 <You> ~ ~ ~
 ```
 
-You can also replace on of the `~`
+You can also replace one of the `~`
 
 ```
 >.send ~ ~ ~
