@@ -315,7 +315,7 @@ async function botMain () {
 					if (diff === 1) importance = 'MAJOR';
 					warn(`A new ${importance} version of '${pkg.name}' is out.\nUpdate with: npm up -g ${pkg.name}`);
 				} else if (diff !== 0) {
-					warn(`You somehow have a newer version of '${pkg.name}' than the latest on available.\nConsider running: npm up -g ${pkg.name}`);
+					warn(`You somehow have a newer version of '${pkg.name}' than the latest one available.\nConsider running: npm up -g ${pkg.name}`);
 				}
 			});
 	});
