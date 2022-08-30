@@ -32,7 +32,7 @@ const { join } = require('path');
 getopt(['--gen-conf', '-gc'], 2, (params) => {
 	const { cpSync } = require('fs');
 	let dir = params[1] || '';
-	if (!dir.match(/^\//m)) {
+	if (!dir.match(/^[/~]/m)) {
 		dir = join(process.cwd(), dir);
 	}
 	cpSync(join(__dirname, 'config'), dir, { recursive: true });
@@ -63,12 +63,14 @@ const configpath = require(configPathPath).configpath;
 
 getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const { editJSON } = require('./lib/editfile');
-	if (params[1]) {
-		editJSON(configPathPath, configPathPath, (data) => {
-			data.configpath = join(process.cwd(), params[1]);
-			return data;
-		});
+	let dir = params[1] || '';
+	if (!dir.match(/^[/~]/m)) {
+		dir = join(process.cwd(), dir);
 	}
+	editJSON(configPathPath, configPathPath, (data) => {
+		data.configpath = dir;
+		return data;
+	});
 	process.exit();
 });
 
