@@ -198,7 +198,6 @@ const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
-chat.once('close', process.exit);
 
 promptLoad(chat);
 setSWInterface(chat);
@@ -229,7 +228,6 @@ setChat(chat);
 		}
 		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
 		if (cred[4] === '' || cred[4] === undefined) cred[4] = await prompt('Version :');
-		chat.off('close', process.exit);
 
 		// Set defaults
 		if (!cred[1]) cred[1] = 'Player123';
