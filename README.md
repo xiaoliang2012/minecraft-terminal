@@ -15,6 +15,7 @@ This README is a work in progress:
   * [Internal commands](#internal-commands)
   * [Scripts](#scripts)
   * [Hotkeys](#hotkeys)
+  * [Shortcuts](#shortcuts)
   * [Remote control (RCON)](#remote-control)
   * [Configuration](#configuration)
     * [Credentials](#credentials)
@@ -548,6 +549,42 @@ Example:
 | CTRL-U            | Kill forward to the beginning of a line     |
 | CTRL-K            | Kill forward to the end of a line           |
 | CTRL-L            | Clears the screen                           |
+
+### Shortcuts
+
+* When using the --conf option you can put `!` to skip one prompt:
+
+```bash
+$ mc-term --conf cracked Player123 ! localhost !
+```
+
+First `!` Skips password prompt because this is a cracked account.
+
+Second `!` uses default version (1.12.2).
+
+* When trying to type players coordinates you can just type `~ ~ ~` and it will auto replace:
+
+```
+<AnotherPlayer> Where are you?
+>.send I am at: ~ ~ ~!
+<You> I am at: 512.5 76 1535!
+```
+
+This only works with commands:
+
+```
+>~ ~ ~
+<You> ~ ~ ~
+```
+
+You can also replace on of the `~`
+
+```
+>.send ~ ~ ~
+<You> 512.5 76 1535
+>.send ~ 420 ~
+<You> 512.5 420 1535
+```
 
 ### Remote control
 
