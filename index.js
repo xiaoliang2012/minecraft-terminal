@@ -226,6 +226,7 @@ setChat(chat);
 		}
 		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
 		if (cred[4] === '' || cred[4] === undefined) cred[4] = await prompt('Version :');
+		chat.pause();
 
 		// Set defaults
 		if (!cred[1]) cred[1] = 'Player123';
@@ -233,11 +234,6 @@ setChat(chat);
 		if (!cred[3]) cred[3] = 'localhost';
 		if (!cred[4]) cred[4] = '1.12.2';
 		if (!cred[5]) cred[5] = '25565';
-		if (cred[0] === 'mojang' && cred[2] === '') {
-			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts', 1);
-			chat.close();
-			return;
-		}
 		botMain();
 	}
 )();
@@ -267,7 +263,7 @@ async function botMain () {
 		error('Could not connect to server.\n' + err.message, 1);
 	});
 
-	ansi.clear.clearLine();
+	ansi.clear.clearLine(true);
 	success('Connected.');
 
 	// Initialize commands
@@ -282,6 +278,10 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		chat.line = '';
+		chat.setPrompt('>');
+		chat.resume();
+		chat.prompt();
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
@@ -291,10 +291,6 @@ async function botMain () {
 			merge.recursive(movement, conf);
 		}
 		bot.pathfinder.setMovements(movement);
-
-		chat.resume();
-		chat.setPrompt('>');
-		chat.prompt();
 		chat.on('line', (msg) => {
 			commands.cmd(msg);
 			process.stdout.write('\r>');
