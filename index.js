@@ -213,7 +213,7 @@ chat.once('pause', () => {
 		// Prompt if not defined or null
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
-		if (cred[0]?.toLowerCase() === ('mojang' || 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
+		if ((cred[0]?.toLowerCase() === 'mojang' || cred[0]?.toLowerCase() === 'microsoft') && (cred[2] === '' || cred[2] === undefined)) {
 			cred[2] = await prompt('Password :');
 		}
 		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
