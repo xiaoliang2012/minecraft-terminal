@@ -213,18 +213,16 @@ setChat(chat);
 			return;
 		};
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
-		if (cred[0] === 'microsoft' && cred[1] === '') {
+		if (cred[0] === 'microsoft' && (cred[1] === '' || cred[1] === null)) {
 			warn('When using a Microsoft auth you must specify a password and username', 1);
 			chat.close();
 			return;
 		}
-		if (cred[0]?.toLowerCase() === 'microsoft' && (cred[2] === '' || cred[2] === undefined)) {
-			cred[2] = await prompt('Password :');
-			if (cred[2] === '') {
-				warn('When using a Microsoft auth you must specify a password and username', 1);
-				chat.close();
-				return;
-			}
+		if (cred[0]?.toLowerCase() === 'microsoft' && (cred[2] === '' || cred[2] === undefined)) cred[2] = await prompt('Password :');
+		if (cred[0] === 'microsoft' && (cred[2] === '' || cred[2] === null)) {
+			warn('When using a Microsoft auth you must specify a password and username', 1);
+			chat.close();
+			return;
 		}
 		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
 		if (cred[4] === '' || cred[4] === undefined) cred[4] = await prompt('Version :');
