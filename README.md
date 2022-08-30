@@ -552,6 +552,10 @@ Example:
 
 ### Shortcuts
 
+#### Command-line
+
+##### --conf !
+
 * When using the --conf option you can put `!` to skip one prompt:
 
 ```bash
@@ -562,7 +566,11 @@ First `!` Skips password prompt because this is a cracked account.
 
 Second `!` uses default version (1.12.2).
 
-* When trying to type players coordinates you can just type `~ ~ ~` and it will auto replace:
+#### In game
+
+##### Position ~ ~ ~
+
+* When trying to type your coordinates you can just type `~ ~ ~` and it will auto replace:
 
 ```
 <AnotherPlayer> Where are you?
@@ -584,6 +592,15 @@ You can also replace on of the `~`
 <You> 512.5 76 1535
 >.send ~ 420 ~
 <You> 512.5 420 1535
+```
+
+Relative position also works
+
+```
+>.send ~ ~ ~
+<You> 512.5 76 1535
+>.send ~100 ~+100 ~-1005
+<You> 612.5 176 530
 ```
 
 ### Remote control
