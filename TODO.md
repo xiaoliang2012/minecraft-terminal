@@ -1,6 +1,6 @@
 * [ ] Make a command for opening chests
 * [X] Make a command for digging
-* [ ] Make a command for placing
+* [X] Make a command for placing
 * [ ] Make a command for interacting with NPCs
 * [X] Make the 'moveto' command move to a specific location
 * [ ] Move usage to the wiki
