@@ -271,8 +271,8 @@ async function botMain () {
 	setbotMain(botMain);
 
 	commands.tmp.botMoving = false;
-	commands.tmp.botAttacking = false;
 	commands.tmp.botLooking = false;
+	commands.tmp.botAttacking = false;
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
 
@@ -306,7 +306,7 @@ async function botMain () {
 		// Check for updates
 		const getVer = require('./lib/getVer');
 		getVer(`${require('./package.json').name}`)
-			.catch()
+			.catch(() => {})
 			.then((ver) => {
 				const compareVer = require('./lib/compareVer');
 				const diff = compareVer(ver, pkg.version);
