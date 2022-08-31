@@ -1,6 +1,20 @@
 #!/usr/bin/env node
 
 const { error } = require('./lib/mccinfo');
+const pkg = require('./package.json');
+
+process.on('uncaughtException', (err) => {
+	if (typeof err !== 'object') {
+		error(`An unexpected error occured.\n${err}`, 1);
+		return;
+	}
+	const stack = err.stack?.split('\n');
+	let relevant = '';
+	if (stack[0]) relevant = `${stack[0]}\n`;
+	if (stack[1]) relevant = `${stack[1]}`;
+	error(`An unexpected error occured.\n${err.message}\n${relevant}`, 1);
+	warn(`Please open a bug report on github: ${pkg.bugs.url}`);
+});
 
 const getopt = require('./lib/getopts');
 
@@ -18,8 +32,6 @@ getopt(['--help', '-h'], 0, () => {
    --version, -v            Show version information.\n`);
 	process.exit();
 });
-
-const pkg = require('./package.json');
 
 // Get version
 getopt(['--version', '-v'], 0, () => {
@@ -364,7 +376,7 @@ async function botMain () {
 
 	// set terminal title
 	bot.once('spawn', async () => {
-		ansi.other.setTermTitle(`${bot.player.username} @ ${cred[3]}`);
+		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
 		process.once('exit', () => {
 			ansi.other.setTermTitle('Terminal');
 			info('Exiting', 3);
