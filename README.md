@@ -317,13 +317,13 @@ Show current position:
 #### Distance
 
 * Point1
-  * X: `Numer`
-  * Y: `Numer`
-  * Z: `Numer`
+  * X: `Number`
+  * Y: `Number`
+  * Z: `Number`
 * Point2
-  * X: `Numer`
-  * Y: `Numer`
-  * Z: `Numer`
+  * X: `Number`
+  * Y: `Number`
+  * Z: `Number`
 
 Show distance between two points:
 
@@ -346,15 +346,28 @@ Show blocks in a specified radius:
 
 #### Dig
 
-* X: `Numer`
-* Y: `Numer`
-* Z: `Numer`
+* X: `Number`
+* Y: `Number`
+* Z: `Number`
 
 Dig a breakable block:
 
 ```
 >.dig
 [INFO] Usage: .dig <X> <Y> <Z>
+```
+
+#### Dig
+
+* X: `Number`
+* Y: `Number`
+* Z: `Number`
+
+Place a block if possible:
+
+```
+>.place
+[INFO] Usage: .place <X> <Y> <Z>
 ```
 
 #### Stopdig
