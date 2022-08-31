@@ -251,6 +251,9 @@ setChat(chat);
 )();
 
 async function botMain () {
+	const connectErr = (err) => {
+		error('Could not connect to server.\n' + err.message, 1);
+	};
 	ansi.clear.clearLine(true);
 	info('Connecting...', 2);
 
@@ -271,9 +274,7 @@ async function botMain () {
 		process.exit();
 	}
 
-	bot.once('error', (err) => {
-		error('Could not connect to server.\n' + err.message, 1);
-	});
+	bot.once('error', connectErr);
 
 	ansi.clear.clearLine(true);
 	success('Connected.');
@@ -290,6 +291,7 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		bot.off('error', connectErr);
 		chat.line = '';
 		chat.setPrompt('>');
 		chat.resume();
