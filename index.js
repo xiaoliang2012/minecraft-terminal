@@ -5,14 +5,14 @@ const pkg = require('./package.json');
 
 process.on('uncaughtException', (err) => {
 	if (typeof err !== 'object') {
-		error(`An unexpected error occured.\n${err}`, 1);
+		error(`An unexpected error occured.\n${err}`);
 		return;
 	}
 	const stack = err.stack?.split('\n');
 	let relevant = '';
 	if (stack[0]) relevant = `${stack[0]}\n`;
 	if (stack[1]) relevant = `${stack[1]}`;
-	error(`An unexpected error occured.\n${err.message}\n${relevant}`, 1);
+	error(`An unexpected error occured.\n${err.message}\n${relevant}`);
 	warn(`Please open a bug report on github: ${pkg.bugs.url}`);
 });
 
@@ -130,12 +130,12 @@ if (!cred[7]) {
 		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
-		warn('File "config.json" not found. Using default settings', 1);
+		warn('File "config.json" not found. Using default settings');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
-	warn('Not using "config.json" because of ' + bcofns, 1);
+	warn('Not using "config.json" because of ' + bcofns);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -152,12 +152,12 @@ if (!cred[6]) {
 		}
 	} catch (e) {
 		process.stdout.write('\r');
-		warn('File "credentials.json" not found. Using default settings', 1);
+		warn('File "credentials.json" not found. Using default settings');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
-	warn('Not using "credentials.json" because of ' + bcofnc, 1);
+	warn('Not using "credentials.json" because of ' + bcofnc);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -179,15 +179,15 @@ try {
 		physics = require(`${configpath}/physics.json`);
 		if (physics.usePhysicsJSON === true) {
 			process.stdout.write('\r');
-			warn('Using custom physics. this will result in a ban in most servers!', 1);
-			info('You can disable it by editing usePhysicsJSON in physics.json', 1);
+			warn('Using custom physics. this will result in a ban in most servers!');
+			info('You can disable it by editing usePhysicsJSON in physics.json');
 			progress(0, 15, 'Loading: ');
 			YESPS = true;
 		}
 	}
 } catch (e) {
 	process.stdout.write('\r');
-	warn('File "physics.json" not found. Using default settings', 1);
+	warn('File "physics.json" not found. Using default settings');
 	progress(0, 15, 'Loading: ');
 }
 
@@ -220,19 +220,19 @@ setChat(chat);
 		// Prompt if not defined or null
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[0]?.toLowerCase() === 'mojang') {
-			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts', 1);
+			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts');
 			chat.close();
 			return;
 		};
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0] === 'microsoft' && (cred[1] === '' || cred[1] === null)) {
-			warn('When using a Microsoft auth you must specify a password and username', 1);
+			warn('When using a Microsoft auth you must specify a password and username');
 			chat.close();
 			return;
 		}
 		if (cred[0]?.toLowerCase() === 'microsoft' && (cred[2] === '' || cred[2] === undefined)) cred[2] = await prompt('Password :');
 		if (cred[0] === 'microsoft' && (cred[2] === '' || cred[2] === null)) {
-			warn('When using a Microsoft auth you must specify a password and username', 1);
+			warn('When using a Microsoft auth you must specify a password and username');
 			chat.close();
 			return;
 		}
@@ -252,10 +252,10 @@ setChat(chat);
 
 async function botMain () {
 	const connectErr = (err) => {
-		error('Could not connect to server.\n' + err.message, 1);
+		error('Could not connect to server.\n' + err.message);
 	};
 	ansi.clear.clearLine(true);
-	info('Connecting...', 2);
+	info('Connecting...', 1);
 
 	// get port then create bot
 	try {
@@ -270,7 +270,7 @@ async function botMain () {
 			logErrors: false
 		});
 	} catch (err) {
-		error('Could not connect to server.\n' + err.message, 1);
+		error('Could not connect to server.\n' + err.message);
 		process.exit();
 	}
 
@@ -381,7 +381,7 @@ async function botMain () {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
 		process.once('exit', () => {
 			ansi.other.setTermTitle('Terminal');
-			info('Exiting', 3);
+			info('Exiting', 2);
 			ansi.clear.clearLine(true);
 		});
 	});
