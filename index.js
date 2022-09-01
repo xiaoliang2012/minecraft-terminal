@@ -3,20 +3,35 @@
 const { error } = require('./lib/mccinfo');
 const pkg = require('./package.json');
 
-process.on('uncaughtException', (err) => {
-	if (typeof err !== 'object') {
-		error(`An unexpected error occured.\n${err}`);
-		return;
-	}
-	const stack = err.stack?.split('\n');
-	let relevant = '';
-	if (stack[0]) relevant = `${stack[0]}\n`;
-	if (stack[1]) relevant = `${stack[1]}`;
-	error(`An unexpected error occured.\n${err.message}\n${relevant}`);
-	warn(`Please open a bug report on github: ${pkg.bugs.url}`);
+const getopt = require('./lib/getopts');
+
+let DEBUG = false;
+getopt(['--debug'], 0, () => {
+	DEBUG = true;
 });
 
-const getopt = require('./lib/getopts');
+let onUncaughtException;
+
+if (DEBUG === false) {
+	onUncaughtException = (err) => {
+		if (typeof err !== 'object') {
+			error(`An unexpected error occured.\n${err}`);
+			return;
+		}
+		const stack = err.stack?.split('\n');
+		let relevant = '';
+		if (stack[0]) relevant = `${stack[0]}\n`;
+		if (stack[1]) relevant = `${stack[1]}`;
+		error(`An unexpected error occured.\n${err.message}\n${relevant}`);
+		warn(`Please open a bug report on github: ${pkg.bugs.url}`);
+	};
+} else {
+	onUncaughtException = (err) => {
+		console.log(err);
+	};
+}
+
+process.on('uncaughtException', onUncaughtException);
 
 // Get help
 getopt(['--help', '-h'], 0, () => {
@@ -27,6 +42,7 @@ getopt(['--help', '-h'], 0, () => {
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
+   --debug                  Enable debug mode
                             Override credentials from CLI arguments.
    --help, -h               Show this help message.
    --version, -v            Show version information.\n`);

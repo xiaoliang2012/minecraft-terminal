@@ -71,15 +71,16 @@ config.json  credentials.json  physics.json
 
 ```
 Usage:
-   --no-conf, -nc           Do not use the configuration file.
-   --no-cred, -ns           Do not use the credentials file.
+   --no-conf, -nc           Do not use the configuration file.
+   --no-cred, -ns           Do not use the credentials file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
-   --cred, -c               <Auth> <Username> <Password> <Version> <Server>
-                            Override credentials from CLI arguments.
-   --help, -h               Show this help message.
-   --version, -v            Show version information.
+   --cred, -c               <Auth> <Username> <Password> <Version> <Server>
+   --debug                  Enable debug mode
+                            Override credentials from CLI arguments.
+   --help, -h               Show this help message.
+   --version, -v            Show version information.
 ```
 
 You can use '!' in --cred to leave it empty.
