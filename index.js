@@ -27,7 +27,7 @@ if (DEBUG === false) {
 	};
 } else {
 	onUncaughtException = (err) => {
-		process.stdout.write(err + '\n');
+		process.stdout.write(err.stack);
 	};
 }
 
