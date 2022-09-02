@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5d815c7321aa468fa37b3f3509757b6c)](https://www.codacy.com/gh/MC-Terminal/minecraft-terminal/dashboard?utm_source=github.com&utm_medium=referral&utm_content=MC-Terminal/minecraft-terminal&utm_campaign=Badge_Grade) [![npm package](https://badge.fury.io/js/mc-term.svg)](https://www.npmjs.com/package/mc-term) [![npm](https://img.shields.io/npm/dw/mc-term)](https://www.npmjs.com/package/mc-term)
 
-Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal.
+Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal and configure bots with or without programming knowledge.
 
 This README is a work in progress:
 
