@@ -27,7 +27,7 @@ if (DEBUG === false) {
 	};
 } else {
 	onUncaughtException = (err) => {
-		console.log(err);
+		process.stdout.write(err + '\n');
 	};
 }
 
@@ -38,6 +38,7 @@ getopt(['--help', '-h'], 0, () => {
 	process.stdout.write(`Usage:
    --no-conf, -nc           Do not use the configuration file.
    --no-cred, -ns           Do not use the credentials file.
+   --no-plugins, -np        Do not load plugins specified in plugins file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
@@ -121,7 +122,6 @@ const { safeWrite, setSWInterface, info, warn, success } = require('./lib/mccinf
  * 8.accept
 */
 let cred = [];
-cred[8] = false;
 
 // Do not use the ./config/credentials.json file for credentials
 let bcofnc;
@@ -137,11 +137,33 @@ getopt(['--no-conf', '-ns'], 1, (params) => {
 	bcofns = params[0];
 });
 
+// Do not use the ./config/conf.json file for configuration
+let bcofnp;
+getopt(['--no-plugins', '-np'], 1, (params) => {
+	cred[8] = true;
+	bcofnp = params[0];
+});
+
 const progress = require('./lib/progress');
 progress(0, 15, 'Loading: ');
 
+let YESPLUG = false;
+if (cred[8] !== true) {
+	try {
+		if (require.resolve(join(configpath, 'plugins.json'))) YESPLUG = true;
+	} catch (e) {
+		process.stdout.write('\r');
+		warn('File "plugins.json" not found. Using default settings');
+		progress(0, 15, 'Loading: ');
+	}
+} else {
+	process.stdout.write('\r');
+	warn(`Not using plugins because of '${bcofnp}'`);
+	progress(0, 15, 'Loading: ');
+}
+
 let YESCONF = false;
-if (!cred[7]) {
+if (cred[7] !== true) {
 	try {
 		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
@@ -151,11 +173,11 @@ if (!cred[7]) {
 	}
 } else {
 	process.stdout.write('\r');
-	warn('Not using "config.json" because of ' + bcofns);
+	warn(`Not using "config.json" because of '${bcofns}'`);
 	progress(0, 15, 'Loading: ');
 }
 
-if (!cred[6]) {
+if (cred[6] !== true) {
 	try {
 		if (require.resolve(`${configpath}/credentials.json`)) {
 			cred = Object.values(Object.assign({
@@ -173,7 +195,7 @@ if (!cred[6]) {
 	}
 } else {
 	process.stdout.write('\r');
-	warn('Not using "credentials.json" because of ' + bcofnc);
+	warn(`Not using "credentials.json" because of '${bcofnc}'`);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -219,7 +241,7 @@ progress(50, 15, '\rLoading: ');
 const mineflayer = require('mineflayer');
 progress(90, 15, '\rLoading: ');
 
-const { commands, setBot, setbotMain, setChat } = require('./lib/commands');
+const { commands, setBot, setbotMain, setChat, loadPlugins } = require('./lib/commands');
 const { prompt, load: promptLoad } = require('./lib/prompt');
 const readline = require('readline');
 const chat = readline.createInterface({
@@ -307,6 +329,9 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		if (YESPLUG === true) {
+			loadPlugins(require(`${configpath}/plugins.json`));
+		}
 		bot.off('error', connectErr);
 		chat.line = '';
 		chat.setPrompt('>');

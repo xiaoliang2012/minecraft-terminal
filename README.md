@@ -13,6 +13,7 @@ This README is a work in progress:
   * [First launch](#first-launch)
   * [Command-line usage](#command-line-usage)
   * [Internal commands](#internal-commands)
+  * [Plugins](#script)
   * [Scripts](#scripts)
   * [Hotkeys](#hotkeys)
   * [Shortcuts](#shortcuts)
@@ -73,6 +74,7 @@ config.json  credentials.json  physics.json
 Usage:
    --no-conf, -nc           Do not use the configuration file.
    --no-cred, -ns           Do not use the credentials file.
+   --no-plugins, -np        Do not load plugins specified in plugins file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
@@ -494,6 +496,75 @@ Show a list of all commands:
        .help           Shows this help message
 
 ```
+
+### Plugins
+
+> Note: If you do not know how to code you can just use [scripts](#scripts) to make powerfull bots
+
+#### Loading plugins
+
+To load a plugin you must specify the plugin path inside the `plugins.json` file located in your config directory.
+
+If you don't see you can generate a new default one.
+
+```
+$ mc-term -gc /path/to/config/dir
+```
+
+You can load more than one plugin at once.
+
+```json
+[
+	"/path/to/pluginONE",
+	"/path/to/pluginTWO"
+]
+```
+
+Example of a very basic plugin:
+
+```javascript
+const name = 'Test plugin';
+
+let lib;
+const load = (LIB) => {
+	lib = LIB;
+};
+
+const main = () => {
+	lib.success('Example success message');
+	lib.info('Example info message');
+	lib.warn('Example warning');
+	lib.error('Example error');
+
+	lib.info('I just added a \'.test\' command!');
+	lib.commands.test = () => {
+		lib.success('TEST COMMAND WORKS!!!');
+	};
+};
+
+module.exports = { load, main, name };
+
+```
+
+```
+$ mc-term -c ! Player ! localhost 1.12
+[OK] Connected.
+[OK] Successfully loaded the 'Test plugin'
+[OK] Example success message
+[INFO] Example info message
+[WARN] Example warning
+[ERR] Example error
+[INFO] I just added a '.test' command!
+>.test
+[OK] TEST COMMAND WORKS!!!
+>
+```
+
+#### Making plugins
+
+Right now the only documentation we have is an example plugin.
+
+More documentation will be added in the future though.
 
 ### Scripts
 
