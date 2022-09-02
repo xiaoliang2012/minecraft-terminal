@@ -13,7 +13,7 @@ This README is a work in progress:
   * [First launch](#first-launch)
   * [Command-line usage](#command-line-usage)
   * [Internal commands](#internal-commands)
-  * [Plugins](#script)
+  * [Plugins](#plugins)
   * [Scripts](#scripts)
   * [Hotkeys](#hotkeys)
   * [Shortcuts](#shortcuts)
