@@ -359,12 +359,12 @@ async function botMain () {
 		});
 
 		// Check for updates
-		const getVer = require('./lib/getVer');
-		getVer(`${require('./package.json').name}`)
+		const getPackage = require('./lib/getPackage');
+		getPackage(`${require('./package.json').name}`)
 			.catch(() => {})
-			.then((ver) => {
+			.then(({ version }) => {
 				const compareVer = require('./lib/compareVer');
-				const diff = compareVer(ver, pkg.version);
+				const diff = compareVer(version, pkg.version);
 				if (diff > 0) {
 					let importance = 'PATCH';
 					if (diff === 1) importance = 'MAJOR';
