@@ -37,9 +37,6 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"scripts": {
-		"main": "node index"
-	},
 	"bin": {
 		"mc-term": "./index.js"
 	},

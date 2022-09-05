@@ -366,8 +366,9 @@ async function botMain () {
 				const compareVer = require('./lib/compareVer');
 				const diff = compareVer(ver, pkg.version);
 				if (diff > 0) {
-					let importance = 'MINOR';
+					let importance = 'PATCH';
 					if (diff === 1) importance = 'MAJOR';
+					if (diff === 2) importance = 'MINOR';
 					warn(`A new ${importance} version of '${pkg.name}' is out.\nUpdate with: npm up -g ${pkg.name}`);
 				} else if (diff !== 0) {
 					warn(`You somehow have a newer version of '${pkg.name}' than the latest one available.\nConsider running: npm up -g ${pkg.name}`);
