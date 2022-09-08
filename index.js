@@ -108,6 +108,12 @@ getopt(['--get-conf-path', '-gcp'], 0, () => {
 	process.exit();
 });
 
+const readline = require('readline');
+const chat = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+
 const { safeWrite, setSWInterface, info, warn, success } = require('./lib/mccinfo');
 
 /**
@@ -243,11 +249,7 @@ progress(90, 15, '\rLoading: ');
 
 const { commands, setBot, setbotMain, setChat, loadPlugins } = require('./lib/commands');
 const { prompt, load: promptLoad } = require('./lib/prompt');
-const readline = require('readline');
-const chat = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-});
+const sleep = require('./lib/sleep');
 
 promptLoad(chat);
 setSWInterface(chat);
@@ -276,7 +278,6 @@ setChat(chat);
 		}
 		if (cred[3] === '' || cred[3] === undefined) cred[3] = await prompt('Server :');
 		if (cred[4] === '' || cred[4] === undefined) cred[4] = await prompt('Version :');
-		chat.pause();
 
 		// Set defaults
 		if (!cred[1]) cred[1] = 'Player123';
@@ -284,13 +285,28 @@ setChat(chat);
 		if (!cred[3]) cred[3] = 'localhost';
 		if (!cred[4]) cred[4] = '1.12.2';
 		if (!cred[5]) cred[5] = '25565';
+		await sleep(3);
+		if (chat.closed === true) {
+			info('Exiting');
+			return;
+		}
+		chat.line = '';
 		botMain();
+		process.once('exit', () => {
+			ansi.other.setTermTitle('Terminal');
+			info('Exiting', 2);
+			ansi.clear.clearLine(true);
+		});
 	}
 )();
 
 async function botMain () {
+	chat.once('close', async () => {
+		bot.quit();
+	});
 	const connectErr = (err) => {
 		error('Could not connect to server.\n' + err.message);
+		process.exit(1);
 	};
 	ansi.clear.clearLine(true);
 	info('Connecting...', 1);
@@ -308,8 +324,7 @@ async function botMain () {
 			logErrors: false
 		});
 	} catch (err) {
-		error('Could not connect to server.\n' + err.message);
-		process.exit();
+		connectErr(err);
 	}
 
 	bot.once('error', connectErr);
@@ -326,17 +341,16 @@ async function botMain () {
 	commands.tmp.botAttacking = false;
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
-
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		chat.setPrompt('>');
+		await sleep(1);
+		chat.line = '';
+		chat.prompt();
 		if (YESPLUG === true) {
 			loadPlugins(require(`${configpath}/plugins.json`));
 		}
 		bot.off('error', connectErr);
-		chat.line = '';
-		chat.setPrompt('>');
-		chat.resume();
-		chat.prompt();
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
@@ -348,14 +362,10 @@ async function botMain () {
 		bot.pathfinder.setMovements(movement);
 		chat.on('line', (msg) => {
 			commands.cmd(msg);
-			process.stdout.write('\r>');
+			updateChat();
 		});
-
 		chat.on('pause', () => {
 			chat.prompt(true);
-		});
-		chat.on('close', () => {
-			bot.quit();
 		});
 
 		// Check for updates
@@ -400,7 +410,7 @@ async function botMain () {
 	});
 
 	// exit program when disconnected
-	bot.on('end', async (reason) => {
+	bot.once('end', async (reason) => {
 		if (reason !== 'reconnect') {
 			process.exit();
 		}
@@ -421,10 +431,10 @@ async function botMain () {
 	// set terminal title
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
-		process.once('exit', () => {
-			ansi.other.setTermTitle('Terminal');
-			info('Exiting', 2);
-			ansi.clear.clearLine(true);
-		});
 	});
+}
+
+function updateChat () {
+	chat.pause();
+	chat.resume();
 }
