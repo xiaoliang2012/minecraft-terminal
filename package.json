@@ -41,6 +41,7 @@
 		"mc-term": "./index.js"
 	},
 	"dependencies": {
+		"@zuzak/owo": "^1.16.1",
 		"axios": "^0.27.2",
 		"merge": "^2.1.1",
 		"minecraft-data": "^3.9.1",
