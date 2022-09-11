@@ -24,6 +24,7 @@ if (DEBUG === false) {
 		if (stack[1]) relevant = `${stack[1]}`;
 		error(`An unexpected error occured.\n${err.message}\n${relevant}`);
 		warn(`Please open a bug report on github: ${pkg.bugs.url}`);
+		process.exit(1);
 	};
 } else {
 	onUncaughtException = (err) => {
@@ -304,6 +305,7 @@ async function botMain () {
 	chat.once('close', async () => {
 		bot.quit();
 	});
+	chat.setPrompt('>');
 	const connectErr = (err) => {
 		error('Could not connect to server.\n' + err.message);
 		process.exit(1);
@@ -341,15 +343,11 @@ async function botMain () {
 	commands.tmp.botAttacking = false;
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
+
 	// Chat input and check for updates
 	bot.once('login', async () => {
-		chat.setPrompt('>');
-		await sleep(1);
 		chat.line = '';
-		chat.prompt();
-		if (YESPLUG === true) {
-			loadPlugins(require(`${configpath}/plugins.json`));
-		}
+		updateChat();
 		bot.off('error', connectErr);
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
@@ -431,6 +429,9 @@ async function botMain () {
 	// set terminal title
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
+		if (YESPLUG === true) {
+			loadPlugins(require(`${configpath}/plugins.json`));
+		}
 	});
 }
 
