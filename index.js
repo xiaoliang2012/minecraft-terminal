@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { error } = require('./lib/mccinfo');
+const { error, warn } = require('./lib/mccinfo');
 const pkg = require('./package.json');
 
 const getopt = require('./lib/getopts');
@@ -20,8 +20,8 @@ if (DEBUG === false) {
 		}
 		const stack = err.stack?.split('\n');
 		let relevant = '';
-		if (stack[0]) relevant = `${stack[0]}\n`;
-		if (stack[1]) relevant = `${stack[1]}`;
+		if (stack[1]) relevant = stack[1];
+		if (stack[2]) relevant = `${relevant}\n${stack[2]}`;
 		error(`An unexpected error occured.\n${err.message}\n${relevant}`);
 		warn(`Please open a bug report on github: ${pkg.bugs.url}`);
 		process.exit(1);
@@ -115,7 +115,7 @@ const chat = readline.createInterface({
 	output: process.stdout
 });
 
-const { safeWrite, setSWInterface, info, warn, success } = require('./lib/mccinfo');
+const { safeWrite, setSWInterface, info, success } = require('./lib/mccinfo');
 
 /**
  * 0.auth
