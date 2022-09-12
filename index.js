@@ -44,8 +44,8 @@ getopt(['--help', '-h'], 0, () => {
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
-   --debug                  Enable debug mode
                             Override credentials from CLI arguments.
+   --debug                  Enable debug mode
    --help, -h               Show this help message.
    --version, -v            Show version information.\n`);
 	process.exit();
@@ -333,6 +333,7 @@ async function botMain () {
 
 	ansi.clear.clearLine(true);
 	success('Connected.');
+	process.stdout.write('>');
 
 	// Initialize commands
 	setBot(bot);
@@ -346,8 +347,10 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
-		chat.line = '';
-		updateChat();
+		setTimeout(() => {
+			chat.line = '';
+			updateChat();
+		}, 1);
 		bot.off('error', connectErr);
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
@@ -363,7 +366,7 @@ async function botMain () {
 			updateChat();
 		});
 		chat.on('pause', () => {
-			chat.prompt(true);
+			chat.prompt();
 		});
 
 		// Check for updates
@@ -397,7 +400,7 @@ async function botMain () {
 		safeWrite(messageColor);
 		if (message.match(/!#/)) {
 			const botSendSafe = message.match(/(?<=!#)[^!]+/)[0].replace(/§./, '');
-			safeWrite(`${ansi.color.dim}[RCON] ${ansi.color.reset + botSendSafe}`);
+			warn(`RCON: ${ansi.color.reset + botSendSafe}`);
 			commands.cmd(botSendSafe);
 		}
 	});
