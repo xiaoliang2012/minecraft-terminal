@@ -302,16 +302,17 @@ setChat(chat);
 )();
 
 async function botMain () {
+	chat.setPrompt('>');
 	chat.once('close', async () => {
 		bot.quit();
 	});
-	chat.setPrompt('>');
 	const connectErr = (err) => {
 		error('Could not connect to server.\n' + err.message);
 		process.exit(1);
 	};
+
 	ansi.clear.clearLine(true);
-	info('Connecting...', 1);
+	info('Connecting...', 3);
 
 	// get port then create bot
 	try {
@@ -333,7 +334,9 @@ async function botMain () {
 
 	ansi.clear.clearLine(true);
 	success('Connected.');
-	process.stdout.write('>');
+
+	chat.line = '';
+	chat.prompt();
 
 	// Initialize commands
 	setBot(bot);
@@ -347,10 +350,6 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
-		setTimeout(() => {
-			chat.line = '';
-			updateChat();
-		}, 1);
 		bot.off('error', connectErr);
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
@@ -363,9 +362,6 @@ async function botMain () {
 		bot.pathfinder.setMovements(movement);
 		chat.on('line', (msg) => {
 			commands.cmd(msg);
-			updateChat();
-		});
-		chat.on('pause', () => {
 			chat.prompt();
 		});
 
@@ -436,9 +432,4 @@ async function botMain () {
 			loadPlugins(require(`${configpath}/plugins.json`));
 		}
 	});
-}
-
-function updateChat () {
-	chat.pause();
-	chat.resume();
 }
