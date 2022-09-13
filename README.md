@@ -4,7 +4,9 @@
 
 Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in the terminal and configure bots with or without programming knowledge.
 
-<img src="docs/assets/preview.GIF" width="400" height="200"/>
+**Preview:**
+
+<img src="docs/assets/preview.svg" height="250"/>
 
 * [Downloads](#downloads)
   * [Install with NPM (Recommended)](#install-with-npm-recommended)
