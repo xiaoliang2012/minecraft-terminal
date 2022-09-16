@@ -261,19 +261,19 @@ setChat(chat);
 		// Prompt if not defined or null
 		if (cred[0] === '' || cred[0] === undefined) cred[0] = await prompt('Auth :');
 		if (cred[0]?.toLowerCase() === 'mojang') {
-			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts');
+			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts', 2);
 			chat.close();
 			return;
 		};
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0] === 'microsoft' && (cred[1] === '' || cred[1] === null)) {
-			warn('When using a Microsoft auth you must specify a password and username');
+			warn('When using a Microsoft auth you must specify a password and username', 2);
 			chat.close();
 			return;
 		}
 		if (cred[0]?.toLowerCase() === 'microsoft' && (cred[2] === '' || cred[2] === undefined)) cred[2] = await prompt('Password :');
 		if (cred[0] === 'microsoft' && (cred[2] === '' || cred[2] === null)) {
-			warn('When using a Microsoft auth you must specify a password and username');
+			warn('When using a Microsoft auth you must specify a password and username', 2);
 			chat.close();
 			return;
 		}
