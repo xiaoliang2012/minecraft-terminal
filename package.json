@@ -44,10 +44,12 @@
 		"@zuzak/owo": "^1.17.0",
 		"axios": "^0.27.2",
 		"merge": "^2.1.1",
-		"minecraft-data": "^3.12.0",
-		"minecraft-protocol": "^1.36.1",
 		"mineflayer": "^4.4.0",
 		"mineflayer-pathfinder": "^2.3.3",
 		"vec3": "^0.1.7"
+	},
+	"devDependencies": {
+		"eslint": "^8.23.1",
+		"eslint-config-standard": "^17.0.0"
 	}
 }
