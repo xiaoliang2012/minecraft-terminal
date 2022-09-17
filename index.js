@@ -20,9 +20,10 @@ if (DEBUG === false) {
 		}
 		const stack = err.stack?.split('\n');
 		let relevant = '';
-		if (stack[1]) relevant = stack[1];
+		if (stack[1]) relevant = `\n${stack[1]}`;
 		if (stack[2]) relevant = `${relevant}\n${stack[2]}`;
-		error(`An unexpected error occured.\n${err.message}\n${relevant}`);
+		err.message = err.message.split('\n')[0];
+		error(`An unexpected error occured.\n${err.message}${relevant}`);
 		warn(`Please open a bug report on github: ${pkg.bugs.url}`);
 		process.exit(1);
 	};
