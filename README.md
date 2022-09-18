@@ -186,16 +186,16 @@ Move the player in blocks:
 [INFO] Usage: .move <Direction> <distance?>. Direction = <north|south|east|west> distance > 0
 ```
 
-#### Moveto
+#### Pathfind
 
 * X: `Number`
 * Z: `Number`
 
-Move to specific coordinates (Y is variable)
+Pathfind to specific coordinates (Y is variable)
 
 ```
->.moveto
-[INFO] Usage: .moveto <X> <Z>
+>.pathfind
+[INFO] Usage: .pathfind <X> <Z>
 ```
 
 #### Forcemove
