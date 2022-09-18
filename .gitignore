@@ -2,3 +2,4 @@
 /[Bb]uil*
 /test*
 /package-lock.json
+/.vscode

@@ -1,2 +1,8 @@
 /docs/assets
 /pull_request_template.md
+/.vscode
+/.github
+/.git
+/.gitignore
+/docs
+/TODO.md
