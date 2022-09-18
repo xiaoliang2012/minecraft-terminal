@@ -265,7 +265,7 @@ setChat(chat);
 			warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts', 2);
 			chat.close();
 			return;
-		};
+		}
 		if (cred[1] === '' || cred[1] === undefined) cred[1] = await prompt('Login :');
 		if (cred[0] === 'microsoft' && (cred[1] === '' || cred[1] === null)) {
 			warn('When using a Microsoft auth you must specify a password and username', 2);
