@@ -2,6 +2,7 @@
 * [X] Make a command for digging
 * [X] Make a command for placing
 * [ ] Make a command for interacting with NPCs
+* [X] Add a mode (in the config file) to disable all non vanilla features (e.g. pathfinder, follow, attack...)
 * [X] Make the 'pathfindto' command move to a specific location
 * [ ] Move usage to the wiki
 * [X] Add a scripting interface
