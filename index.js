@@ -249,7 +249,7 @@ progress(50, 15, '\rLoading: ');
 const mineflayer = require('mineflayer');
 progress(90, 15, '\rLoading: ');
 
-const { commands, setBot, setbotMain, setChat, loadPlugins } = require('./lib/commands');
+const { commands, setBot, setbotMain, setChat, setConfig, loadPlugins } = require('./lib/commands');
 const { prompt, load: promptLoad } = require('./lib/prompt');
 const sleep = require('./lib/sleep');
 
@@ -357,6 +357,7 @@ async function botMain () {
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
 			const conf = require(`${configpath}/config.json`);
+			setConfig(conf);
 			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
 			merge.recursive(movement, conf);
 		}
