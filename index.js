@@ -47,14 +47,14 @@ getopt(['--help', '-h'], 0, () => {
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
                             Override credentials from CLI arguments.
    --debug                  Enable debug mode
-   --help, -h               Show this help message.
-   --version, -v            Show version information.\n`);
+   --version, -v            Show version information.
+   --help, -h               Show this help message.\n`);
 	process.exit();
 });
 
 // Get version
 getopt(['--version', '-v'], 0, () => {
-	process.stdout.write(`MC-Term version: ${pkg.version}\nNode version: ${process.version}\n`);
+	process.stdout.write(`${pkg.name} version: ${pkg.version}\nNode version: ${process.version}\n`);
 	process.exit();
 });
 
@@ -357,7 +357,7 @@ async function botMain () {
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
 			const conf = require(`${configpath}/config.json`);
-			setConfig(conf);
+			setConfig({ ...conf, pkg });
 			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
 			merge.recursive(movement, conf);
 		}

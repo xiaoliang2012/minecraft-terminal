@@ -81,10 +81,10 @@ Usage:
    --get-conf-path, -gcp    Get the config folder path
    --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
-   --debug                  Enable debug mode
                             Override credentials from CLI arguments.
-   --help, -h               Show this help message.
+   --debug                  Enable debug mode
    --version, -v            Show version information.
+   --help, -h               Show this help message.
 ```
 
 You can use '!' in --cred to leave it empty.
