@@ -308,7 +308,7 @@ async function botMain () {
 		bot.quit();
 	});
 	const connectErr = (err) => {
-		error('Could not connect to server.\n' + err.message);
+		error('Could not connect to server.\n' + err.message, 2);
 		process.exit(1);
 	};
 
