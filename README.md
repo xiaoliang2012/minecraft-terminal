@@ -170,6 +170,102 @@ Reconnect to server:
 >
 ```
 
+#### Send
+
+* Message: `String`: Message to send
+
+Send a message in chat:
+
+```
+>.send
+[INFO] Usage: .send <Message>
+```
+
+* You can also send a message by directly typing it chat. `.send` is really only meant for scripts
+
+#### Position
+
+Show current position:
+
+```
+>.position
+[INFO] Position: -612.09, 4, 1104.99
+```
+
+#### Distance
+
+* Point1
+  * X: `Number`
+  * Y: `Number`
+  * Z: `Number`
+* Point2
+  * X: `Number`
+  * Y: `Number`
+  * Z: `Number`
+
+Show the distance between two points:
+
+```
+>.distance
+[INFO] Usage: .distance <X1> <Y1> <Z1> <X2> <Y2> <Z2>
+```
+
+#### List
+
+List players connected to the server and their ping:
+
+```
+>.list
+[INFO] Player list: Player123 [50] AnotherPlayer [121]
+```
+
+#### Blocks
+
+* Range: `Number`: Radius for the search
+* Count: `Number`: Filter to closest `Count` blocks
+
+Show blocks in a specified radius and filter:
+
+```
+>.blocks
+[INFO] Usage: .blocks <Range> <Count?>. Range > 0
+```
+
+#### Dig
+
+* X: `Number`
+* Y: `Number`
+* Z: `Number`
+
+Dig a block in a specific location if possible:
+
+```
+>.dig
+[INFO] Usage: .dig <X> <Y> <Z>
+```
+
+#### Stopdig
+
+Stop digging:
+
+```
+>.stopdig
+[OK] Stopped digging
+```
+
+#### Place
+
+* X: `Number`
+* Y: `Number`
+* Z: `Number`
+
+Place a block in a specific location if possible:
+
+```
+>.place
+[INFO] Usage: .place <X> <Y> <Z>
+```
+
 #### Move
 
 * Direction: `String`: Direction to move to
@@ -215,6 +311,26 @@ Move the player in seconds:
 [INFO] Usage: .forcemove <Dircetion:up|forward|back|left|right> <Time:Seconds>
 ```
 
+#### Control
+
+**You can also use .control clearall which would clear all states**
+
+* Control: `String`: Which control's state to change
+  * forward
+  * back
+  * left
+  * right
+  * jump
+  * sneak
+* State: `Boolean`
+
+Set a control state of the player:
+
+```
+>.control
+[INFO] Usage: .control <Control: forward|back|left|right|jump|sneak> <State: Boolean>
+```
+
 #### Follow
 
 * Player: `String`: Player name
@@ -227,9 +343,21 @@ Follow a player:
 [INFO] Usage: .follow <Player> <Range>. Range > 1
 ```
 
+#### smartFollow
+
+* Player: `String`: Player name
+* Range: `Number`: How close you should stay to the player
+
+Same as follow but uses advanced pathfinding:
+
+```
+>.smartfollow
+[INFO] Usage: .smartfollow <Player> <Range>. Range > 1
+```
+
 #### Unfollow
 
-Stop following a player:
+Stop following:
 
 ```
 >.unfollow
@@ -250,153 +378,31 @@ Attack a player:
 
 #### Stopattack
 
-Stop attacking a player:
+Stop attacking:
 
 ```
 >.stopattack
 [INFO] Not attacking anyone
 ```
 
-#### Send
+#### Look
 
-* Message: `String`: Message to send
+**You can only use either Direction or Yaw and Pitch**
 
-Send a message in chat:
+* Direction? (optional): `String`
+  * north
+  * south
+  * east
+  * west
+* Yaw? (optional): `Number`
+* Pitch? (optional): `Number`
 
-```
->.send
-[INFO] Usage: .send <Message>
-```
-
-* You can also send a message by directly typing it chat. `.send` is really only meant for scripts
-
-#### Inventory
-
-* ID: `String`/`Integer`: Container to open. 0 = inventory, 1 = container.
-  * 0, inventory: Will open the inventory
-  * 0, inventory: Will open the currently opened container
-* Action? (optional): `String`: click, move, drop, dropall
-* Arg1? (optional): Arguments for `Action`
-* Arg1? (optional): Arguments for `Action`
-
-Inventory management:
+Look in a certain direction:
 
 ```
->.inventory
-[INFO] Usage: .inventory <ID: inventory|container|0|1> <Action?: click|move|drop|dropall> <Arg1?> <Arg2?>
+>.look
+[INFO] Usage: .look <Direction?:north|south|east|west> <Yaw?> <Pitch?>
 ```
-
-#### Useitem
-
-* Time? (optional): `Number`: How long you should keep using that item. Defaults to 0.1
-
-Use an item:
-
-```
->.useitem
-[INFO] Used an item for 0.1 seconds
-```
-
-* You can specify for how long you should use an item. By default it's 0.1 seconds
-
-#### Changeslot
-
-* Slot: `Integer`: 0 <= Slot <=8. Slot to switch to
-
-Change the selected hotbar slot:
-
-```
->.changeslot
-[INFO] Usage: .changeslot <Slot>. -1 < Slot < 9
-```
-
-#### Position
-
-Show current position:
-
-```
->.position
-[INFO] Position: -612.09, 4, 1104.99
-```
-
-#### Distance
-
-* Point1
-  * X: `Number`
-  * Y: `Number`
-  * Z: `Number`
-* Point2
-  * X: `Number`
-  * Y: `Number`
-  * Z: `Number`
-
-Show distance between two points:
-
-```
->.distance
-[INFO] Usage: .distance <X1> <Y1> <Z1> <X2> <Y2> <Z2>
-```
-
-#### Blocks
-
-* Range: `Number`: Radius for the search
-* Count: `Number`: Filter to closest `Count` blocks
-
-Show blocks in a specified radius:
-
-```
->.blocks
-[INFO] Usage: .blocks <Range> <Count?>. Range > 0
-```
-
-#### Dig
-
-* X: `Number`
-* Y: `Number`
-* Z: `Number`
-
-Dig a breakable block:
-
-```
->.dig
-[INFO] Usage: .dig <X> <Y> <Z>
-```
-
-#### Dig
-
-* X: `Number`
-* Y: `Number`
-* Z: `Number`
-
-Place a block if possible:
-
-```
->.place
-[INFO] Usage: .place <X> <Y> <Z>
-```
-
-#### Stopdig
-
-Stop digging:
-
-```
->.stopdig
-[OK] Stopped digging
-```
-
-#### Script
-
-* Path: `String`: Path to the script on your PC
-* Condition: `Unknown`: Not used yet
-
-Run a script:
-
-```
->.script
-[INFO] Usage: .script <Path> <Condition>
-```
-
-* 'Condition' is not used yet. i.e. It's useless
 
 #### Lookat
 
@@ -416,59 +422,63 @@ Look at a player:
 
 #### Stoplook
 
-Stop looking at a player:
+Stop looking:
 
 ```
 >.stoplook
 [INFO] Not looking at anyone
 ```
 
-#### Look
+#### Inventory
 
-**You can only use either Direction or Yaw and Pitch**
+* ID: `String`/`Integer`: Container to open. 0 = inventory, 1 = container.
+  * 0, inventory: Will open the inventory
+  * 0, inventory: Will open the currently opened container
+* Action? (optional): `String`: click, move, drop, dropall
+* Arg1? (optional): Arguments for `Action`
+* Arg1? (optional): Arguments for `Action`
 
-* Direction? (optional): `String`
-  * north
-  * south
-  * east
-  * west
-* Yaw? (optional): `Number`
-* Pitch? (optional): `Number`
-
-Look in a specific direction:
+Inventory management:
 
 ```
->.look
-[INFO] Usage: .look <Direction?:north|south|east|west> <Yaw?> <Pitch?>
+>.inventory
+[INFO] Usage: .inventory <ID: inventory|container|0|1> <Action?: click|move|drop|dropall> <Arg1?> <Arg2?>
 ```
 
-#### Control
+#### Changeslot
 
-**You can also use .control clearall which would clear all states**
+* Slot: `Integer`: 0 <= Slot <= 8. Slot to switch to
 
-* Control: `String`: Which control's state to change
-  * forward
-  * back
-  * left
-  * right
-  * jump
-  * sneak
-* State: `Boolean`
-
-Set the control state of the player:
+Change the selected hotbar slot:
 
 ```
->.control
-[INFO] Usage: .control <Control: forward|back|left|right|jump|sneak> <State: Boolean>
+>.changeslot
+[INFO] Usage: .changeslot <Slot>. -1 < Slot < 9
 ```
 
-#### List
+#### Useitem
 
-Show a list of all connected players on the server (and their ping):
+* Time? (optional): `Number`: How long you should keep using that item. Defaults to 0.1
+
+Use a held item:
 
 ```
->.list
-[INFO] Player list: Player123 [50] AnotherPlayer [121]
+>.useitem
+[INFO] Used an item for 0.1 seconds
+```
+
+* You can specify for how long you should use an item. By default it's 0.1 seconds
+
+#### Script
+
+* Path: `String`: Path to the script on your PC
+* Condition: `Unknown`: Not used yet
+
+Run a script:
+
+```
+>.script
+[INFO] Usage: .script <Path>
 ```
 
 #### Help
@@ -477,26 +487,33 @@ Show a list of all commands:
 
 ```
 >.help
-[INFO] .exit           Exits the program
-       .reco           Reconnects to server
-       .move           Move in a certain direction in blocks
-       .forcemove      Move in a certain direction in seconds
-       .control        Set a control state
-       .follow         Follows a player
-       .unfollow       Stops following
-       .attack         Attacks a player
-       .stopattack     Stops attacking
-       .lookat         Look at a player
-       .stoplook       Stops looking
-       .look           Look in a certain direction
-       .send           Sends a message
-       .inventory      Inventory management
-       .useitem        Use a held item
-       .changeslot     Change held hotbar slot
-       .script         Run a script
+[INFO] .exit           Disconnect from the server
+       .reco           Reconnect to server
+       .send           Send a message in chat
+       .position       Show current position
+       .distance       Show the distance between two points
        .list           List players connected to the server and their ping
+       .blocks         Show blocks in a specified radius and filter
+       .dig            Dig a block in a specific location if possible
+       .stopdig        Stop digging
+       .place          Place a block in a specific location if possible
+       .move           Move the player in blocks
+       .pathfind       Move to a specific set of coordinates
+       .forcemove      Move the player in seconds
+       .control        Set a control state of the player
+       .follow         Follow a player
+       .smartFollow    Same as follow but uses advanced pathfinding
+       .unfollow       Stop following
+       .attack         Attack a player
+       .stopattack     Stop attacking
+       .look           Look in a certain direction
+       .lookat         Look at a player
+       .stoplook       Stop looking
+       .inventory      Inventory management
+       .changeslot     Change selected hotbar slot
+       .useitem        Use a held item
+       .script         Run a script
        .help           Shows this help message
-
 ```
 
 ### Plugins
@@ -754,6 +771,12 @@ Currently only supports [1.8-latest]
 #### Configuration
 
 The 'config.json' file.
+
+##### enableNonVanillaCMD
+
+* boolean
+
+When true it enables commands that use non vanilla features which may get you banned in some servers. Use at your own risk.
 
 ##### canDig
 
