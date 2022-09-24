@@ -445,7 +445,20 @@ Inventory management:
 [INFO] Usage: .inventory <ID: inventory|container|0|1> <Action?: click|move|drop|dropall> <Arg1?> <Arg2?>
 ```
 
-#### Changeslot
+#### Open
+
+* X: `Number`
+* Y: `Number`
+* Z: `Number`
+
+Open a container (chest):
+
+```
+>.open
+[INFO] Usage: .open <X> <Y> <Z>
+```
+
+#### ChangeSlot
 
 * Slot: `Integer`: 0 <= Slot <= 8. Slot to switch to
 
@@ -510,6 +523,7 @@ Show a list of all commands:
        .lookat         Look at a player
        .stoplook       Stop looking
        .inventory      Inventory management
+	   .open           Open a container (chest)
        .changeslot     Change selected hotbar slot
        .useitem        Use a held item
        .script         Run a script

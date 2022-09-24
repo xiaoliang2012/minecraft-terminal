@@ -1,4 +1,4 @@
-* [ ] Make a command for opening chests
+* [X] Make a command for opening chests
 * [X] Make a command for digging
 * [X] Make a command for placing
 * [ ] Make a command for interacting with NPCs
