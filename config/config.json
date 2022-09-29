@@ -12,8 +12,6 @@
 			"put": "place",
 			"a*": "pathfind",
 			"a*follow": "smartfollow",
-			"killaura": "attack",
-			"ka": "attack",
 			"chest": "open",
 			"cs": "changeslot",
 			"cd": "changeslot",
