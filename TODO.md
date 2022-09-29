@@ -2,7 +2,7 @@
 * [X] Make a command for digging
 * [X] Make a command for placing
 * [ ] Make a command for interacting with NPCs
-* [ ] Add killaura with different modes (e.g. nearest, least heatlh, most health and order)
+* [ ] Add killaura with different modes (e.g. nearest, least heatlh, most health, order and list)
 * [X] Add a mode (in the config file) to disable all non vanilla features (e.g. pathfinder, follow, attack...)
 * [X] Make the 'pathfindto' command move to a specific location
 * [ ] Move usage to the wiki
