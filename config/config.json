@@ -1,5 +1,29 @@
 {
-	"enableNonVanillaCMD": true,
+	"commands": {
+		"enableNonVanillaCMD": true,
+		"commandAliases": {
+			"stopfollow": "unfollow",
+			"uwu": "owo",
+			":3": "owo",
+			"dist": "distance",
+			"ls": "list",
+			"break": "dig",
+			"stopdigging": "stopdig",
+			"put": "place",
+			"a*": "pathfind",
+			"a*follow": "smartfollow",
+			"killaura": "attack",
+			"ka": "attack",
+			"chest": "open",
+			"cs": "changeslot",
+			"cd": "changeslot",
+			"use": "useitem",
+			"eval": "script",
+			"err": "error",
+			"ok": "success",
+			"&": "async"
+		}
+	},
 	"bot": {
 		"physicsEnabled": true,
 		"settings": {
