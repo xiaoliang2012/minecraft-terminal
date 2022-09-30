@@ -1,6 +1,5 @@
 {
 	"commands": {
-		"commandPrompt": "&c[&3%name%&a@&6%server%&c]&r$ ",
 		"enableNonVanillaCMD": true,
 		"commandAliases": {
 			"stopfollow": "unfollow",

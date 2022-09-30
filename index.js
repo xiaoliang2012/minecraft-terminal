@@ -308,7 +308,11 @@ setChat(chat);
 
 async function botMain () {
 	const getCommandPrompt = (name, server) => {
-		return ansi.MCColor.c2c(parseVar(conf.commands.commandPrompt, { name, server }, '%', '%'), '&');
+		if (conf.commands?.commandPrompt !== undefined) {
+			return ansi.MCColor.c2c(parseVar(conf.commands.commandPrompt, { name, server }, '%', '%'), '&');
+		} else {
+			return '>';
+		}
 	};
 	chat.once('close', async () => {
 		bot.quit();
@@ -362,6 +366,7 @@ async function botMain () {
 		const server = cred[3];
 		const prompt = getCommandPrompt(name, server);
 		chat.setPrompt(prompt);
+		chat.line = '';
 		chat.prompt();
 		commands.tmp.variables.USER_NAME = name;
 		bot.off('error', connectErr);
