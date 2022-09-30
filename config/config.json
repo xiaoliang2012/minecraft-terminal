@@ -1,5 +1,6 @@
 {
 	"commands": {
+		"commandPrompt": "&c[&3%name%&a@&6%server%&c]&r$ ",
 		"enableNonVanillaCMD": true,
 		"commandAliases": {
 			"stopfollow": "unfollow",
@@ -22,43 +23,45 @@
 			"&": "async"
 		}
 	},
-	"bot": {
-		"physicsEnabled": true,
-		"settings": {
-			"chat": "enabled",
-			"colorsEnabled": true,
-			"viewDistance": "far",
-			"skinParts": {
-				"showCape": true,
-				"showJacket": true,
-				"showLeftSleeve": true,
-				"showRightSleeve": true,
-				"showLeftPants": true,
-				"showRightPants": true,
-				"showHat": true
+	"mineflayer": {
+		"bot": {
+			"physicsEnabled": true,
+			"settings": {
+				"chat": "enabled",
+				"colorsEnabled": true,
+				"viewDistance": "far",
+				"skinParts": {
+					"showCape": true,
+					"showJacket": true,
+					"showLeftSleeve": true,
+					"showRightSleeve": true,
+					"showLeftPants": true,
+					"showRightPants": true,
+					"showHat": true
+				},
+				"mainHand": "left",
+				"enableTextFiltering": false,
+				"enableServerListing": false
 			},
-			"mainHand": "left",
-			"enableTextFiltering": false,
-			"enableServerListing": false
+			"pathfinder": {
+				"thinkTimeout": 8000,
+				"tickTimeout": 43,
+				"searchRadius": -1,
+				"enablePathShortcut": true,
+				"LOSWhenPlacingBlocks": true
+			}
 		},
-		"pathfinder": {
-			"thinkTimeout": 8000,
-			"tickTimeout": 43,
-			"searchRadius": -1,
-			"enablePathShortcut": true,
-			"LOSWhenPlacingBlocks": true
-		}
-	},
-	"canDig": true,
-	"digCost": 3,
-	"placeCost": 3,
-	"liquidCost": 2,
-	"entityCost": 1,
-	"dontCreateFlow": true,
-	"dontMineUnderFallingBlock": true,
-	"allow1by1towers": true,
-	"allowFreeMotion": false,
-	"allowParkour": true,
-	"allowSprinting": true,
-	"allowEntityDetection": true
+		"canDig": true,
+		"digCost": 3,
+		"placeCost": 3,
+		"liquidCost": 2,
+		"entityCost": 1,
+		"dontCreateFlow": true,
+		"dontMineUnderFallingBlock": true,
+		"allow1by1towers": true,
+		"allowFreeMotion": false,
+		"allowParkour": true,
+		"allowSprinting": true,
+		"allowEntityDetection": true
+	}
 }

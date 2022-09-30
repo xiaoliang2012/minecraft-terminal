@@ -240,6 +240,7 @@ try {
 let bot;
 
 const ansi = require('./lib/ansi');
+const parseVar = require('./lib/parseVar');
 const merge = require('merge');
 progress(20, 15, '\rLoading: ');
 
@@ -252,6 +253,9 @@ progress(90, 15, '\rLoading: ');
 const { commands, setBot, setbotMain, setChat, setConfig, loadPlugins } = require('./lib/commands');
 const { prompt, load: promptLoad } = require('./lib/prompt');
 const sleep = require('./lib/sleep');
+
+const conf = require(`${configpath}/config.json`);
+setConfig({ ...conf, pkg });
 
 promptLoad(chat);
 setSWInterface(chat);
@@ -303,7 +307,9 @@ setChat(chat);
 )();
 
 async function botMain () {
-	chat.setPrompt('>');
+	const getCommandPrompt = (name, server) => {
+		return ansi.MCColor.c2c(parseVar(conf.commands.commandPrompt, { name, server }, '%', '%'), '&');
+	};
 	chat.once('close', async () => {
 		bot.quit();
 	});
@@ -330,6 +336,7 @@ async function botMain () {
 	} catch (err) {
 		connectErr(err);
 	}
+	chat.setPrompt(getCommandPrompt('Loading', cred[3]));
 
 	bot.once('error', connectErr);
 
@@ -351,15 +358,19 @@ async function botMain () {
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		const name = bot.username;
+		const server = cred[3];
+		const prompt = getCommandPrompt(name, server);
+		chat.setPrompt(prompt);
+		chat.prompt();
+		commands.tmp.variables.USER_NAME = name;
 		bot.off('error', connectErr);
 		bot.loadPlugin(pathfinder);
 		const mcData = require('minecraft-data')(bot.version);
 		const movement = new Movements(bot, mcData);
 		if (YESCONF) {
-			const conf = require(`${configpath}/config.json`);
-			setConfig({ ...conf, pkg });
 			if (YESPS === true) merge.recursive(movement, { bot: { physics } });
-			merge.recursive(movement, conf);
+			merge.recursive(movement, conf.mineflayer);
 		}
 		bot.pathfinder.setMovements(movement);
 		chat.on('line', (msg) => {
