@@ -482,10 +482,61 @@ Use a held item:
 
 * You can specify for how long you should use an item. By default it's 0.1 seconds
 
+#### Set
+
+* Key: `String`
+* Value: `Any`
+
+Set a variable:
+
+```
+>.set
+[INFO] Usage: .set <Key> <Value>
+```
+
+* You can access a variable by:
+
+```
+.set var1 123
+.set var2 abc
+.send %var1%, %var2%
+<Player123> 123, abc
+```
+#### Unset
+
+* Key: `String`
+
+Delete a variable:
+
+```
+>.unset
+[INFO] Usage: .unset <Key>
+```
+
+#### Value
+
+* Key: `String`
+
+Get value of a variable:
+
+```
+>.value
+[INFO] Usage: .set <Key>
+```
+
+#### Variables
+
+List all set variables:
+
+```
+>.variables
+[INFO] Values:
+       Amogus: Sussy
+```
+
 #### Script
 
 * Path: `String`: Path to the script on your PC
-* Condition: `Unknown`: Not used yet
 
 Run a script:
 
@@ -526,6 +577,10 @@ Show a list of all commands:
 	   .open           Open a container (chest)
        .changeslot     Change selected hotbar slot
        .useitem        Use a held item
+	   .set            Set a variable
+	   .unset          Delete a variable
+	   .value          Get value of a variable
+	   .variables      List all set variables
        .script         Run a script
        .help           Shows this help message
 ```
@@ -623,9 +678,13 @@ I just sent a message in chat!
 
 #### Script only commands
 
-### Wait
+##### Wait
 
-Waits for a specific amount of seconds before running the next command:
+Wait for a specific amount of seconds before running the next command:
+
+##### Success, Info, Warn, Error
+
+Print a message to console
 
 ```bash
 send First message
@@ -634,7 +693,7 @@ wait 1
 send Second message
 ```
 
-### Running a script
+#### Running a script
 
 ```
 >.script /path/to the/script
