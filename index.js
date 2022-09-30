@@ -370,7 +370,6 @@ async function botMain () {
 		// Check for updates
 		const getPackage = require('./lib/getPackage');
 		getPackage(`${require('./package.json').name}`)
-			.catch(() => {})
 			.then(({ version }) => {
 				const compareVer = require('./lib/compareVer');
 				const diff = compareVer(version, pkg.version);
@@ -382,7 +381,8 @@ async function botMain () {
 				} else if (diff !== 0) {
 					warn(`You somehow have a newer version of '${pkg.name}' than the latest one available.\nConsider running: npm up -g ${pkg.name}`);
 				}
-			});
+			})
+			.catch(() => {});
 	});
 
 	bot.on('entityHurt', (entity) => {
