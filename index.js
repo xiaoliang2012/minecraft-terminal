@@ -15,7 +15,7 @@ let onUncaughtException;
 if (DEBUG === false) {
 	onUncaughtException = (err) => {
 		if (typeof err !== 'object') {
-			error(`An unexpected error occured.\n${err}`);
+			error(`An unexpected error occurred.\n${err}`);
 			return;
 		}
 		const stack = err.stack?.split('\n');
@@ -23,7 +23,7 @@ if (DEBUG === false) {
 		if (stack[1]) relevant = `\n${stack[1]}`;
 		if (stack[2]) relevant = `${relevant}\n${stack[2]}`;
 		err.message = err.message.split('\n')[0];
-		error(`An unexpected error occured.\n${err.message}${relevant}`);
+		error(`An unexpected error occurred.\n${err.message}${relevant}`);
 		warn(`Please open a bug report on github: ${pkg.bugs.url}`);
 		process.exit(1);
 	};
@@ -173,7 +173,7 @@ if (cred[6] !== true) {
 		}
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "credentials.json" not found. Generating');
+		error('File "credentials.json" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -197,7 +197,7 @@ if (cred[8] !== true) {
 		if (require.resolve(join(configpath, 'plugins.json'))) YESPLUG = true;
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "plugins.json" not found. Generating');
+		error('File "plugins.json" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -212,7 +212,7 @@ if (cred[7] !== true) {
 		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "config.json" not found. Generating');
+		error('File "config.json" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -236,7 +236,7 @@ try {
 	}
 } catch (e) {
 	process.stdout.write('\r');
-	error('File "physics.json" not found. Generating');
+	error('File "physics.json" not found');
 	progress(0, 15, 'Loading: ');
 }
 
