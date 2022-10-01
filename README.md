@@ -47,29 +47,6 @@ $ node .
 
 ## Usage
 
-### First launch
-
-You need to setup the configuration files before actually using the program.
-
-To do this you must specify the configuration directory path:
-
-```
-$ mc-term -scp /path/to/config/dir
-```
-
-Then you must generate the default configuration files in that same directory:
-
-```
-$ mc-term -gc /path/to/config/dir
-```
-
-Finally check if you've set everything correctly:
-
-```
-$ ls /path/to/config/dir
-config.json  credentials.json  physics.json
-```
-
 ### Command-line usage
 
 ```
@@ -79,7 +56,6 @@ Usage:
    --no-plugins, -np        Do not load plugins specified in plugins file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
-   --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
                             Override credentials from CLI arguments.
    --debug                  Enable debug mode
@@ -136,12 +112,6 @@ Print the configuration files location and exit:
 ```
 $ mc-term --get-conf-path
 Path to config: $HOME/.config/mc-term
-```
-
-Generate default configuration files in the specified location:
-
-```
-$ mc-term --gen-conf $HOME/.config/mc-term
 ```
 
 ### Internal commands
@@ -592,12 +562,6 @@ Show a list of all commands:
 #### Loading plugins
 
 To load a plugin you must specify the plugin path inside the `plugins.json` file located in your config directory.
-
-If you don't see you can generate a new default one.
-
-```
-$ mc-term -gc /path/to/config/dir
-```
 
 You can load more than one plugin at once.
 

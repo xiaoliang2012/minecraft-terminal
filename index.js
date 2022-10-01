@@ -43,7 +43,6 @@ getopt(['--help', '-h'], 0, () => {
    --no-plugins, -np        Do not load plugins specified in plugins file.
    --set-conf-path, -scp    Set the config folder path
    --get-conf-path, -gcp    Get the config folder path
-   --gen-conf, -gc          Generate configuration files
    --cred, -c               <Auth> <Username> <Password> <Version> <Server>
                             Override credentials from CLI arguments.
    --debug                  Enable debug mode
@@ -60,16 +59,7 @@ getopt(['--version', '-v'], 0, () => {
 
 const { join } = require('path');
 
-getopt(['--gen-conf', '-gc'], 2, (params) => {
-	const { cpSync } = require('fs');
-	let dir = params[1] || '';
-	if (!dir.match(/^[/~]/m)) {
-		dir = join(process.cwd(), dir);
-	}
-	cpSync(join(__dirname, 'config'), dir, { recursive: true });
-	process.exit();
-});
-
+// Setup .configpath and default config path
 let dir;
 if (process.platform === 'win32') dir = __dirname;
 else dir = join(require('os').homedir(), '.config', 'mc-term');
@@ -82,9 +72,7 @@ try {
 		const { mkdirSync } = require('fs');
 		mkdirSync(dir, { recursive: true });
 	}
-	let defaultPath;
-	if (process.platform !== 'win32') defaultPath = dir;
-	else defaultPath = 'NOT_SET_YET';
+	const defaultPath = dir;
 	writeFileSync(configPathPath, JSON.stringify({ configpath: defaultPath }), (err) => {
 		if (err) error(err);
 	});
@@ -155,35 +143,22 @@ getopt(['--no-plugins', '-np'], 1, (params) => {
 const progress = require('./lib/progress');
 progress(0, 15, 'Loading: ');
 
-let YESPLUG = false;
-if (cred[8] !== true) {
-	try {
-		if (require.resolve(join(configpath, 'plugins.json'))) YESPLUG = true;
-	} catch (e) {
-		process.stdout.write('\r');
-		warn('File "plugins.json" not found. Using default settings');
-		progress(0, 15, 'Loading: ');
-	}
-} else {
-	process.stdout.write('\r');
-	warn(`Not using plugins because of '${bcofnp}'`);
-	progress(0, 15, 'Loading: ');
-}
+require('events').EventEmitter.defaultMaxListeners = 0;
 
-let YESCONF = false;
-if (cred[7] !== true) {
+// Generate and update config
+const updateConfig = require('./lib/mergeJSON');
+const { readdirSync } = require('fs');
+
+readdirSync(join(__dirname, 'config')).forEach(file => {
 	try {
-		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
-	} catch (e) {
-		process.stdout.write('\r');
-		warn('File "config.json" not found. Using default settings');
-		progress(0, 15, 'Loading: ');
+		require.resolve(join(configpath, file));
+	} catch (err) {
+		const { cpSync } = require('fs');
+		cpSync(join(__dirname, 'config', file), join(configpath, file));
+		return;
 	}
-} else {
-	process.stdout.write('\r');
-	warn(`Not using "config.json" because of '${bcofns}'`);
-	progress(0, 15, 'Loading: ');
-}
+	updateConfig(join(configpath, file), require(join(__dirname, 'config', file)));
+});
 
 if (cred[6] !== true) {
 	try {
@@ -198,12 +173,12 @@ if (cred[6] !== true) {
 		}
 	} catch (e) {
 		process.stdout.write('\r');
-		warn('File "credentials.json" not found. Using default settings');
+		error('File "credentials.json" not found. Generating');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
-	warn(`Not using "credentials.json" because of '${bcofnc}'`);
+	error(`Not using "credentials.json" because of '${bcofnc}'`);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -216,7 +191,35 @@ getopt(['--cred', '-c'], 6, (params) => {
 	}
 });
 
-require('events').EventEmitter.defaultMaxListeners = 0;
+let YESPLUG = false;
+if (cred[8] !== true) {
+	try {
+		if (require.resolve(join(configpath, 'plugins.json'))) YESPLUG = true;
+	} catch (e) {
+		process.stdout.write('\r');
+		error('File "plugins.json" not found. Generating');
+		progress(0, 15, 'Loading: ');
+	}
+} else {
+	process.stdout.write('\r');
+	warn(`Not using plugins because of '${bcofnp}'`);
+	progress(0, 15, 'Loading: ');
+}
+
+let YESCONF = false;
+if (cred[7] !== true) {
+	try {
+		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
+	} catch (e) {
+		process.stdout.write('\r');
+		error('File "config.json" not found. Generating');
+		progress(0, 15, 'Loading: ');
+	}
+} else {
+	process.stdout.write('\r');
+	error(`Not using "config.json" because of '${bcofns}'`);
+	progress(0, 15, 'Loading: ');
+}
 
 let YESPS;
 let physics;
@@ -233,7 +236,7 @@ try {
 	}
 } catch (e) {
 	process.stdout.write('\r');
-	warn('File "physics.json" not found. Using default settings');
+	error('File "physics.json" not found. Generating');
 	progress(0, 15, 'Loading: ');
 }
 
