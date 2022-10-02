@@ -57,7 +57,7 @@ getopt(['--version', '-v'], 0, () => {
 	process.exit();
 });
 
-const { join } = require('path');
+const { join, resolve } = require('path');
 
 // Setup .configpath and default config path
 let dir;
@@ -84,7 +84,7 @@ getopt(['--set-conf-path', '-scp'], 2, (params) => {
 	const { editJSON } = require('./lib/editfile');
 	let dir = params[1] || '';
 	if (!dir.match(/^[/~]/m)) {
-		dir = join(process.cwd(), dir);
+		dir = resolve(dir).replace(/\\/g, '/');
 	}
 	editJSON(configPathPath, configPathPath, (data) => {
 		data.configpath = dir;
@@ -149,15 +149,15 @@ require('events').EventEmitter.defaultMaxListeners = 0;
 const updateConfig = require('./lib/mergeJSON');
 const { readdirSync } = require('fs');
 
-readdirSync(join(__dirname, 'config')).forEach(file => {
+readdirSync(join(__dirname, 'default_config')).forEach(file => {
 	try {
 		require.resolve(join(configpath, file));
 	} catch (err) {
 		const { cpSync } = require('fs');
-		cpSync(join(__dirname, 'config', file), join(configpath, file));
+		cpSync(join(__dirname, 'default_config', file), join(configpath, file));
 		return;
 	}
-	updateConfig(join(configpath, file), require(join(__dirname, 'config', file)));
+	updateConfig(join(configpath, file), require(join(__dirname, 'default_config', file)));
 });
 
 if (cred[6] !== true) {
