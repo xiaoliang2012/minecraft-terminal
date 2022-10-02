@@ -367,8 +367,7 @@ async function botMain () {
 	bot.once('login', async () => {
 		const name = bot.username;
 		const server = cred[3];
-		const prompt = getCommandPrompt(name, server);
-		chat.setPrompt(prompt);
+		chat.setPrompt(getCommandPrompt(name, server));
 		chat.line = '';
 		chat.prompt();
 		commands.tmp.variables.USER_NAME = name;
@@ -385,6 +384,10 @@ async function botMain () {
 			commands.cmd(msg);
 			chat.prompt();
 		});
+
+		if (YESPLUG === true) {
+			loadPlugins(require(`${configpath}/plugins.json`));
+		}
 
 		// Check for updates
 		const getPackage = require('./lib/getPackage');
@@ -449,8 +452,5 @@ async function botMain () {
 	// set terminal title
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
-		if (YESPLUG === true) {
-			loadPlugins(require(`${configpath}/plugins.json`));
-		}
 	});
 }
