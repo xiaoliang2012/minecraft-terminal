@@ -6,3 +6,8 @@
 /.gitignore
 /docs
 /TODO.md
+/node_modules
+/[Bb]uil*
+/test*
+/package-lock.json
+/.vscode
