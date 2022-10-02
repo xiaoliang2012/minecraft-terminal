@@ -61,7 +61,7 @@ const { join, resolve } = require('path');
 
 // Setup .configpath and default config path
 let dir;
-if (process.platform === 'win32') dir = __dirname;
+if (process.platform === 'win32') dir = join(__dirname, 'config');
 else dir = join(require('os').homedir(), '.config', 'mc-term');
 const configPathPath = join(dir, '.configpath.json');
 try {
