@@ -119,21 +119,21 @@ const { safeWrite, setSWInterface, info, success } = require('./lib/mccinfo');
 */
 let cred = [];
 
-// Do not use the ./config/credentials.json file for credentials
+// Do not use the ./config/credentials.toml file for credentials
 let bcofnc;
 getopt(['--no-cred', '-nc'], 1, (params) => {
 	cred[6] = true;
 	bcofnc = params[0];
 });
 
-// Do not use the ./config/conf.json file for configuration
+// Do not use the ./config/config.toml file for configuration
 let bcofns;
 getopt(['--no-conf', '-ns'], 1, (params) => {
 	cred[7] = true;
 	bcofns = params[0];
 });
 
-// Do not use the ./config/conf.json file for configuration
+// Do not use the ./config/plugin.toml file for configuration
 let bcofnp;
 getopt(['--no-plugins', '-np'], 1, (params) => {
 	cred[8] = true;
@@ -146,39 +146,47 @@ progress(0, 15, 'Loading: ');
 require('events').EventEmitter.defaultMaxListeners = 0;
 
 // Generate and update config
-const updateConfig = require('./lib/mergeJSON');
+const betterMerge = require('./lib/mergeObj');
 const { readdirSync } = require('fs');
+const TOML = require('@iarna/toml');
 
 readdirSync(join(__dirname, 'default_config')).forEach(file => {
+	const { writeFileSync, readFileSync } = require('fs');
+	const filePath = join(configpath, file);
+	const defaultConfigPath = join(__dirname, 'default_config', file);
 	try {
-		require.resolve(join(configpath, file));
+		require.resolve(filePath);
 	} catch (err) {
 		const { cpSync } = require('fs');
-		cpSync(join(__dirname, 'default_config', file), join(configpath, file));
+		cpSync(defaultConfigPath, filePath);
 		return;
 	}
-	updateConfig(join(configpath, file), require(join(__dirname, 'default_config', file)));
+	const config = readFileSync(filePath);
+	const defaultConfig = readFileSync(defaultConfigPath);
+	const out = betterMerge(TOML.parse(config), TOML.parse(defaultConfig));
+	const TOMLString = TOML.stringify(out).replace('  ', '\t');
+	writeFileSync(filePath, TOMLString, 'utf-8');
 });
 
 if (cred[6] !== true) {
+	const { accessSync, constants } = require('fs');
 	try {
-		if (require.resolve(`${configpath}/credentials.json`)) {
-			cred = Object.values(Object.assign({
-				auth: undefined,
-				username: undefined,
-				password: undefined,
-				server: undefined,
-				version: undefined
-			}, require(`${configpath}/credentials.json`)));
-		}
+		accessSync(join(configpath, 'credentials.toml'), constants.F_OK);
+		cred = Object.values(Object.assign({
+			auth: undefined,
+			username: undefined,
+			password: undefined,
+			server: undefined,
+			version: undefined
+		}, requireTOML(`${configpath}/credentials.toml`)));
 	} catch (e) {
 		process.stdout.write('\r');
-		error('File "credentials.json" not found');
+		error('File "credentials.toml" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
-	error(`Not using "credentials.json" because of '${bcofnc}'`);
+	error(`Not using "credentials.toml" because of '${bcofnc}'`);
 	progress(0, 15, 'Loading: ');
 }
 
@@ -193,11 +201,13 @@ getopt(['--cred', '-c'], 6, (params) => {
 
 let YESPLUG = false;
 if (cred[8] !== true) {
+	const { accessSync, constants } = require('fs');
 	try {
-		if (require.resolve(join(configpath, 'plugins.json'))) YESPLUG = true;
-	} catch (e) {
+		accessSync(join(configpath, 'plugins.toml'), constants.F_OK);
+		YESPLUG = true;
+	} catch {
 		process.stdout.write('\r');
-		error('File "plugins.json" not found');
+		error('File "plugins.toml" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
@@ -208,35 +218,35 @@ if (cred[8] !== true) {
 
 let YESCONF = false;
 if (cred[7] !== true) {
+	const { accessSync, constants } = require('fs');
 	try {
-		if (require.resolve(join(configpath, 'config.json'))) YESCONF = true;
-	} catch (e) {
+		accessSync(join(configpath, 'config.toml'), constants.F_OK);
+		YESCONF = true;
+	} catch {
 		process.stdout.write('\r');
-		error('File "config.json" not found');
+		error('File "config.toml" not found');
 		progress(0, 15, 'Loading: ');
 	}
 } else {
 	process.stdout.write('\r');
-	error(`Not using "config.json" because of '${bcofns}'`);
+	error(`Not using "config.toml" because of '${bcofns}'`);
 	progress(0, 15, 'Loading: ');
 }
 
 let YESPS;
 let physics;
 try {
-	if (require.resolve(`${configpath}/physics.json`)) {
-		physics = require(`${configpath}/physics.json`);
-		if (physics.usePhysicsJSON === true) {
-			process.stdout.write('\r');
-			warn('Using custom physics. this will result in a ban in most servers!');
-			info('You can disable it by editing usePhysicsJSON in physics.json');
-			progress(0, 15, 'Loading: ');
-			YESPS = true;
-		}
+	physics = requireTOML(`${configpath}/physics.toml`);
+	if (physics.usePhysicsJSON === true) {
+		process.stdout.write('\r');
+		warn('Using custom physics. this will result in a ban in most servers!');
+		info('You can disable it by editing usePhysicsJSON in physics.toml');
+		progress(0, 15, 'Loading: ');
+		YESPS = true;
 	}
-} catch (e) {
+} catch {
 	process.stdout.write('\r');
-	error('File "physics.json" not found');
+	error('File "physics.toml" not found');
 	progress(0, 15, 'Loading: ');
 }
 
@@ -257,7 +267,7 @@ const { commands, setBot, setbotMain, setChat, setConfig, loadPlugins } = requir
 const { prompt, load: promptLoad } = require('./lib/prompt');
 const sleep = require('./lib/sleep');
 
-const conf = require(`${configpath}/config.json`);
+const conf = requireTOML(`${configpath}/config.toml`);
 setConfig({ ...conf, pkg });
 
 promptLoad(chat);
@@ -386,7 +396,7 @@ async function botMain () {
 		});
 
 		if (YESPLUG === true) {
-			loadPlugins(require(`${configpath}/plugins.json`));
+			loadPlugins(Object.values(requireTOML(`${configpath}/plugins.toml`)));
 		}
 
 		// Check for updates
@@ -453,4 +463,11 @@ async function botMain () {
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
 	});
+}
+
+function requireTOML (path) {
+	const { readFileSync, accessSync, constants } = require('fs');
+	accessSync(path, constants.F_OK);
+	const { parse } = require('@iarna/toml');
+	return parse(readFileSync(path));
 }
