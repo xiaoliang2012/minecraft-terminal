@@ -73,14 +73,14 @@ $ mc-term -c ! Player456 '' ! !
 Password :
 ```
 
-* `!` will use the login options specified in credentials.json if no options are set it will use defaults
+* `!` will use the login options specified in credentials.toml if no options are set it will use defaults
 * `''` will prompt
 
-Do not use the credentials file credentials.json:
+Do not use the credentials file credentials.toml:
 
 ```
 $ mc-term  --no-cred
-[WARN] Not using "credentials.json" because of --no-cred
+[WARN] Not using "credentials.toml" because of --no-cred
 Auth :
 Login :
 Password :
@@ -88,11 +88,11 @@ Server :
 Version :
 ```
 
-Do not use the configuration file config.json:
+Do not use the configuration file config.toml:
 
 ```
 $ mc-term --no-conf
-[WARN] Not using "config.json" because of --no-conf
+[WARN] Not using "config.toml" because of --no-conf
 Auth :
 Login :
 Password :
@@ -560,15 +560,20 @@ Show a list of all commands:
 
 #### Loading plugins
 
-To load a plugin you must specify the plugin path inside the `plugins.json` file located in your config directory.
+To load a plugin you must specify the plugin path inside the `plugins.toml` file located in your config directory.
 
 You can load more than one plugin at once.
 
-```json
-[
-	"/path/to/pluginONE",
-	"/path/to/pluginTWO"
-]
+```.toml
+# PluginName = '/Plugin/Path'
+# Example
+# 'Map Downloader' = 'C:\Users\User\Desktop\mapdown\downloader.js'
+[builtin]
+mapDownloader = false
+autoFish = false
+
+[user]
+'Fly hacks' = 'C:\Users\User\Desktop\hacks\fly.js'
 ```
 
 Example of a very basic plugin:
@@ -769,14 +774,14 @@ $ mc-term -gcp
 Path to config: /path/to/config/dir
 $ cd /path/to/config/dir
 $ ls
-config.json  credentials.json  physics.json
+config.toml  credentials.toml  physics.toml
 ```
 
 Then you should edit the config files as you want.
 
 ### Credentials
 
-The 'credentials.json' file.
+The 'credentials.toml' file.
 
 #### Auth
 
@@ -806,7 +811,7 @@ Currently only supports [1.8-latest]
 
 #### Configuration
 
-The 'config.json' file.
+The 'config.toml' file.
 
 ##### enableNonVanillaCMD
 
