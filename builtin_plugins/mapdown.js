@@ -18,11 +18,19 @@ const main = () => {
 
 		mcterm.info(`Listening for new maps. ${timeout} sec timeout`);
 
-		let done = false;
+		let done = 0;
 		const onMap = (map) => {
 			const { writeFileSync, readdirSync, mkdirSync, lstatSync, rmSync } = require('fs');
 			const { join } = require('path');
-			const pngImage = mapjs(map.data);
+			let pngImage;
+			try {
+				pngImage = mapjs(map.data);
+			} catch {
+				mcterm.error('An error occured while trying to download map');
+				done = -1;
+				return;
+			}
+
 			try {
 				const stats = lstatSync(mapOutputFolder);
 
@@ -42,13 +50,16 @@ const main = () => {
 			}
 			const mapOutputFullPath = join(mapOutputFolder, mapOutputFile(id));
 			writeFileSync(mapOutputFullPath, pngImage);
-			done = true;
+			done = 1;
 			mcterm.success(`Map saved as '${mapOutputFullPath}'`);
 			mcterm.bot._client.off('map', onMap);
 		};
 		mcterm.bot._client.once('map', onMap);
 		await sleep(timeout * 1000);
-		if (done === false) mcterm.info(`Map download timed out after ${timeout} sec`);
+		if (done === 0) {
+			mcterm.info(`Map download timed out after ${timeout} sec`);
+			mcterm.bot._client.off('map', onMap);
+		}
 	};
 };
 
