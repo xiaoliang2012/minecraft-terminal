@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { error, warn } = require('./lib/mccinfo');
+const { error, warn } = require('./lib/log');
 const pkg = require('./package.json');
 
 const getopt = require('./lib/getopts');
@@ -104,7 +104,7 @@ const chat = readline.createInterface({
 	output: process.stdout
 });
 
-const { safeWrite, setSWInterface, info, success } = require('./lib/mccinfo');
+const { safeWrite, setSWInterface, info, success } = require('./lib/log');
 
 /**
  * 0.auth

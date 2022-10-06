@@ -13,6 +13,7 @@ const load = (A) => {
 };
 
 const main = () => {
+	mcterm.info('Added \'.getmap\' command');
 	mcterm.commands.getMap = async (timeout) => {
 		if (typeof timeout !== 'number') timeout = 1;
 
