@@ -373,8 +373,6 @@ async function botMain () {
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
 
-	ldplug();
-
 	// Chat input and check for updates
 	bot.once('login', async () => {
 		const name = bot.username;
@@ -461,6 +459,9 @@ async function botMain () {
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
 	});
+
+	// Load plugins
+	ldplug();
 }
 
 function requireTOML (path) {
@@ -479,7 +480,7 @@ function ldplug () {
 
 		const builtinPlugins = {
 			mapDownloader: join(__dirname, './builtin_plugins/mapdown.js'),
-			autoFish: join(__dirname, './builtin_plugins/fish')
+			autoFish: join(__dirname, './builtin_plugins/autoFish.js')
 		};
 
 		const builtinPluginNames = Object.keys(builtinPlugins);

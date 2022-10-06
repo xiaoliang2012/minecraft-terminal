@@ -4,3 +4,4 @@ user = []
 
 [builtin]
 mapDownloader = false
+autoFish = false
