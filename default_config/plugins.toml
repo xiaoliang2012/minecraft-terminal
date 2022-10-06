@@ -1,8 +1,7 @@
 # PluginName = '/Plugin/Path'
 # Example
 # 'Map Downloader' = 'C:\Users\User\Desktop\mapdown\downloader.js'
+user = []
+
 [builtin]
 mapDownloader = false
-
-[user]
-"workaround ignore pls" = ""

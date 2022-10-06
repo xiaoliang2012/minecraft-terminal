@@ -492,7 +492,7 @@ function ldplug () {
 				p++;
 			}
 		}
-		const enabledPlugins = [...enabledBuiltinPluginPaths, ...Object.values(plug.user)];
+		const enabledPlugins = [...enabledBuiltinPluginPaths, ...plug.user];
 		const enabledPluginsAbs = [];
 		for (let i = 0, p = 0; i < enabledPlugins.length; i++) {
 			const enabledPlugin = enabledPlugins[i];
