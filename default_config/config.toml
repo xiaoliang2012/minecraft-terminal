@@ -1,5 +1,5 @@
 [commands]
-commandPrompt = "&c[&3%name%&a@&6%server%&c]&r$ "
+commandPrompt = ">"
 enableNonVanillaCMD = true
 
 	[commands.commandAliases]
