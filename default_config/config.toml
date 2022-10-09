@@ -56,7 +56,7 @@ allowEntityDetection = true
 
 		[mineflayer.bot.pathfinder]
 		thinkTimeout = 8000
-		tickTimeout = 43
+		tickTimeout = 40
 		searchRadius = -1
 		enablePathShortcut = true
 		LOSWhenPlacingBlocks = true
