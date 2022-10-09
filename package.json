@@ -44,8 +44,10 @@
 		"@iarna/toml": "^2.2.5",
 		"@zuzak/owo": "^1.18.0",
 		"axios": "^0.27.2",
+		"easy-ansi": "^1.1.2",
 		"merge": "^2.1.1",
 		"mineflayer": "^4.4.0",
+		"mineflayer-maps": "^1.0.2",
 		"mineflayer-pathfinder": "^2.3.3",
 		"pngjs": "^6.0.0"
 	}

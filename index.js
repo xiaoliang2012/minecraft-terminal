@@ -353,6 +353,14 @@ async function botMain () {
 	} catch (err) {
 		connectErr(err);
 	}
+
+	// Initialize commands
+	setBot(bot);
+	setbotMain(botMain);
+
+	// Load plugins
+	ldplug();
+
 	chat.setPrompt(getCommandPrompt('Loading', cred[3]));
 
 	bot.once('error', connectErr);
@@ -362,10 +370,6 @@ async function botMain () {
 
 	chat.line = '';
 	chat.prompt();
-
-	// Initialize commands
-	setBot(bot);
-	setbotMain(botMain);
 
 	commands.tmp.botMoving = false;
 	commands.tmp.botLooking = false;
@@ -459,9 +463,6 @@ async function botMain () {
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || cred[1]} @ ${cred[3]}`);
 	});
-
-	// Load plugins
-	ldplug();
 }
 
 function requireTOML (path) {
@@ -471,7 +472,7 @@ function requireTOML (path) {
 	return parse(readFileSync(path));
 }
 
-function ldplug () {
+async function ldplug () {
 	// Load plugins
 	const absPath = require('./lib/absolutePath');
 	if (YESPLUG === true) {

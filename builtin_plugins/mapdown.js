@@ -1,66 +1,57 @@
-const sleep = require('../lib/sleep');
-const mapjs = require('../lib/map');
-
-const mapOutputFolder = './maps';
-const mapOutputFile = (id) => {
-	return `map_${id}.png`;
-};
-
-const getMapId = (map) => {
-	return map.itemDamage + map.scale - map.columns - map.rows + map.x + map.y + map.data.slice(0, 5);
-};
+const mineflayerMaps = require('mineflayer-maps');
+const ansi = require('easy-ansi');
 
 let mcterm;
 
 const load = (A) => {
 	mcterm = A;
+	mcterm.bot.loadPlugin(mineflayerMaps);
+	mcterm.bot.maps.outputDir = './maps';
 };
 
 const main = async () => {
-	const maps = [];
-	let amogus = 0;
-	const onMap = async (map) => {
-		if (maps.includes(getMapId(map))) {
-			mcterm.bot._client.off('map', onMap);
-			await sleep(1000);
-			mcterm.bot._client.on('map', onMap);
+	mcterm.info('Added \'.mapSave\' and \'.mapPreview\' commands');
+	mcterm.commands.mapSave = (state) => {
+		if (typeof state !== 'boolean') {
+			mcterm.info('Usage: .mapSave <State: true|false>');
 			return;
 		}
-		maps[amogus] = getMapId(map);
-
-		if (amogus > 9) amogus = 9;
-		else amogus++;
-		const { writeFileSync, readdirSync, mkdirSync, lstatSync, rmSync } = require('fs');
-		const { join } = require('path');
-		let pngImage;
-		try {
-			pngImage = mapjs(map.data);
-		} catch {
-			mcterm.error('An error occured while trying to download map');
-			return;
-		}
-
-		try {
-			const stats = lstatSync(mapOutputFolder);
-
-			if (!stats.isDirectory()) {
-				rmSync(mapOutputFolder);
-				mkdirSync(mapOutputFolder, { recursive: true });
-			}
-		} catch {
-			mkdirSync(mapOutputFolder, { recursive: true });
-		}
-
-		let id = 0;
-		const files = readdirSync(mapOutputFolder);
-		for (let i = 0; i < files.length; i++) {
-			if (files.includes(mapOutputFile(id))) id++;
-		}
-		const mapOutputFullPath = join(mapOutputFolder, mapOutputFile(id));
-		writeFileSync(mapOutputFullPath, pngImage);
-		mcterm.success(`Map saved as '${mapOutputFullPath}'`);
+		mcterm.bot.maps.setSaveToFile(state);
+		mcterm.success('Updated');
 	};
-	mcterm.bot._client.on('map', onMap);
+	mcterm.commands.mapPreview = (state) => {
+		if (typeof state !== 'boolean') {
+			mcterm.info('Usage: .mapPreview <State: true|false>');
+			return;
+		}
+		if (state === true) {
+			if (mcterm.bot.listeners.includes(onMapPreview)) {
+				mcterm.bot._client.on('map', onMapPreview);
+			}
+		} else {
+			mcterm.bot._client.off('map', onMapPreview);
+		}
+		mcterm.success('Updated');
+	};
+
+	const onMap = (map) => {
+		mcterm.success(`Saved map at:\n${map.fullPath}`);
+	};
+
+	mcterm.bot.on('new_map_saved', onMap);
+
+	const onMapPreview = ({ map }) => {
+		try {
+			const termSize = ansi.cursor.termSize();
+			const div = Math.floor(128 / (Math.min(termSize[0], termSize[1] / 2) * 2));
+			mcterm.success('Map preview:');
+			mcterm.safeWrite(mineflayerMaps.parseASCII(map, false, div));
+		} catch {
+			mcterm.error('An error occurred while trying to preview map');
+		}
+		;
+	};
+	mcterm.bot.on('new_map', onMapPreview);
 };
 
 module.exports = { load, main, name: 'Map Downloader' };
