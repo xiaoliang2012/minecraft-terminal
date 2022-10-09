@@ -48,7 +48,6 @@
 		"merge": "^2.1.1",
 		"mineflayer": "^4.4.0",
 		"mineflayer-maps": "^1.0.2",
-		"mineflayer-pathfinder": "^2.3.3",
-		"pngjs": "^6.0.0"
+		"mineflayer-pathfinder": "^2.3.3"
 	}
 }
