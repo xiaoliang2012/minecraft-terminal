@@ -164,7 +164,7 @@ readdirSync(join(__dirname, 'default_config')).forEach(file => {
 	const config = readFileSync(filePath);
 	const defaultConfig = readFileSync(defaultConfigPath);
 	const out = betterMerge(TOML.parse(config), TOML.parse(defaultConfig));
-	const TOMLString = TOML.stringify(out).replace('  ', '\t');
+	const TOMLString = TOML.stringify(out).replace(/ {2}/g, '\t');
 	writeFileSync(filePath, TOMLString, 'utf-8');
 });
 
@@ -267,9 +267,6 @@ const { commands, setBot, setbotMain, setChat, setConfig, loadPlugins } = requir
 const { prompt, load: promptLoad } = require('./lib/prompt');
 const sleep = require('./lib/sleep');
 
-const conf = requireTOML(`${configpath}/config.toml`);
-setConfig({ ...conf, pkg });
-
 promptLoad(chat);
 setSWInterface(chat);
 setChat(chat);
@@ -339,35 +336,38 @@ async function botMain () {
 	info('Connecting...', 3);
 
 	// get port then create bot
+	if (/(?<=:)\d+/.test(cred[3])) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
+	const options = {
+		auth: cred[0],
+		username: cred[1],
+		password: cred[2],
+		host: cred[3],
+		version: cred[4],
+		port: cred[5],
+		logErrors: false
+	};
+	const conf = requireTOML(`${configpath}/config.toml`);
+	setConfig({ ...conf, pkg, options });
+
+	// Load plugins
+	const plugins = getPlugins();
+	loadPlugins(plugins, true);
+
 	try {
-		if (/(?<=:)\d+/.test(cred[3])) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
-		bot = mineflayer.createBot({
-			auth: cred[0],
-			username: cred[1],
-			password: cred[2],
-			host: cred[3],
-			version: cred[4],
-			port: cred[5],
-			logErrors: false
-		});
+		bot = mineflayer.createBot(options);
 	} catch (err) {
 		connectErr(err);
 	}
+	bot.once('error', connectErr);
 
 	// Initialize commands
 	setBot(bot);
 	setbotMain(botMain);
 
 	// Load plugins
-	ldplug();
+	loadPlugins(plugins, false);
 
 	chat.setPrompt(getCommandPrompt('Loading', cred[3]));
-
-	bot.once('error', connectErr);
-
-	ansi.clear.clearLine(true);
-	success('Connected.');
-
 	chat.line = '';
 	chat.prompt();
 
@@ -376,6 +376,9 @@ async function botMain () {
 	commands.tmp.botAttacking = false;
 	commands.tmp.lookInt = undefined;
 	// script = { length: 0, msg: [] };
+
+	ansi.clear.clearLine(true);
+	success('Connected.');
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
@@ -437,7 +440,7 @@ async function botMain () {
 
 	// send a message upon death
 	bot.on('death', () => {
-		info('You died. Respawning');
+		warn('You died. Respawning');
 	});
 
 	// exit program when disconnected
@@ -449,14 +452,14 @@ async function botMain () {
 
 	// send disconnect reason
 	bot.on('kicked', (reason) => {
-		info(`Kicked from ${cred[3]}:`);
+		warn(`Kicked from ${cred[3]}:`);
 		safeWrite(`${ansi.MCColor.c2c(JSON.parse(reason).text) + ansi.color.reset}`);
 		process.stdout.write('\r');
 	});
 
 	// send a message when a window opens
 	bot.on('windowOpen', () => {
-		info('Container #1 opened\n[MCC] Use ".inventory 1" to interact with it');
+		info('Container #1 opened\nUse ".inventory 1" to interact with it');
 	});
 
 	// set terminal title
@@ -472,7 +475,7 @@ function requireTOML (path) {
 	return parse(readFileSync(path));
 }
 
-async function ldplug () {
+function getPlugins (before = false) {
 	// Load plugins
 	const absPath = require('./lib/absolutePath');
 	if (YESPLUG === true) {
@@ -481,7 +484,8 @@ async function ldplug () {
 
 		const builtinPlugins = {
 			mapDownloader: join(__dirname, './builtin_plugins/mapdown.js'),
-			autoFish: join(__dirname, './builtin_plugins/autoFish.js')
+			autoFish: join(__dirname, './builtin_plugins/autoFish.js'),
+			socks5Proxy: join(__dirname, './builtin_plugins/socks5Proxy.js')
 		};
 
 		const builtinPluginNames = Object.keys(builtinPlugins);
@@ -503,6 +507,6 @@ async function ldplug () {
 				p++;
 			}
 		}
-		loadPlugins(enabledPluginsAbs);
+		return enabledPluginsAbs;
 	}
 }

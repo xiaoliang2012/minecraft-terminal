@@ -34,6 +34,10 @@ allowParkour = true
 allowSprinting = true
 allowEntityDetection = true
 
+	[mineflayer.proxy]
+	host = '0.0.0.0'
+	port = 1080
+
 	[mineflayer.bot]
 	physicsEnabled = true
 
