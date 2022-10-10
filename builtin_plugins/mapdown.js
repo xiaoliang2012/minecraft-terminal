@@ -49,7 +49,6 @@ const main = async () => {
 		} catch {
 			mcterm.error('An error occurred while trying to preview map');
 		}
-		;
 	};
 	mcterm.bot.on('new_map', onMapPreview);
 };
