@@ -359,6 +359,20 @@ async function botMain () {
 		connectErr(err);
 	}
 	bot.once('error', connectErr);
+	bot._client.once('connect', () => {
+		chat.setPrompt(getCommandPrompt('Loading', cred[3]));
+		chat.line = '';
+		chat.prompt();
+
+		commands.tmp.botMoving = false;
+		commands.tmp.botLooking = false;
+		commands.tmp.botAttacking = false;
+		commands.tmp.lookInt = undefined;
+		// script = { length: 0, msg: [] };
+
+		ansi.clear.clearLine(true);
+		success('Connected.');
+	});
 
 	// Initialize commands
 	setBot(bot);
@@ -366,19 +380,6 @@ async function botMain () {
 
 	// Load plugins
 	loadPlugins(plugins, false);
-
-	chat.setPrompt(getCommandPrompt('Loading', cred[3]));
-	chat.line = '';
-	chat.prompt();
-
-	commands.tmp.botMoving = false;
-	commands.tmp.botLooking = false;
-	commands.tmp.botAttacking = false;
-	commands.tmp.lookInt = undefined;
-	// script = { length: 0, msg: [] };
-
-	ansi.clear.clearLine(true);
-	success('Connected.');
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
@@ -475,7 +476,7 @@ function requireTOML (path) {
 	return parse(readFileSync(path));
 }
 
-function getPlugins (before = false) {
+function getPlugins () {
 	// Load plugins
 	const absPath = require('./lib/absolutePath');
 	if (YESPLUG === true) {

@@ -17,7 +17,7 @@ const before = (A) => {
 			command: 'connect',
 			destination: {
 				host: minecraftHost,
-				port: parseInt(minecraftPort)
+				port: Number.parseInt(minecraftPort)
 			}
 		}, (err, info) => {
 			if (err) {
