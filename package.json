@@ -45,6 +45,7 @@
 		"@zuzak/owo": "^1.18.0",
 		"axios": "^0.27.2",
 		"easy-ansi": "^1.1.2",
+		"hex-and-rgba": "^2.0.0",
 		"merge": "^2.1.1",
 		"mineflayer": "^4.4.0",
 		"mineflayer-maps": "^1.0.2",

@@ -340,7 +340,7 @@ async function botMain () {
 
 	// get port then create bot
 	try {
-		if (cred[3]?.match(/:/)) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
+		if (/(?<=:)\d+/.test(cred[3])) cred[5] = cred[3].match(/(?<=:)\d+/)[0];
 		bot = mineflayer.createBot({
 			auth: cred[0],
 			username: cred[1],
