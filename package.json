@@ -1,7 +1,7 @@
 {
 	"name": "mc-term",
 	"description": "Play Minecraft and configure bots from the terminal",
-	"version": "4.4.1",
+	"version": "4.4.2",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/MC-Terminal/minecraft-terminal/issues"
@@ -44,13 +44,26 @@
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",
 		"@zuzak/owo": "^1.18.0",
+		"absPath": "file:./lib/absolutePath.js",
+		"ansi": "file:./lib/ansi.js",
+		"async": "^3.2.4",
 		"axios": "^0.27.2",
+		"mainpath": "file:./lib/mainPath.js",
+		"configpath": "file:./lib/configPath.js",
+		"commands": "file:./lib/commands.js",
+		"compareVer": "file:./lib/compareVer.js",
 		"easy-ansi": "^1.1.2",
+		"getopts": "file:./lib/getopts.js",
+		"logger": "file:./lib/log.js",
+		"requireTOML": "file:./lib/requireTOML.js",
 		"merge": "^2.1.1",
 		"mineflayer": "^4.4.0",
 		"mineflayer-maps": "^1.0.2",
 		"mineflayer-pathfinder": "^2.3.3",
+		"PACKAGE": "file:./package.json",
+		"progress": "file:./lib/progress.js",
 		"proxy-agent": "^5.0.0",
+		"sleep": "file:./lib/sleep.js",
 		"socks": "^2.7.1"
 	}
 }

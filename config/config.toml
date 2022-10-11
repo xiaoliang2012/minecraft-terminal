@@ -1,0 +1,66 @@
+[commands]
+commandPrompt = ">"
+enableNonVanillaCMD = true
+
+	[commands.commandAliases]
+	stopfollow = "unfollow"
+	dist = "distance"
+	ls = "list"
+	break = "dig"
+	stopdigging = "stopdig"
+	put = "place"
+	"a*" = "pathfind"
+	"a*follow" = "smartfollow"
+	chest = "open"
+	cs = "changeslot"
+	cd = "changeslot"
+	use = "useitem"
+	eval = "script"
+	err = "error"
+	ok = "success"
+	"&" = "async"
+
+[mineflayer]
+canDig = true
+digCost = 3
+placeCost = 3
+liquidCost = 2
+entityCost = 1
+dontCreateFlow = true
+dontMineUnderFallingBlock = true
+allow1by1towers = true
+allowFreeMotion = false
+allowParkour = true
+allowSprinting = true
+allowEntityDetection = true
+
+	[mineflayer.proxy]
+	host = "0.0.0.0"
+	port = 1_080
+
+	[mineflayer.bot]
+	physicsEnabled = true
+
+		[mineflayer.bot.settings]
+		chat = "enabled"
+		colorsEnabled = true
+		viewDistance = "far"
+		mainHand = "left"
+		enableTextFiltering = false
+		enableServerListing = false
+
+			[mineflayer.bot.settings.skinParts]
+			showCape = true
+			showJacket = true
+			showLeftSleeve = true
+			showRightSleeve = true
+			showLeftPants = true
+			showRightPants = true
+			showHat = true
+
+		[mineflayer.bot.pathfinder]
+		thinkTimeout = 8_000
+		tickTimeout = 40
+		searchRadius = -1
+		enablePathShortcut = true
+		LOSWhenPlacingBlocks = true
