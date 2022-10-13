@@ -6,7 +6,7 @@ Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in
 
 **Preview:**
 
-<img src="docs/assets/preview.svg" height="250"/>
+<img src="https://raw.githubusercontent.com/MC-Terminal/minecraft-terminal/65c5d507d460ad5d723f584eedfcffa1a963c9fe/docs/assets/preview.svg" height="250"/>
 
 * [Downloads](#downloads)
   * [Install with NPM (Recommended)](#install-with-npm-recommended)
