@@ -69,6 +69,25 @@ function set (settings) {
 	getopt(['--no-plugins', '-np'], 0, () => {
 		settings.config.enabled.plugins = false;
 	});
+
+	// Get credentials from CLI arguments
+	getopt(['--cred', '-c'], 6, (params) => {
+		const credList = [
+			'auth',
+			'username',
+			'password',
+			'server',
+			'version'
+		];
+		for (let i = 1; i < params.length; i++) {
+			const cred = credList[i - 1];
+			if (params[i] !== '!') {
+				if (params[i] !== undefined && params[i] !== '') {
+					settings.bot.cred[cred] = params[i];
+				} else settings.bot.cred[cred] = null;
+			}
+		}
+	});
 }
 
 module.exports = set;

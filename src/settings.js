@@ -6,10 +6,11 @@ class Settings {
 	bot = {
 		cred: {
 			auth: undefined,
-			name: undefined,
+			username: undefined,
 			password: undefined,
 			server: undefined,
-			version: undefined
+			version: undefined,
+			port: 255
 		}
 	};
 
@@ -20,7 +21,12 @@ class Settings {
 			plugins: true,
 			physics: false
 		},
-		config: {}
+		config: {
+			cred: {},
+			config: {},
+			plugins: {},
+			physics: {}
+		}
 	};
 };
 

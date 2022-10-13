@@ -16,6 +16,22 @@ require('./src/configPath');
 // Generate and update config
 require('./src/updateConfig');
 
+// Load config
+settings.config.config = require('./src/loadConfig')(settings);
+
+// Start the progress bar
+const progress = require('progress');
+progress.start(0, 1, 100, 0, 20, '\rLoading: ');
+
+// Override credentials
+require('./src/overrideCred')(settings);
+
+// Import modules
+const PACKAGE = require('PACKAGE');
+const logger = require('logger');
+const sleep = require('sleep');
+const mineflayer = require('mineflayer');
+
 // Init readline chat
 const readline = require('readline');
 const chat = readline.createInterface({
@@ -24,9 +40,8 @@ const chat = readline.createInterface({
 });
 require('./src/initChat')(chat);
 
-const progress = require('progress');
-const PACKAGE = require('PACKAGE');
-const logger = require('logger');
-const sleep = require('sleep');
+// Stop the progress bar
+progress.stop();
 
-
+// Prompt for credentials
+require('./src/promptCred')(settings, chat);
