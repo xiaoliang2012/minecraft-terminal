@@ -1,6 +1,6 @@
 const PACKAGE = require('PACKAGE');
 const getopt = require('getopts');
-const mainPath = require('mainpath');
+const configPathPath = require('configpath').path;
 
 function set (settings) {
 	getopt(['--help', '-h'], 0, () => {
@@ -31,27 +31,26 @@ function set (settings) {
 
 	getopt(['--set-conf-path', '-scp'], 2, (params) => {
 		const { editObj } = require('../lib/editfile');
-		const { resolve, join } = require('path');
+		const { resolve } = require('path');
 		const { writeFileSync } = require('fs');
 		const requireTOML = require('requireTOML');
 		const TOML = require('@iarna/toml');
 
-		const configPathPath = join(mainPath(), 'configPath.toml');
+		const configPathPathc = configPathPath();
 
 		let dir = params[1] || '';
 		dir = resolve(dir);
-		const data = editObj(requireTOML(configPathPath), (data) => {
+		const data = editObj(requireTOML(configPathPathc), (data) => {
 			data.path = dir;
 			return data;
 		});
-		writeFileSync(configPathPath, TOML.stringify(data).replace(/ {2}/g, '\t'), 'utf-8');
+		writeFileSync(configPathPathc, TOML.stringify(data).replace(/ {2}/g, '\t'), 'utf-8');
 		process.exit();
 	});
 
 	getopt(['--get-conf-path', '-gcp'], 0, () => {
 		const requireTOML = require('requireTOML');
-		const { join } = require('path');
-		process.stdout.write(`Path to config: '${requireTOML(join(mainPath(), 'configPath.toml')).path}'\n`);
+		process.stdout.write(`Path to config: '${requireTOML(configPathPath()).path}'\n`);
 		process.exit();
 	});
 
