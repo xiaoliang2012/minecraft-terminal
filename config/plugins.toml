@@ -1,6 +1,0 @@
-user = [ ]
-
-[builtin]
-mapDownloader = false
-autoFish = false
-socks5Proxy = true
