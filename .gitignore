@@ -3,6 +3,7 @@
 /test*
 /package-lock.json
 /.vscode
+/.configPath.toml
 
 # Logs
 logs
