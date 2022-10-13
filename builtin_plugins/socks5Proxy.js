@@ -7,11 +7,15 @@ const before = (A) => {
 	const minecraftPort = A.settings.options.port;
 	const proxyHost = A.settings.settings.config.config.config.mineflayer.proxy.host;
 	const proxyPort = A.settings.settings.config.config.config.mineflayer.proxy.port;
+	const proxyUsername = A.settings.settings.config.config.config.mineflayer.proxy.username;
+	const proxyPassword = A.settings.settings.config.config.config.mineflayer.proxy.password;
 	const stream = (client) => {
 		Socks.createConnection({
 			proxy: {
 				host: proxyHost,
 				port: proxyPort,
+				userId: proxyUsername,
+				password: proxyPassword,
 				type: 5
 			},
 			command: 'connect',
@@ -30,9 +34,8 @@ const before = (A) => {
 	};
 	delete A.settings.options.host;
 	delete A.settings.options.port;
-	A.settings.options.host = {};
-	A.settings.options.host.connect = stream;
-	A.settings.options.host.agent = new ProxyAgent({ protocol: 'socks5:', host: proxyHost, port: proxyPort });
+	A.settings.options.connect = stream;
+	A.settings.options.agent = new ProxyAgent({ protocol: 'socks5:', host: proxyHost, port: proxyPort });
 	log.info(`Connecting with Socks5 proxy.\nhost: ${proxyHost}\nport: ${proxyPort}`, 2);
 };
 
