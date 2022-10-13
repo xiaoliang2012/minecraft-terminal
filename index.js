@@ -3,15 +3,15 @@
 // Set global settings
 const settings = new (require('./src/settings'))();
 
+// Check if the 'configPath.toml' file exists if not create it
+require('./src/configPath');
+
 // Parse cmd args
 require('./src/getOpts')(settings);
 
 // Set uncaught exception message
 require('./src/uncaughtExcep')(settings.logging.debug);
 require('events').EventEmitter.defaultMaxListeners = 0;
-
-// Check if the 'configPath.toml' file exists if not create it
-require('./src/configPath');
 
 // Generate and update config
 require('./src/updateConfig');
