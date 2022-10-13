@@ -16,7 +16,7 @@ const main = () => {
 			return;
 		}
 		try {
-			await mcterm.bot.equip(mcterm.mcData.itemsByName.fishing_rod.id, 'hand');
+			await mcterm.bot.equip(mcterm.registry.itemsByName.fishing_rod.id, 'hand');
 		} catch {
 			mcterm.warn('I don\'t have any fishing rods!');
 			return;
