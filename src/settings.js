@@ -28,6 +28,6 @@ class Settings {
 			physics: {}
 		}
 	};
-};
+}
 
 module.exports = Settings;

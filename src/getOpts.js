@@ -44,7 +44,7 @@ function set (settings) {
 			data.path = dir;
 			return data;
 		});
-		writeFileSync(configPathPath, TOML.stringify(data).replace(/ {2/g, '\t'), 'utf-8');
+		writeFileSync(configPathPath, TOML.stringify(data).replace(/ {2}/g, '\t'), 'utf-8');
 		process.exit();
 	});
 
@@ -84,7 +84,7 @@ function set (settings) {
 			if (params[i] !== '!') {
 				if (params[i] !== undefined && params[i] !== '') {
 					settings.bot.cred[cred] = params[i];
-				};
+				}
 			} else settings.bot.cred[cred] = null;
 		}
 	});
