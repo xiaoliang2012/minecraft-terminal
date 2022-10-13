@@ -50,7 +50,7 @@ function setup (BOT, CHAT, SETTINGS) {
 }
 
 function botMain () {
-	// ansi.clear.clearLine(true);
+	ansi.clear.clearLine(true);
 	logger.info('Connecting...', 3);
 
 	// Mineflayer bot creation options
@@ -86,23 +86,26 @@ function botMain () {
 		bot.off('error', connectErr);
 		// Set command prompt
 		// Can't you just use the name right away?
-		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
-		chat.line = '';
-		chat.prompt();
-
 		commands.commands.tmp.botMoving = false;
 		commands.commands.tmp.botLooking = false;
 		commands.commands.tmp.botAttacking = false;
 		commands.commands.tmp.lookInt = undefined;
 		// // script = { length: 0, msg: [] };
 
-		// ansi.clear.clearLine(true);
-		logger.success('Connected.');
+		ansi.clear.clearLine(true);
+		logger.info('Logging in...', 3);
+		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
+		chat.line = '';
+		chat.prompt();
 	});
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
+		ansi.clear.clearLine(true);
+		logger.success('Logged in');
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
+		chat.line = '';
+		chat.prompt();
 
 		// Get input
 		chat.on('line', (msg) => {
@@ -129,6 +132,7 @@ function botMain () {
 	// exit mc-term when disconnected
 	bot.once('end', async (reason) => {
 		if (reason !== 'reconnect') {
+			logger.info('Exiting', 2);
 			process.exit();
 		}
 	});
