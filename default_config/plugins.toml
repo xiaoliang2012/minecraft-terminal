@@ -5,4 +5,5 @@ user = []
 [builtin]
 mapDownloader = false
 autoFish = false
+webView = false
 socks5Proxy = false

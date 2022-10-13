@@ -13,7 +13,8 @@ module.exports = function getPlugins (settings) {
 		const builtinPlugins = {
 			mapDownloader: join(mainPath, './builtin_plugins/mapdown.js'),
 			autoFish: join(mainPath, './builtin_plugins/autoFish.js'),
-			socks5Proxy: join(mainPath, './builtin_plugins/socks5Proxy.js')
+			socks5Proxy: join(mainPath, './builtin_plugins/socks5Proxy.js'),
+			webView: join(mainPath, './builtin_plugins/webView.js'),
 		};
 
 		const builtinPluginNames = Object.keys(builtinPlugins);
