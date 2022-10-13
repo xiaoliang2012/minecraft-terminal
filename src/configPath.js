@@ -3,7 +3,7 @@ const logger = require('logger');
 const { join } = require('path');
 const { existsSync } = require('fs');
 
-const configPathPath = join(mainPath, 'configPath.toml');
+const configPathPath = require('configpath').path();
 
 if (!existsSync(configPathPath)) {
 	const { writeFileSync } = require('fs');
