@@ -7,7 +7,7 @@ const settings = new (require('./src/settings'))();
 require('./src/getOpts')(settings);
 
 // Set uncaught exception message
-require('./src/uncaughtExcep')(settings.debug);
+require('./src/uncaughtExcep')(settings.logging.debug);
 require('events').EventEmitter.defaultMaxListeners = 0;
 
 // Check if the 'configPath.toml' file exists if not create it
@@ -27,10 +27,6 @@ progress.start(0, 1, 100, 0, 20, '\rLoading: ');
 require('./src/overrideCred')(settings);
 
 // Import modules
-const PACKAGE = require('PACKAGE');
-const logger = require('logger');
-const sleep = require('sleep');
-const mineflayer = require('mineflayer');
 
 // Init readline chat
 const readline = require('readline');
@@ -38,10 +34,24 @@ const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
+chat.once('close', async () => {
+	process.exit();
+});
 require('./src/initChat')(chat);
 
 // Stop the progress bar
 progress.stop();
 
-// Prompt for credentials
+// Prompt for credentials and modify them
 require('./src/promptCred')(settings, chat);
+
+// set the port
+if (/(?<=:)\d+/.test(settings.bot.cred.server)) {
+	settings.bot.cred.port = settings.bot.cred.server.match(/(?<=:)\d+/)[0];
+}
+
+// Bot main
+let bot;
+const botMain = require('./src/botMain');
+botMain.setup(bot, chat, settings);
+botMain();

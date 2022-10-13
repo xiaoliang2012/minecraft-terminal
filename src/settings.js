@@ -10,7 +10,7 @@ class Settings {
 			password: undefined,
 			server: undefined,
 			version: undefined,
-			port: 255
+			port: 25565
 		}
 	};
 

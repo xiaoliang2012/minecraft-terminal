@@ -84,8 +84,8 @@ function set (settings) {
 			if (params[i] !== '!') {
 				if (params[i] !== undefined && params[i] !== '') {
 					settings.bot.cred[cred] = params[i];
-				} else settings.bot.cred[cred] = null;
-			}
+				};
+			} else settings.bot.cred[cred] = null;
 		}
 	});
 }

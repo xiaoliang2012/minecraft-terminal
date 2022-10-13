@@ -3,7 +3,7 @@ const prompt = require('../lib/prompt');
 
 module.exports = async (settings, chat) => {
 	prompt.load(chat);
-// Prompt if not defined or null
+	// Prompt if not defined or null
 	if (settings.bot.cred.auth === '' || settings.bot.cred.auth === undefined) settings.bot.cred.auth = await prompt.prompt('Auth :');
 	if (settings.bot.cred.auth?.toLowerCase?.() === 'mojang') {
 		warn('Mojang auth servers no longer accept mojang accounts to login.\nThat means you can no longer use mojang accounts', 2);
