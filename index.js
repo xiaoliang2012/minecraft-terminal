@@ -42,16 +42,20 @@ require('./src/initChat')(chat);
 // Stop the progress bar
 progress.stop();
 
-// Prompt for credentials and modify them
-require('./src/promptCred')(settings, chat);
+(
+	async () => {
+		// Prompt for credentials and modify them
+		await require('./src/promptCred')(settings, chat);
 
-// set the port
-if (/(?<=:)\d+/.test(settings.bot.cred.server)) {
-	settings.bot.cred.port = settings.bot.cred.server.match(/(?<=:)\d+/)[0];
-}
+		// set the port
+		if (/(?<=:)\d+/.test(settings.bot.cred.server)) {
+			settings.bot.cred.port = settings.bot.cred.server.match(/(?<=:)\d+/)[0];
+		}
 
-// Bot main
-let bot;
-const botMain = require('./src/botMain');
-botMain.setup(bot, chat, settings);
-botMain();
+		// Bot main
+		let bot;
+		const botMain = require('./src/botMain');
+		botMain.setup(bot, chat, settings);
+		botMain();
+	}
+)();
