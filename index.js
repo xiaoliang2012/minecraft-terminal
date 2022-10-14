@@ -9,6 +9,14 @@ require('./src/configPath');
 // Parse cmd args
 require('./src/getOpts')(settings);
 
+const logger = require('logger');
+
+// Loading
+logger.info('Loading...', 3);
+
+// Import modules
+const botMain = require('./src/botMain');
+
 // Set uncaught exception message
 require('./src/uncaughtExcep')(settings.logging.debug);
 require('events').EventEmitter.defaultMaxListeners = 0;
@@ -19,14 +27,8 @@ require('./src/updateConfig');
 // Load config
 settings.config.config = require('./src/loadConfig')(settings);
 
-// Start the progress bar
-const progress = require('progress');
-progress.start(0, 1, 100, 0, 20, '\rLoading: ');
-
 // Override credentials
 require('./src/overrideCred')(settings);
-
-// Import modules
 
 // Init readline chat
 const readline = require('readline');
@@ -40,7 +42,7 @@ chat.once('close', async () => {
 require('./src/initChat')(chat);
 
 // Stop the progress bar
-progress.stop();
+// progress.stop();
 
 (
 	async () => {
@@ -54,7 +56,6 @@ progress.stop();
 
 		// Bot main
 		let bot;
-		const botMain = require('./src/botMain');
 		botMain.setup(bot, chat, settings);
 		botMain();
 	}
