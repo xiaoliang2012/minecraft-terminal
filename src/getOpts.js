@@ -5,7 +5,7 @@ const configPathPath = require('configpath').path;
 function set (settings) {
 	getopt(['--help', '-h'], 0, () => {
 		process.stdout.write(
-			'Usage:' +
+			'Usage:\n' +
 			'   --no-conf, -nc           Do not use the configuration file.\n' +
 			'   --no-cred, -ns           Do not use the credentials file.\n' +
 			'   --no-plugins, -np        Do not load plugins specified in plugins file.\n' +

@@ -51,7 +51,7 @@ function setup (BOT, CHAT, SETTINGS) {
 
 function botMain () {
 	ansi.clear.clearLine(true);
-	logger.info('Connecting...', 3);
+	logger.info('Loading...', 3);
 
 	// Mineflayer bot creation options
 	const options = {
@@ -68,6 +68,9 @@ function botMain () {
 	// Load plugins (first pass)
 	const plugins = getPlugins(settings);
 	commands.loadPlugins(plugins, true);
+
+	ansi.clear.clearLine(true);
+	logger.info('Connecting...', 3);
 
 	// Try to create bot and connect to server
 	try {

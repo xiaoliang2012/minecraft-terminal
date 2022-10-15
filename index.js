@@ -14,13 +14,6 @@ const logger = require('logger');
 // Loading
 logger.info('Loading...', 3);
 
-// Import modules
-const botMain = require('./src/botMain');
-
-// Set uncaught exception message
-require('./src/uncaughtExcep')(settings.logging.debug);
-require('events').EventEmitter.defaultMaxListeners = 0;
-
 // Generate and update config
 require('./src/updateConfig');
 
@@ -30,19 +23,31 @@ settings.config.config = require('./src/loadConfig')(settings);
 // Override credentials
 require('./src/overrideCred')(settings);
 
-// Init readline chat
+// Import modules
+const { EventEmitter } = require('events');
+const botMain = require('./src/botMain');
 const readline = require('readline');
+require('./lib/commands');
+
+// Set uncaught exception message
+require('./src/uncaughtExcep')(settings.logging.debug);
+EventEmitter.defaultMaxListeners = 0;
+
+// Init readline chat
 const chat = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
+chat.setPrompt('');
 chat.once('close', async () => {
+	process.stdout.write('\n');
 	process.exit();
 });
-require('./src/initChat')(chat);
 
 // Stop the progress bar
 // progress.stop();
+
+require('./src/initChat')(chat);
 
 (
 	async () => {
