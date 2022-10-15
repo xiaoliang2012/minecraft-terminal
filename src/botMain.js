@@ -50,6 +50,7 @@ function setup (BOT, CHAT, SETTINGS) {
 }
 
 function botMain () {
+	chat.pause();
 	ansi.clear.clearLine(true);
 	logger.info('Loading...', 3);
 
@@ -95,10 +96,11 @@ function botMain () {
 		commands.commands.tmp.lookInt = undefined;
 		// // script = { length: 0, msg: [] };
 
-		ansi.clear.clearLine(true);
 		logger.info('Logging in...', 3);
+		ansi.clear.clearLine(true);
 		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
 		chat.line = '';
+		chat.resume();
 		chat.prompt();
 	});
 
@@ -107,8 +109,6 @@ function botMain () {
 		ansi.clear.clearLine(true);
 		logger.success('Logged in');
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
-		chat.line = '';
-		chat.prompt();
 
 		// Get input
 		chat.on('line', (msg) => {
