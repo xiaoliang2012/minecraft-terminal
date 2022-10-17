@@ -27,6 +27,7 @@ require('./src/overrideCred')(settings);
 const { EventEmitter } = require('events');
 const botMain = require('./src/botMain');
 const readline = require('readline');
+const commands = require('./lib/commands');
 require('./lib/commands');
 
 // Set uncaught exception message
@@ -63,5 +64,6 @@ require('./src/initChat')(chat);
 		let bot;
 		botMain.setup(bot, chat, settings);
 		botMain();
+		commands.commands.tasks();
 	}
 )();
