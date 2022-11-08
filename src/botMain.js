@@ -4,6 +4,7 @@ const parseVar = require('../lib/parseVar');
 const mineflayer = require('mineflayer');
 const PACKAGE = require('PACKAGE');
 const commands = require('../lib/commands');
+const { pathfinder } = require('mineflayer-pathfinder');
 
 const getPlugins = require('./getPlugins');
 
@@ -80,21 +81,24 @@ function botMain () {
 		connectErr(err);
 	}
 	commands.setBot(bot);
-
-	// Load plugins (second pass)
-	commands.loadPlugins(plugins, false);
+	console.log(pathfinder);
 
 	bot.once('error', connectErr);
 
 	bot._client.once('connect', () => {
 		bot.off('error', connectErr);
 		// Set command prompt
-		// Can't you just use the name right away?
 		commands.commands.tmp.botMoving = false;
 		commands.commands.tmp.botLooking = false;
 		commands.commands.tmp.botAttacking = false;
 		commands.commands.tmp.lookInt = undefined;
 		// // script = { length: 0, msg: [] };
+
+		// Load plugins (second pass)
+		commands.loadPlugins(plugins, false);
+
+		// Load bot plugins
+		bot.loadPlugin(pathfinder);
 
 		logger.info('Logging in...', 3);
 		ansi.clear.clearLine(true);
