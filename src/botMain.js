@@ -81,7 +81,6 @@ function botMain () {
 		connectErr(err);
 	}
 	commands.setBot(bot);
-	console.log(pathfinder);
 
 	bot.once('error', connectErr);
 
