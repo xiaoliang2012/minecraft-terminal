@@ -17,10 +17,10 @@ const checkForUpdates = () => {
 			const compareVer = require('../lib/compareVer');
 			const diff = compareVer(version, PACKAGE.version);
 			if (diff > 0) {
-				let importance = 'PATCH';
-				if (diff === 1) importance = logger.highLight1('MAJOR') + '%COLOR%';
-				if (diff === 2) importance = logger.highLight1('MINOR') + '%COLOR%';
-				logger.warn(`A new ${importance} version of '${PACKAGE.name}' is out.\nUpdate with: npm up -g ${PACKAGE.name}`);
+				const coloredVerSplit = version?.split('.') || [];
+				coloredVerSplit[diff - 1] = logger.highLight1(coloredVerSplit[diff - 1]) + '%COLOR%';
+				const coloredVerStr = coloredVerSplit.join('.');
+				logger.warn(`A new version (${coloredVerStr}) of '${PACKAGE.name}' is out.\nUpdate with: npm up -g ${PACKAGE.name}`);
 			} else if (diff !== 0) {
 				logger.warn(`You somehow have a newer version of '${PACKAGE.name}' than the latest one available.\nConsider running: npm up -g ${PACKAGE.name}`);
 			}
