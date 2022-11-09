@@ -543,13 +543,13 @@ Show a list of all commands:
        .lookat         Look at a player
        .stoplook       Stop looking
        .inventory      Inventory management
-	   .open           Open a container (chest)
+       .open           Open a container (chest)
        .changeslot     Change selected hotbar slot
        .useitem        Use a held item
-	   .set            Set a variable
-	   .unset          Delete a variable
-	   .value          Get value of a variable
-	   .variables      List all set variables
+       .set            Set a variable
+       .unset          Delete a variable
+       .value          Get value of a variable
+       .variables      List all set variables
        .script         Run a script
        .help           Shows this help message
 ```
