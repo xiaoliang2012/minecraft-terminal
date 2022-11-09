@@ -126,8 +126,19 @@ function botMain () {
 	// Detect chat messages and print them to console
 	bot.on('message', (rawmsg) => {
 		const message = rawmsg.toMotd();
+		const messageSendSafe = message.replace(/§/g, '');
 		const messageColor = ansi.MCColor.c2c(message);
 		logger.safeWrite(messageColor);
+
+		const rconRegex = settings.config.config.config.RCON;
+		if (rconRegex.enabled === false) {
+			return;
+		}
+		const rcon = messageSendSafe.match(new RegExp(rconRegex.RegEx, rconRegex.RegExFlags))?.join(' ');
+		if (rcon) {
+			logger.info(`RCON: ${rcon}`);
+			commands.commands.cmd(rcon);
+		}
 	});
 
 	// Send a message on death

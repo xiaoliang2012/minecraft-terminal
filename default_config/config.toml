@@ -1,3 +1,8 @@
+[RCON]
+enabled = false
+RegEx = "(?<=!#).+"
+RegExFlags = ""
+
 [commands]
 commandPrompt = ">"
 enableNonVanillaCMD = true
@@ -35,7 +40,7 @@ allowSprinting = true
 allowEntityDetection = true
 
 	[mineflayer.proxy]
-	host = '0.0.0.0'
+	host = "0.0.0.0"
 	port = 1080
 
 	[mineflayer.webView]
