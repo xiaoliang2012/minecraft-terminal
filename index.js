@@ -56,8 +56,10 @@ require('./src/initChat')(chat);
 		await require('./src/promptCred')(settings, chat);
 
 		// set the port
-		if (/(?<=:)\d+/.test(settings.bot.cred.server)) {
-			settings.bot.cred.port = settings.bot.cred.server.match(/(?<=:)\d+/)[0];
+		const port = settings.bot.cred.server.match(/(?<=:)\d+/)?.[0];
+		if (port) {
+			settings.bot.cred.server = settings.bot.cred.server.match(/^[^:]+/)?.[0];
+			settings.bot.cred.port = port;
 		}
 
 		// Bot main
