@@ -1,4 +1,4 @@
-const { warn } = require('logger');
+const { warn } = require('../lib/log');
 const prompt = require('../lib/prompt');
 
 module.exports = async (settings, chat) => {

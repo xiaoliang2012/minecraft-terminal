@@ -9,7 +9,7 @@ require('./src/configPath');
 // Parse cmd args
 require('./src/getOpts')(settings);
 
-const logger = require('logger');
+const logger = require('./lib/log');
 
 // Loading
 logger.info('Loading...', 3);

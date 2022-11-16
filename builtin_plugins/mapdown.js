@@ -1,5 +1,5 @@
 const mineflayerMaps = require('mineflayer-maps');
-const ansi = require('easy-ansi');
+const ansi = require('../lib/ansi');
 
 let mcterm;
 

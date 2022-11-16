@@ -1,4 +1,4 @@
-const { error, warn } = require('logger');
+const { error, warn } = require('../lib/log');
 const PACKAGE = require('PACKAGE');
 
 function set (debug) {

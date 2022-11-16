@@ -1,7 +1,7 @@
-const { error, warn, info, highLight1 } = require('logger');
-const requireTOML = require('requireTOML');
+const { error, warn, info, highLight1 } = require('../lib/log');
+const requireTOML = require('../lib/requireTOML');
 const { join } = require('path');
-const configPath = require('configpath')().path;
+const configPath = require('../lib/configPath')().path;
 
 const readErrMSG = (file) => {
 	return `An error occurred while trying to read "${highLight1(file)}"`;

@@ -1,6 +1,6 @@
-const requireTOML = require('requireTOML');
-const configPath = require('configpath')().path;
-const mainPath = require('mainpath')();
+const requireTOML = require('../lib/requireTOML');
+const configPath = require('../lib/configPath')().path;
+const mainPath = require('../lib/mainPath')();
 const { join } = require('path');
 
 module.exports = function getPlugins (settings) {

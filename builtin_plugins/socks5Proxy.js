@@ -1,6 +1,6 @@
 const Socks = require('socks').SocksClient;
 const ProxyAgent = require('proxy-agent');
-const log = require('logger');
+const log = require('../lib/log');
 
 const before = (A) => {
 	const minecraftHost = A.settings.options.host;

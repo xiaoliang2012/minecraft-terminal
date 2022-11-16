@@ -44,29 +44,19 @@
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",
 		"@zuzak/owo": "^1.18.0",
-		"absPath": "file:./lib/absolutePath.js",
-		"ansi": "file:./lib/ansi.js",
-		"async": "^3.2.4",
 		"axios": "^0.27.2",
-		"commands": "file:./lib/commands.js",
-		"compareVer": "file:./lib/compareVer.js",
-		"configpath": "file:./lib/configPath.js",
-		"easy-ansi": "^1.1.2",
-		"getopts": "file:./lib/getopts.js",
-		"logger": "file:./lib/log.js",
-		"mainpath": "file:./lib/mainPath.js",
 		"merge": "^2.1.1",
-		"mineflayer": "^4.4.0",
+		"mineflayer": "^4.5.1",
 		"mineflayer-maps": "^1.0.2",
 		"mineflayer-pathfinder": "^2.3.3",
 		"PACKAGE": "file:./package.json",
+		"pngjs": "^6.0.0",
 		"prismarine-chat": "^1.7.2",
 		"prismarine-registry": "^1.5.0",
 		"prismarine-viewer": "^1.23.0",
-		"progress": "file:./lib/progress.js",
 		"proxy-agent": "^5.0.0",
-		"requireTOML": "file:./lib/requireTOML.js",
 		"sleep": "file:./lib/sleep.js",
-		"socks": "^2.7.1"
+		"socks": "^2.7.1",
+		"vec3": "^0.1.7"
 	}
 }

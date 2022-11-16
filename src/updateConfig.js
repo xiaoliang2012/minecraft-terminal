@@ -2,8 +2,8 @@ const betterMerge = require('../lib/mergeObj');
 const { readdirSync } = require('fs');
 const TOML = require('@iarna/toml');
 const { join } = require('path');
-const mainPath = require('mainpath');
-const configPath = require('configpath')().path;
+const mainPath = require('../lib/mainPath');
+const configPath = require('../lib/configPath')().path;
 
 const MP = mainPath();
 

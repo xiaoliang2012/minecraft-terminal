@@ -1,6 +1,6 @@
 const PACKAGE = require('PACKAGE');
-const getopt = require('getopts');
-const configPathPath = require('configpath').path;
+const getopt = require('../lib/getopts');
+const configPathPath = require('../lib/configPath').path;
 
 function set (settings) {
 	getopt(['--help', '-h'], 0, () => {
@@ -33,7 +33,7 @@ function set (settings) {
 		const { editObj } = require('../lib/editfile');
 		const { resolve } = require('path');
 		const { writeFileSync } = require('fs');
-		const requireTOML = require('requireTOML');
+		const requireTOML = require('../lib/requireTOML');
 		const TOML = require('@iarna/toml');
 
 		const configPathPathc = configPathPath();
@@ -49,7 +49,7 @@ function set (settings) {
 	});
 
 	getopt(['--get-conf-path', '-gcp'], 0, () => {
-		const requireTOML = require('requireTOML');
+		const requireTOML = require('../lib/requireTOML');
 		process.stdout.write(`Path to config: '${requireTOML(configPathPath()).path}'\n`);
 		process.exit();
 	});

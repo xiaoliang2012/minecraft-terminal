@@ -1,9 +1,9 @@
-const mainPath = require('mainpath')();
-const logger = require('logger');
+const mainPath = require('../lib/mainPath')();
+const logger = require('../lib/log');
 const { join } = require('path');
 const { existsSync } = require('fs');
 
-const configPathPath = require('configpath').path();
+const configPathPath = require('../lib/configPath').path();
 
 if (!existsSync(configPathPath)) {
 	const { writeFileSync } = require('fs');

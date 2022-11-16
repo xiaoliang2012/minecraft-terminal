@@ -1,6 +1,6 @@
 const mineflayerViewer = require('prismarine-viewer').mineflayer;
-const logger = require('logger');
-const ansi = require('easy-ansi');
+const logger = require('../lib/log');
+const ansi = require('../lib/ansi');
 
 const webServerPort = 3000;
 
