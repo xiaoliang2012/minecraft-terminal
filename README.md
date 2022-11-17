@@ -352,14 +352,14 @@ Attack an entity:
 Attack all passive mobs except cows:
 
 ```
->.attack 'kind=Passive mobs,name!=cow'
+>.attack 'kind=Passive mobs,name!=cow' 6 5 1
 [OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
 ```
 
 Attack all players except a player named 'team123':
 
 ```
->.attack 'name=player,username!=team123'
+>.attack 'name=player,username!=team123' 6 5 1
 [OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
 ```
 
