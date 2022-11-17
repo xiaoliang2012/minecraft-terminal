@@ -335,14 +335,32 @@ Stop following:
 
 #### Attack
 
-* Player: `String`: Player name
+* Matches: `String`: Nearest entity with all matches true
 * CPS: `Number`: Clicks per second
+* MaxReach: `Number`: Max distance from entity
+* MinReach `Number`: Min distance from entity
 
-Attack a player:
+Attack an entity:
 
 ```
 >.attack
-[INFO] Usage: .attack <Player> <CPS> <MaxReach> <MinReach>. MaxReach > MinReach (Duh), CPS > 0
+[INFO] Usage: .attack <Matches:name=pig|name!=pig|...> <CPS> <MaxReach> <MinReach>. MaxReach > MinReach, CPS > 0
+```
+
+##### Examples
+
+Attack all passive mobs except cows:
+
+```
+>.attack 'kind=Passive mobs,name!=cow'
+[OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
+```
+
+Attack all players except a player named 'team123':
+
+```
+>.attack 'name=player,username!=team123'
+[OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
 ```
 
 #### Stopattack
@@ -537,7 +555,7 @@ Show a list of all commands:
        .follow         Follow a player
        .smartFollow    Same as follow but uses advanced pathfinding
        .unfollow       Stop following
-       .attack         Attack a player
+       .attack         Attack an entity
        .stopattack     Stop attacking
        .look           Look in a certain direction
        .lookat         Look at a player
