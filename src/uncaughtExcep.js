@@ -1,5 +1,5 @@
 const { error, warn } = require('../lib/log');
-const PACKAGE = require('PACKAGE');
+const PACKAGE = require('../package.json');
 
 function set (debug) {
 	let onUncaughtException;

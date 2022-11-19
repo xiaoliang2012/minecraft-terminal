@@ -1,4 +1,4 @@
-const PACKAGE = require('PACKAGE');
+const PACKAGE = require('../package.json');
 const getopt = require('../lib/getopts');
 const configPathPath = require('../lib/configPath').path;
 

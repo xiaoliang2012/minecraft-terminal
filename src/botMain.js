@@ -2,7 +2,7 @@ const logger = require('../lib/log');
 const ansi = require('../lib/ansi');
 const parseVar = require('../lib/parseVar');
 const mineflayer = require('mineflayer');
-const PACKAGE = require('PACKAGE');
+const PACKAGE = require('../package.json');
 const commands = require('../lib/commands');
 const { pathfinder } = require('mineflayer-pathfinder');
 
