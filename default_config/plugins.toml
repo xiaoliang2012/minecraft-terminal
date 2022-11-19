@@ -1,6 +1,6 @@
 # Put plugin paths inside user array
 # user = [ 'C:\Users\User\Desktop\hacks\fly.js', 'C:\Users\User\Desktop\hacks\autofish.js' ]
-user = []
+user = [ ]
 
 [builtin]
 mapDownloader = false
