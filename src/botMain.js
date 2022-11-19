@@ -96,8 +96,8 @@ function setListeners () {
 
 	// send disconnect reason
 	bot.on('kicked', (reason) => {
-		logger.warn(`Kicked from ${settings.bot.cred.server}:`);
-		process.stdout.write(`${ansi.MCColor.c2c(JSON.parse(reason).text) + ansi.color.reset}\n`);
+		logger.warn(`Kicked from ${settings.bot.cred.server}:`, 2);
+		process.stdout.write(`${ansi.MCColor.c2c(reason, undefined, true) + ansi.color.reset}\n`);
 	});
 
 	// set terminal title
@@ -136,6 +136,7 @@ function botMain () {
 		connectErr(err);
 	}
 	commands.setBot(bot);
+	ansi.other.setMCVersion(bot.version);
 
 	bot.once('error', connectErr);
 
