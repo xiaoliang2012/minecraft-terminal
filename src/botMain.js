@@ -50,6 +50,62 @@ function setup (BOT, CHAT, SETTINGS) {
 	commands.setbotMain(this);
 }
 
+const beforeLoginMsgs = [];
+let loggedIn = false;
+
+function onMessage (rawmsg) {
+	const message = rawmsg.toMotd();
+	const messageSendSafe = message.replace(/§/g, '');
+	const messageColor = ansi.MCColor.c2c(message);
+
+	logger.safeWrite(messageColor);
+
+	const rconRegex = settings.config.config.config.RCON;
+	if (rconRegex.enabled === false) {
+		return;
+	}
+	const rcon = messageSendSafe.match(new RegExp(rconRegex.RegEx, rconRegex.RegExFlags))?.join(' ');
+	if (rcon) {
+		logger.info(`RCON: ${rcon}`);
+		commands.commands.cmd(rcon);
+	}
+}
+
+function setListeners () {
+	// Detect chat messages and print them to console
+	bot.on('message', (rawmsg) => {
+		if (loggedIn === true) {
+			onMessage(rawmsg);
+			return;
+		}
+		beforeLoginMsgs[beforeLoginMsgs.length] = rawmsg;
+	});
+
+	// Send a message on death
+	bot.on('death', () => {
+		logger.warn('You died. Respawning');
+	});
+
+	// exit mc-term when disconnected
+	bot.once('end', async (reason) => {
+		if (reason !== 'reconnect') {
+			logger.info('Exiting', 2);
+			process.exit();
+		}
+	});
+
+	// send disconnect reason
+	bot.on('kicked', (reason) => {
+		logger.warn(`Kicked from ${settings.bot.cred.server}:`);
+		process.stdout.write(`${ansi.MCColor.c2c(JSON.parse(reason).text) + ansi.color.reset}\n`);
+	});
+
+	// set terminal title
+	bot.once('spawn', async () => {
+		ansi.other.setTermTitle(`${bot.player?.username || settings.bot.cred.username} @ ${settings.bot.cred.server}`);
+	});
+}
+
 function botMain () {
 	chat.pause();
 	ansi.clear.clearLine(true);
@@ -71,7 +127,6 @@ function botMain () {
 	const plugins = getPlugins(settings);
 	commands.loadPlugins(plugins, true);
 
-	ansi.clear.clearLine(true);
 	logger.info('Connecting...', 3);
 
 	// Try to create bot and connect to server
@@ -100,18 +155,24 @@ function botMain () {
 		bot.loadPlugin(pathfinder);
 
 		logger.info('Logging in...', 3);
-		ansi.clear.clearLine(true);
 		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
-		chat.line = '';
-		chat.resume();
-		chat.prompt();
+		setListeners();
 	});
 
 	// Chat input and check for updates
 	bot.once('login', async () => {
-		ansi.clear.clearLine(true);
 		logger.success('Logged in');
+		loggedIn = true;
+		chat.line = '';
+		chat.resume();
+		chat.prompt();
+		chat.line = '';
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
+
+		// Log chat messages sent before being logged in
+		for (let i = 0; i < beforeLoginMsgs.length; i++) {
+			onMessage(beforeLoginMsgs[i]);
+		}
 
 		// Get input
 		chat.on('line', (msg) => {
@@ -121,49 +182,6 @@ function botMain () {
 
 		// Check for updates
 		checkForUpdates();
-	});
-
-	// Detect chat messages and print them to console
-	bot.on('message', (rawmsg) => {
-		const message = rawmsg.toMotd();
-		const messageSendSafe = message.replace(/§/g, '');
-		const messageColor = ansi.MCColor.c2c(message);
-		logger.safeWrite(messageColor);
-
-		const rconRegex = settings.config.config.config.RCON;
-		if (rconRegex.enabled === false) {
-			return;
-		}
-		const rcon = messageSendSafe.match(new RegExp(rconRegex.RegEx, rconRegex.RegExFlags))?.join(' ');
-		if (rcon) {
-			logger.info(`RCON: ${rcon}`);
-			commands.commands.cmd(rcon);
-		}
-	});
-
-	// Send a message on death
-	bot.on('death', () => {
-		logger.warn('You died. Respawning');
-	});
-
-	// exit mc-term when disconnected
-	bot.once('end', async (reason) => {
-		if (reason !== 'reconnect') {
-			logger.info('Exiting', 2);
-			process.exit();
-		}
-	});
-
-	// send disconnect reason
-	bot.on('kicked', (reason) => {
-		logger.warn(`Kicked from ${settings.bot.cred.server}:`);
-		logger.safeWrite(`${ansi.MCColor.c2c(JSON.parse(reason).text) + ansi.color.reset}`);
-		process.stdout.write('\r');
-	});
-
-	// set terminal title
-	bot.once('spawn', async () => {
-		ansi.other.setTermTitle(`${bot.player?.username || settings.bot.cred.username} @ ${settings.bot.cred.server}`);
 	});
 }
 
