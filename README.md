@@ -17,7 +17,7 @@ Minecraft Terminal is a lightweight CLI app that allows you to play minecraft in
   * [Plugins](#plugins)
   * [Scripts](#scripts)
   * [Hotkeys](#hotkeys)
-  * [Shortcuts](#shortcuts)
+  * [Shortcuts](#shortcuts-and-tips)
   * [Remote control (RCON)](#remote-control)
   * [Configuration](#configuration)
     * [Credentials](#credentials)
@@ -713,7 +713,7 @@ Example:
 | CTRL-K            | Kill forward to the end of a line           |
 | CTRL-L            | Clears the screen                           |
 
-### Shortcuts
+### Shortcuts and tips
 
 #### Command-line
 
@@ -764,6 +764,20 @@ Relative position also works
 <You> 512.5 76 1535
 >.send ~100 ~+100 ~-1005
 <You> 612.5 176 530
+```
+
+##### quotes
+
+* When typing an argument for a command that has spaces, you should wrap it inside of quotes
+
+```
+>.attack 'kind=Hostile mobs' 12 3 0.5
+```
+
+Double quotes also work
+
+```
+>.attack "kind=Hostile mobs" 12 3 0.5
 ```
 
 ### Remote control
