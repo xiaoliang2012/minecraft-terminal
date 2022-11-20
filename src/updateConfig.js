@@ -16,9 +16,14 @@ readdirSync(join(MP, 'default_config')).forEach(file => {
 	const defaultconfigPath = join(MP, 'default_config', file);
 	try {
 		require.resolve(filePath);
-	} catch (err) {
-		const { cpSync } = require('fs');
-		cpSync(defaultconfigPath, filePath);
+	} catch {
+		try {
+			const { cpSync } = require('fs');
+			cpSync(defaultconfigPath, filePath);
+		} catch (e) {
+			logger.error(`An error occurred trying to update configuration files.\n${e}`);
+			process.exit(1);
+		}
 		return;
 	}
 	let out;
@@ -37,7 +42,7 @@ readdirSync(join(MP, 'default_config')).forEach(file => {
 		TOMLString = TOML.stringify(out).replace(/ {2}/g, '\t');
 	} catch (e) {
 		logger.error(`An error occurred while trying to parse ${file}.\n${e.message}`);
-		return;
+		process.exit(1);
 	}
 
 	try {

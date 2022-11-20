@@ -3,14 +3,13 @@ const requireTOML = require('../lib/requireTOML');
 const { join } = require('path');
 const configPath = require('../lib/configPath')().path;
 
-const readErrMSG = (file, errorMsg) => {
-	let out;
+const readErr = (file, errorMsg) => {
 	if (errorMsg) {
-		out = `An error occurred while trying to read "${file}".\n${errorMsg}`;
+		error(`An error occurred while trying to read ${file}.\n${errorMsg}`);
 	} else {
-		out = `An error occurred while trying to read "${file}"`;
+		error(`An error occurred while trying to read ${file}`);
 	}
-	return out;
+	process.exit(1);
 };
 
 function load (settings) {
@@ -19,7 +18,7 @@ function load (settings) {
 		try {
 			config.plugins = requireTOML(join(configPath, 'plugins.toml'));
 		} catch (e) {
-			error(readErrMSG('plugins.toml', e.message));
+			readErr('plugins.toml', e.message);
 		}
 	} else {
 		warn('Not using plugins');
@@ -29,7 +28,7 @@ function load (settings) {
 		try {
 			config.config = requireTOML(join(configPath, 'config.toml'));
 		} catch (e) {
-			error(readErrMSG('config.toml', e.message));
+			readErr('config.toml', e.message);
 		}
 	} else {
 		warn('Using default config');
@@ -46,7 +45,7 @@ function load (settings) {
 			config.physics = physics;
 		}
 	} catch (e) {
-		error(readErrMSG('physics.toml', e.message));
+		readErr('physics.toml', e.message);
 	}
 
 	if (settings.config.enabled.cred === true) {
@@ -62,7 +61,7 @@ function load (settings) {
 				...requireTOML(join(configPath, 'credentials.toml'))
 			};
 		} catch (e) {
-			error(readErrMSG('credentials.toml', e.message));
+			readErr('credentials.toml', e.message);
 		}
 	}
 
