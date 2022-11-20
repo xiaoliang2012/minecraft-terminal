@@ -41,6 +41,8 @@ function load (settings) {
 		if (physics.usePhysicsJSON === true) {
 			warn(`Using custom physics. this will result in a ${highLight1('ban')}%COLOR% in most servers!`);
 			info('You can disable it by editing usePhysicsJSON in physics.toml');
+			settings.config.enabled.physics = true;
+			delete physics.usePhysicsJSON;
 			config.physics = physics;
 		}
 	} catch (e) {

@@ -7,6 +7,7 @@ const commands = require('../lib/commands');
 const { pathfinder } = require('mineflayer-pathfinder');
 
 const getPlugins = require('./getPlugins');
+const merge = require('merge');
 
 let bot, chat, settings;
 
@@ -100,9 +101,15 @@ function setListeners () {
 		process.stdout.write(`${ansi.MCColor.c2c(reason, undefined, true) + ansi.color.reset}\n`);
 	});
 
-	// set terminal title
+	// set terminal title and movements
 	bot.once('spawn', async () => {
 		ansi.other.setTermTitle(`${bot.player?.username || settings.bot.cred.username} @ ${settings.bot.cred.server}`);
+		const movements = merge.recursive(bot.pathfinder.movements, settings.config.config.config?.mineflayer.movements);
+		if (settings.config.enabled.physics === true) {
+			movements.bot.physics = merge.recursive(movements.bot.physics, settings.config.config.physics);
+		}
+		bot.pathfinder.setMovements(movements);
+		console.log(bot.pathfinder.movements);
 	});
 }
 
@@ -154,6 +161,9 @@ function botMain () {
 
 		// Load bot plugins
 		bot.loadPlugin(pathfinder);
+
+		// console.log(bot.pathfinder.movements);
+		// console.log(settings.config.config.config.mineflayer.movements);
 
 		logger.info('Logging in...', 3);
 		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
