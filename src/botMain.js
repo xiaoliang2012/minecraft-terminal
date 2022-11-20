@@ -109,7 +109,6 @@ function setListeners () {
 			movements.bot.physics = merge.recursive(movements.bot.physics, settings.config.config.physics);
 		}
 		bot.pathfinder.setMovements(movements);
-		console.log(bot.pathfinder.movements);
 	});
 }
 
@@ -161,9 +160,6 @@ function botMain () {
 
 		// Load bot plugins
 		bot.loadPlugin(pathfinder);
-
-		// console.log(bot.pathfinder.movements);
-		// console.log(settings.config.config.config.mineflayer.movements);
 
 		logger.info('Logging in...', 3);
 		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
