@@ -25,7 +25,15 @@ enableNonVanillaCMD = true
 	ok = "success"
 	"&" = "async"
 
-[mineflayer]
+[mineflayer.proxy]
+host = "0.0.0.0"
+port = 1_080
+
+[mineflayer.webView]
+firstPerson = true
+showTrail = false
+
+[mineflayer.movements]
 canDig = true
 digCost = 3
 placeCost = 3
@@ -38,19 +46,14 @@ allowFreeMotion = false
 allowParkour = true
 allowSprinting = true
 allowEntityDetection = true
+canOpenDoors = true
+maxDropDown = 4
+infiniteLiquidDropdownDistance = true
 
-	[mineflayer.proxy]
-	host = "0.0.0.0"
-	port = 1080
-
-	[mineflayer.webView]
-	firstPerson = true
-	showTrail = false
-
-	[mineflayer.bot]
+	[mineflayer.movements.bot]
 	physicsEnabled = true
 
-		[mineflayer.bot.settings]
+		[mineflayer.movements.bot.settings]
 		chat = "enabled"
 		colorsEnabled = true
 		viewDistance = "far"
@@ -58,7 +61,7 @@ allowEntityDetection = true
 		enableTextFiltering = false
 		enableServerListing = false
 
-			[mineflayer.bot.settings.skinParts]
+			[mineflayer.movements.bot.settings.skinParts]
 			showCape = true
 			showJacket = true
 			showLeftSleeve = true
@@ -67,8 +70,8 @@ allowEntityDetection = true
 			showRightPants = true
 			showHat = true
 
-		[mineflayer.bot.pathfinder]
-		thinkTimeout = 8000
+		[mineflayer.movements.bot.pathfinder]
+		thinkTimeout = 8_000
 		tickTimeout = 40
 		searchRadius = -1
 		enablePathShortcut = true
