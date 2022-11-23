@@ -741,7 +741,7 @@ They're used to get the nearest entity with the specified conditions. e.g:
 .attack $type=player&username!=teamMember12 6 3 0.5
 ```
 
-`$type` starts with a `$` so it will be replaced by the value of the property `type` inside of the entity object.
+`$type` starts with a `$` so it will be replaced by the value of the property `player` inside of the entity object.
 
 So the entity must be of type `player` and its username must not be `teamMember12`.
 
