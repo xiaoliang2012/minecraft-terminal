@@ -309,7 +309,7 @@ Follow a player:
 
 ```
 >.follow
-[INFO] Usage: .follow <Player> <Range>. Range > 1
+[INFO] Usage: .follow <EntityMatches:$name=pig|$name!=pig|...> <Range>. Range > 0
 ```
 
 #### smartFollow
@@ -321,7 +321,7 @@ Same as follow but uses advanced pathfinding:
 
 ```
 >.smartfollow
-[INFO] Usage: .smartfollow <Player> <Range>. Range > 1
+[INFO] Usage: .smartfollow <EntityMatches:$name=pig|$name!=pig|...> <Range>. Range > 0
 ```
 
 #### Unfollow
@@ -344,22 +344,22 @@ Attack an entity:
 
 ```
 >.attack
-[INFO] Usage: .attack <Matches:name=pig|name!=pig|...> <CPS> <MaxReach> <MinReach>. MaxReach > MinReach, CPS > 0
+[INFO] Usage: .attack <EntityMatches:$name=pig|$name!=pig|...> <CPS> <MaxReach> <MinReach>. MaxReach > MinReach, CPS > 0MinReach, CPS > 0
 ```
 
 ##### Examples
 
-Attack all passive mobs except cows:
+Attack all passive mobs or zombies:
 
 ```
->.attack 'kind=Passive mobs,name!=cow' 6 5 1
+>.attack 'kind=Passive mobs|name=zombie' 6 5 1
 [OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
 ```
 
 Attack all players except a player named 'team123':
 
 ```
->.attack 'name=player,username!=team123' 6 5 1
+>.attack 'name=player&username!=team123' 6 5 1
 [OK] Attacking nearest entity with 6CPS if kind=Passive mobs,name!=cow and MinReach(1) < distance < MaxReach(5)
 ```
 
@@ -730,6 +730,21 @@ First `!` Skips password prompt because this is a cracked account.
 Second `!` uses default version (1.12.2).
 
 #### In game
+
+##### EntityMatches
+
+Entity matches are used for `attack`, `follow` and `smartFollow` commands.
+
+They're used to get the nearest entity with the specified conditions. e.g:
+
+```
+.attack $type=player&username!=teamMember12 6 3 0.5
+```
+
+`$type` starts with a `$` so it will be replaced by the value of the property `type` inside of the entity object.
+
+So the entity must be of type `player` and its username must not be `teamMember12`.
+
 
 ##### Position ~ ~ ~
 
