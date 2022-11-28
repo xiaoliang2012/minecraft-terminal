@@ -9,6 +9,6 @@
 /node_modules
 /[Bb]uild*
 /test*
-/package-lock.json
 /.vscode
 /configPath.toml
+/jest.config.js

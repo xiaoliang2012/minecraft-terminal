@@ -46,7 +46,6 @@ function setup (BOT, CHAT, SETTINGS) {
 	bot = BOT;
 	chat = CHAT;
 	settings = SETTINGS;
-	commands.setChat(chat);
 	commands.setConfig({ settings });
 	commands.setbotMain(this);
 }
