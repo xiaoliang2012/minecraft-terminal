@@ -6,7 +6,7 @@ const { EventEmitter } = require('events');
 const serverVersion = '1.8.9';
 const serverPort = 12345;
 const serverHost = '0.0.0.0';
-const username = 'testBot_1234;
+const username = 'testBot_1234';
 
 let ended = false;
 async function waitForBotToEnd (bot) {
