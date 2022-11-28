@@ -1,7 +1,6 @@
 /node_modules
 /[Bb]uild*
-/test*
-/package-lock.json
+/ignore*
 /.vscode
 /configPath.toml
 
