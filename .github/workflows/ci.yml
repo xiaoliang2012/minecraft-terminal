@@ -32,6 +32,5 @@ jobs:
         npm ci
         npm run build --if-present
         node ./tests/needs-server/startServer.js 12345 1.8.9 &
-        sleep 15
         npm test
         exit

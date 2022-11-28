@@ -1,7 +1,6 @@
-const random = require('../../lib/getRandomArbitrary');
-
 const mineflayer = require('mineflayer');
 const { EventEmitter } = require('events');
+const sleep = require('../../lib/sleep');
 
 const serverVersion = '1.8.9';
 const serverPort = 12345;
@@ -29,17 +28,26 @@ async function waitForBotToSpawn (bot) {
 let bot = new EventEmitter();
 
 async function beforeEverything () {
+	console.log('Wait for server to start');
+	await sleep(1200);
+	console.log('Connecting to server');
 	bot = mineflayer.createBot({
 		host: serverHost,
 		port: serverPort,
 		username,
 		version: serverVersion
 	});
-	bot.once('error', () => {
+
+	const connectErr = () => {
+		console.log('Could not connect to server');
 		process.exit(1);
-	});
+	};
+
+	bot.once('error', connectErr);
 
 	await waitForBotToSpawn(bot);
+
+	bot.off('error', connectErr);
 	return bot;
 };
 
