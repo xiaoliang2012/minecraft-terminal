@@ -12,7 +12,7 @@ jest.setTimeout(40 * 1000);
 let bot = new EventEmitter();
 
 beforeAll(async () => {
-	// await sleep(6000);
+	await sleep(6000);
 	bot = await serverUtils.beforeEverything();
 
 	commands.setBot(bot);
@@ -86,7 +86,7 @@ describe('commands', () => {
 });
 
 afterAll(async () => {
-	// bot.chat('/stop');
+	bot.chat('/stop');
 	bot.quit();
 	await serverUtils.waitForBotToEnd(bot);
 }, 30 * 1000);
