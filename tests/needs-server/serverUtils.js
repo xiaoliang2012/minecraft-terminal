@@ -28,9 +28,6 @@ async function waitForBotToSpawn (bot) {
 let bot = new EventEmitter();
 
 async function beforeEverything () {
-	console.log('Wait for server to start');
-	await sleep(1200);
-	console.log('Connecting to server');
 	bot = mineflayer.createBot({
 		host: serverHost,
 		port: serverPort,

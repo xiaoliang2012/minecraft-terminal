@@ -251,12 +251,24 @@ Move the player in blocks:
 [INFO] Usage: .move <Direction> <distance?>. Direction = <north|south|east|west> distance > 0
 ```
 
+#### MoveTo
+
+* X: `Number`
+* Z: `Number`
+
+Move to specific coordinates (Y is variable):
+
+```
+>.pathfind
+[INFO] Usage: .pathfind <X> <Z>
+```
+
 #### Pathfind
 
 * X: `Number`
 * Z: `Number`
 
-Pathfind to specific coordinates (Y is variable)
+Same as moveTo but uses advanced pathfinding (bad with anti cheats):
 
 ```
 >.pathfind
@@ -317,7 +329,7 @@ Follow a player:
 * Player: `String`: Player name
 * Range: `Number`: How close you should stay to the player
 
-Same as follow but uses advanced pathfinding:
+Same as follow but uses advanced pathfinding (bad with anti cheats):
 
 ```
 >.smartfollow

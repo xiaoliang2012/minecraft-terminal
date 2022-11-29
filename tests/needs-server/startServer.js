@@ -16,20 +16,18 @@ mcServer.createMCServer({
 	generation: {
 		name: 'superflat',
 		options: {
-			worldHeight: 80
+			worldHeight: 25
 		}
 	},
 	kickTimeout: 10000,
-	plugins: {
-
-	},
+	plugins: {},
 	modpe: false,
-	'view-distance': 10,
+	'view-distance': 3,
 	'player-list-text': {
 		header: 'Flying squid',
 		footer: 'Test server'
 	},
 	'everybody-op': true,
-	'max-entities': 10,
+	'max-entities': 5,
 	version
 });

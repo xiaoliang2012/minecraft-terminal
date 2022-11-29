@@ -158,7 +158,7 @@ function botMain () {
 		commands.loadPlugins(plugins, false);
 
 		// Load bot plugins
-		bot.loadPlugin(pathfinder);
+		// bot.loadPlugin(pathfinder);
 
 		logger.info('Logging in...', 3);
 		chat.setPrompt(getCommandPrompt('Loading', settings.bot.cred.server));
