@@ -48,7 +48,6 @@
 		"@iarna/toml": "^3.0.0",
 		"@zuzak/owo": "^1.18.0",
 		"axios": "^1.2.0",
-		"flying-squid": "^1.5.0",
 		"merge": "^2.1.1",
 		"mineflayer": "^4.5.1",
 		"mineflayer-maps": "^1.1.1",
