@@ -5,7 +5,7 @@
 * [X] Add killaura with different
 * [X] Add a mode (in the config file) to disable all non vanilla features (e.g. pathfinder, follow, attack...)
 * [X] Make the 'pathfindto' command move to a specific location
-* [ ] Move usage to the wiki
+* [X] Move usage to the wiki
 * [X] Add a scripting interface
 * [X] Use RGB colors for Mincraft color codes
 * [X] Reduce launch time
