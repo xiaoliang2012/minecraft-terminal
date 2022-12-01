@@ -41,6 +41,10 @@ $ node .
 * [Configuration](https://github.com/MC-Terminal/minecraft-terminal/wiki/Configuration)
 * [Usage](https://github.com/MC-Terminal/minecraft-terminal/wiki/Usage)
 
+## Getting help
+
+Check out the [README](https://github.com/MC-Terminal/minecraft-terminal#readme) and existing [Discussions](https://github.com/MC-Terminal/minecraft-terminal/discussions): Maybe your question is answered there. If not, please open a [New Discussion](https://github.com/MC-Terminal/minecraft-terminal/discussions/new) and ask your question. If you find a bug, please report it in the [Issue tracker](https://github.com/MC-Terminal/minecraft-terminal/issues).
+
 ## Contribution
 
 If you'd like to contribute to Minecraft Terminal, great, just fork the repository and submit a pull request on the _testing_ branch.
