@@ -14,7 +14,7 @@
 
 Minecraft Terminal is a lightweight TUI client for Minecraft Java edition that allows you to play Minecraft in the terminal and configure bots.
 
-[<img src="https://raw.githubusercontent.com/MC-Terminal/minecraft-terminal/65c5d507d460ad5d723f584eedfcffa1a963c9fe/docs/assets/preview.svg" height="250"/>](#)
+[<img src="https://raw.githubusercontent.com/MC-Terminal/minecraft-terminal/65c5d507d460ad5d723f584eedfcffa1a963c9fe/docs/assets/preview.svg" height="250"/>]()
 
 ## Downloads
 
@@ -45,4 +45,4 @@ $ node .
 
 If you'd like to contribute to Minecraft Terminal, great, just fork the repository and submit a pull request on the _testing_ branch.
 
-[![Alt](https://repobeats.axiom.co/api/embed/ca7a84ac45ec125429b40b0672e005c4042f9108.svg "Repobeats analytics")](#)
+[![Alt](https://repobeats.axiom.co/api/embed/ca7a84ac45ec125429b40b0672e005c4042f9108.svg "Repobeats analytics")]()
