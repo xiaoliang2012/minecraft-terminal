@@ -6,8 +6,7 @@ body:
   attributes:
     value: |
       Before submitting a bug report, please make sure you have read this *entire* form, and that:
-      * You have read the [Prism Launcher wiki](https://github.com/MC-Terminal/minecraft-terminal/wiki) and it has not answered your question.
-      * Your bug is not caused by Minecraft or any mods you have installed.
+      * You have read the [wiki](https://github.com/MC-Terminal/minecraft-terminal/wiki) and it has not answered your question.
       * Your issue has not been reported before, [make sure to use the search function!](https://github.com/MC-Terminal/minecraft-terminal/issues)
 
       **Do not forget to give your issue a descriptive title.**
