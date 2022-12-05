@@ -6,6 +6,7 @@ const PACKAGE = require('../package.json');
 const commands = require('../lib/commands');
 const getPlugins = require('./getPlugins');
 const merge = require('merge');
+const autoComplete = require('../lib/autoComplete');
 
 let bot, chat, settings;
 
@@ -166,12 +167,31 @@ function botMain () {
 	// Chat input and check for updates
 	bot.once('login', async () => {
 		logger.success('Logged in');
+
+		// Init chat
 		loggedIn = true;
 		chat.line = '';
 		chat.resume();
 		chat.prompt();
 		chat.line = '';
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
+
+		// Init autoComplete
+		{
+			const commandCompletions = {};
+			const commandNames = Object.keys(commands.commands);
+			const dontInclude = ['reco', 'exit', ...commands.reservedCommandNames, ...commands.scriptOnlyCommands];
+			for (let a = 0; a < commandNames.length; a++) {
+				const cmdName = commandNames[a];
+
+				if (!dontInclude.includes(cmdName)) {
+					commandCompletions['.' + cmdName] = {};
+				}
+			}
+
+			autoComplete.setup(chat);
+			autoComplete(commandCompletions, 2, true, true, ansi.color.rgb(40, 35, 150), ansi.color.reset);
+		}
 
 		// Log chat messages sent before being logged in
 		for (let i = 0; i < beforeLoginMsgs.length; i++) {
