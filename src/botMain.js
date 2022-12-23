@@ -1,12 +1,11 @@
 const logger = require('../lib/log');
 const ansi = require('../lib/ansi');
-const parseVar = require('../lib/parseVar');
+const { parseVar } = require('../lib/utils');
 const mineflayer = require('mineflayer');
 const PACKAGE = require('../package.json');
 const commands = require('../lib/commands');
 const getPlugins = require('./getPlugins');
 const { recursive: mergeRecursive } = require('merge');
-const autoComplete = require('../lib/autoComplete');
 
 let bot, chat, settings;
 
@@ -30,7 +29,11 @@ const checkForUpdates = () => {
 
 const getCommandPrompt = (name, server) => {
 	if (settings.config.config.config?.commands?.commandPrompt !== undefined) {
-		return ansi.MCColor.c2c(parseVar(settings.config.config.config.commands.commandPrompt, { name, server }, '%', '%'), '&');
+		return ansi.MCColor.c2c(parseVar(settings.config.config.config.commands.commandPrompt, { name, server }, {
+			varPrefix: '%',
+			varSuffix: '%',
+			undefinedVar: 'undefined'
+		}), '&');
 	} else {
 		return '>';
 	}
@@ -172,35 +175,11 @@ function botMain () {
 		loggedIn = true;
 		chat.line = '';
 		chat.resume();
-		chat.prompt();
 		chat.line = '';
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
+		chat.prompt();
 
-		// Init autoComplete
-		{
-			const autoCompleteSettings = settings.config.config.config.commands.autoComplete;
-			if (autoCompleteSettings.enabled === true) {
-				const commandCompletions = {};
-				const commandNames = [...Object.keys(commands.commands), ...Object.keys(settings.config.config.config.commands.commandAliases)];
-				const dontInclude = ['reco', 'exit', ...commands.reservedCommandNames, ...commands.scriptOnlyCommands];
-				for (let a = 0; a < commandNames.length; a++) {
-					const cmdName = commandNames[a];
-
-					if (!dontInclude.includes(cmdName)) {
-						commandCompletions['.' + cmdName] = {};
-					}
-				}
-
-				autoComplete.setup(chat);
-				autoComplete(commandCompletions, {
-					minLength: autoCompleteSettings.minLength,
-					startOnly: true,
-					caseInsensitive: autoCompleteSettings.caseInsensitive,
-					completionPrefix: ansi.color.rgb(...autoCompleteSettings.RGBColor),
-					completionSuffix: ansi.color.reset
-				});
-			}
-		}
+		initAutoComplete();
 
 		// Log chat messages sent before being logged in
 		for (let i = 0; i < beforeLoginMsgs.length; i++) {
@@ -215,6 +194,35 @@ function botMain () {
 
 		// Check for updates
 		checkForUpdates();
+		// while (true) {
+		// // do nothing+
+		// }
+	});
+}
+
+function initAutoComplete () {
+	const commandSettings = settings.config.config.config.commands;
+	if (commandSettings.autoComplete.enabled !== true) {
+		return;
+	}
+	const autoComplete = require('../lib/autoComplete');
+	const commandCompletions = {};
+	const commandNames = [...Object.keys(commands.commands), ...Object.keys(commandSettings.commandAliases)];
+	const dontInclude = ['reco', 'exit', ...commands.reservedCommandNames, ...commands.scriptOnlyCommands];
+	commandNames.forEach((cmdName) => {
+		if (!dontInclude.includes(cmdName)) {
+			commandCompletions['.' + cmdName] = {};
+		}
+	});
+
+	autoComplete.setup(chat);
+	autoComplete.completionsObj = commandCompletions;
+	autoComplete({
+		minLength: commandSettings.autoComplete.minLength,
+		startOnly: true,
+		caseInsensitive: commandSettings.autoComplete.caseInsensitive,
+		completionPrefix: ansi.color.rgb(...commandSettings.autoComplete.RGBColor),
+		completionSuffix: ansi.color.reset
 	});
 }
 
