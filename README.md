@@ -36,7 +36,7 @@ $ node .
 
 ## Usage
 
-* [Full Documentation](https://github.com/MC-Terminal/minecraft-terminal/wiki/Usage)
+* [Full Documentation](https://github.com/MC-Terminal/minecraft-terminal/wiki)
 * [Download](#downloads)
 * [Configuration](https://github.com/MC-Terminal/minecraft-terminal/wiki/Configuration)
 * [Usage](https://github.com/MC-Terminal/minecraft-terminal/wiki/Usage)
