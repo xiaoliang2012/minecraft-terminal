@@ -1,5 +1,5 @@
 const logger = require('../lib/log');
-const ansi = require('../lib/ansi');
+const ansi = require('easy-ansi');
 const { parseVar } = require('../lib/utils');
 const mineflayer = require('mineflayer');
 const PACKAGE = require('../package.json');
@@ -9,7 +9,7 @@ const { recursive: mergeRecursive } = require('merge');
 
 let bot, chat, settings;
 
-const checkForUpdates = () => {
+function checkForUpdates () {
 	const getPackage = require('../lib/getPackage');
 	getPackage(PACKAGE.name)
 		.then(({ version }) => {
@@ -132,7 +132,9 @@ function botMain () {
 
 	// Load plugins (first pass)
 	const plugins = getPlugins(settings);
-	commands.loadPlugins(plugins, true);
+	for (const plugin of plugins) {
+		commands.loadPlugin(plugin, true);
+	}
 
 	logger.info('Connecting...', 3);
 
@@ -153,13 +155,12 @@ function botMain () {
 		commands.commands.tmp.botLooking = false;
 		commands.commands.tmp.botAttacking = false;
 		commands.commands.tmp.lookInt = undefined;
-		// // script = { length: 0, msg: [] };
+		// script = { length: 0, msg: [] };
 
 		// Load plugins (second pass)
-		commands.loadPlugins(plugins, false);
-
-		// Load bot plugins
-		// bot.loadPlugin(pathfinder);
+		for (const plugin of plugins) {
+			commands.loadPlugin(plugin, false);
+		}
 
 		logger.info('Logging in...', 3);
 		// Set command prompt
@@ -173,7 +174,6 @@ function botMain () {
 
 		// Init chat
 		loggedIn = true;
-		chat.line = '';
 		chat.resume();
 		chat.line = '';
 		chat.setPrompt(getCommandPrompt(bot.username, settings.bot.cred.server));
@@ -194,9 +194,6 @@ function botMain () {
 
 		// Check for updates
 		checkForUpdates();
-		// while (true) {
-		// // do nothing+
-		// }
 	});
 }
 

@@ -25,7 +25,12 @@ function set (settings) {
 		process.exit();
 	});
 
-	getopt(['--debug'], 0, () => {
+	getopt(['--debug'], 2, (params) => {
+		const stackTraceLimit = Number(params[1]);
+		if (Number.isInteger(stackTraceLimit) || stackTraceLimit === Infinity) {
+			console.log(stackTraceLimit);
+			Error.stackTraceLimit = stackTraceLimit;
+		}
 		settings.logging.debug = true;
 	});
 
